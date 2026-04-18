@@ -164,13 +164,13 @@ Phase 1 MVPは「共通計測基盤 + Lab 1（レンダリングパイプライ�
 
 ### 2.4 セキュリティ
 - Content Security Policy（CSP）設定
-- HTTPS強制（Cloudflare Pagesで自動）
+- HTTPS強制（Cloudflare Workers (OpenNext)で自動）
 - RUMエンドポイントに基本的なレート制限
 - 管理者ダッシュボードは環境変数経由で保護
 
 ### 2.5 可用性
 - 目標稼働率: 99%（個人開発の範囲で）
-- Cloudflare Pagesの無料枠内で運用
+- Cloudflare Workers (OpenNext)の無料枠内で運用
 - 障害検知は手動（Cloudflareのメール通知のみ）
 
 ---

@@ -55,11 +55,12 @@
 
 ### インフラ
 
-- **Cloudflare Pages** - ホスティング
+- **Cloudflare Workers** (via OpenNext `@opennextjs/cloudflare` + Static Assets) - ホスティング / BFF
 - **Cloudflare D1** - SQLite データベース（RUM データ保存）
-- **Cloudflare Workers** (via Next.js API Routes, Edge Runtime) - BFF
 - **Cloudflare Web Analytics** - ビジネス指標測定
 - **GitHub Actions** - CI/CD
+
+> 旧方針: Cloudflare Pages + `@cloudflare/next-on-pages`。パッケージが deprecated、かつ Next.js 16 非対応のため OpenNext に変更（2026-04-18）。
 
 ---
 
@@ -277,6 +278,7 @@ Phase 1 リリース判定のチェックリストは `docs/01-requirements.md` 
 - `04-architecture-state-management.md`: 状態管理方針
 - `05-architecture-rum.md`: RUM基盤アーキテクチャ
 - `06-architecture-visualization-engine.md`: Lab 1 可視化エンジン設計
+- `07-task-list.md`: Phase 1 MVP タスクリスト（実装計画・着手順）
 
 ---
 

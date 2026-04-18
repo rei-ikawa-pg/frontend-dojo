@@ -168,15 +168,92 @@ pnpm add -D @types/node
 
 ---
 
-## 5. Cloudflare Pages / Wrangler
+## 5. Cloudflare Workers / OpenNext / Wrangler
+
+> 当初 `@cloudflare/next-on-pages` を採用予定だったが、公式が deprecated にし OpenNext Cloudflare アダプタへ移行を推奨しているため切り替え。本プロジェクトは Next.js 16 + OpenNext で **Cloudflare Workers（Static Assets）** にデプロイする。
 
 ```bash
-# Cloudflare Pages 用ビルダーと wrangler
-pnpm add -D @cloudflare/next-on-pages wrangler
+# OpenNext Cloudflare アダプタと wrangler
+pnpm add @opennextjs/cloudflare
+pnpm add -D wrangler
 
 # wrangler にログイン
 pnpm exec wrangler login
 # ブラウザが開くので Cloudflare アカウントで認証
+```
+
+`open-next.config.ts` を作成:
+
+```typescript
+import { defineCloudflareConfig } from '@opennextjs/cloudflare'
+
+export default defineCloudflareConfig({})
+```
+
+`wrangler.jsonc` を作成（D1 は §10 で追記）:
+
+```jsonc
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "frontend-dojo",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-04-17",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": { "enabled": true },
+  "vars": { "ENVIRONMENT": "production" }
+}
+```
+
+`.dev.vars` を作成（`.gitignore` 済み）:
+
+```
+NEXTJS_ENV=development
+```
+
+`next.config.ts` に初期化コールを追加:
+
+```typescript
+import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare'
+import type { NextConfig } from 'next'
+
+const nextConfig: NextConfig = {}
+
+initOpenNextCloudflareForDev()
+
+export default nextConfig
+```
+
+`package.json` にスクリプト追加:
+
+```json
+{
+  "scripts": {
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+  }
+}
+```
+
+`.gitignore` に追加:
+
+```
+.open-next/
+.wrangler/
+.dev.vars
+cloudflare-env.d.ts
+```
+
+`public/_headers` を作成（静的アセットのキャッシュ）:
+
+```
+/_next/static/*
+  Cache-Control: public,max-age=31536000,immutable
 ```
 
 ---
@@ -284,21 +361,32 @@ git push -u origin main
 
 ---
 
-## 9. Cloudflare Pages プロジェクト作成
+## 9. Cloudflare Workers プロジェクト作成（Workers Builds）
 
-Cloudflare Dashboard (https://dash.cloudflare.com) で以下を実施:
+> OpenNext で Next.js 16 を Workers（Static Assets）にデプロイする方針。Dashboard からの Git 連携は Workers Builds を使う。
 
-1. 「Workers & Pages」→「Create application」→「Pages」→「Connect to Git」
-2. GitHub リポジトリ `frontend-dojo` を連携
-3. Build 設定:
-   - Framework preset: `Next.js`
-   - Build command: `pnpm exec next-on-pages`
-   - Build output directory: `.vercel/output/static`
-   - Root directory: `/`
-   - Node.js version: `20`（Environment variables で `NODE_VERSION=20`）
-4. 「Save and Deploy」
+### A. CLI で最初に手動デプロイして Worker を作成（推奨）
 
-初回ビルドはエラーになる可能性が高いです。エラーログを見ながら調整してください。
+```bash
+# §10 の D1 作成が先。wrangler.jsonc の database_id が埋まった状態で実行すること。
+pnpm deploy
+```
+
+初回は未ログイン／未リンクなら `wrangler` が案内してくれる。
+
+### B. Dashboard で Git 連携（CI 化）
+
+Cloudflare Dashboard (https://dash.cloudflare.com) → Workers & Pages → 作成済み `frontend-dojo` Worker を開く → Settings → Builds → **Connect to Git**。
+
+Build 設定:
+- Git repo: `rei-ikawa-pg/frontend-dojo`
+- Branch: `main`
+- Build command: `pnpm run deploy`（`opennextjs-cloudflare build && opennextjs-cloudflare deploy`）
+- Deploy command: （空でよい。Build コマンド内で deploy まで実行）
+- Root directory: `/`
+- Node.js version: `20` （Environment variables で `NODE_VERSION=20`）
+
+初回ビルドはエラーになる可能性が高い。エラーログを見ながら調整する。
 
 ---
 
@@ -309,21 +397,19 @@ Cloudflare Dashboard (https://dash.cloudflare.com) で以下を実施:
 pnpm exec wrangler d1 create frontend-dojo-rum
 ```
 
-出力される `database_id` をメモしてください。`wrangler.toml` に書く必要があります。
+出力される `database_id` をメモしてください。既存の `wrangler.jsonc`（§5 で作成済）に D1 バインディングを追記します:
 
-プロジェクトルートに `wrangler.toml` を作成:
-
-```toml
-name = "frontend-dojo"
-compatibility_date = "2026-04-17"
-
-[[d1_databases]]
-binding = "DB"
-database_name = "frontend-dojo-rum"
-database_id = "ここに先ほどメモした database_id"
-
-[vars]
-ENVIRONMENT = "production"
+```jsonc
+{
+  // ...既存の設定...
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "frontend-dojo-rum",
+      "database_id": "ここに先ほどメモした database_id"
+    }
+  ]
+}
 ```
 
 マイグレーションファイルを作成:
@@ -375,26 +461,40 @@ pnpm exec wrangler d1 execute frontend-dojo-rum --remote --file=migrations/0001_
 
 ---
 
-## 11. Cloudflare Pages の環境変数・バインディング設定
+## 11. Cloudflare Workers の環境変数・シークレット設定
 
-Cloudflare Dashboard で frontend-dojo プロジェクト → Settings → Environment variables:
+Workers では機密値は **シークレット**として登録する。`wrangler.jsonc` の `vars` は非機密のみ。
 
-**本番環境**に以下を追加:
-- `ADMIN_TOKEN`: 管理ダッシュボード用のランダム文字列（`openssl rand -hex 32` で生成）
-- `ALLOWED_ORIGIN`: `https://frontend-dojo.pages.dev`
-- `NODE_VERSION`: `20`
+**シークレット**（CLI で登録）:
 
-Settings → Functions → D1 database bindings:
-- Variable name: `DB`
-- D1 database: `frontend-dojo-rum`
+```bash
+pnpm exec wrangler secret put ADMIN_TOKEN
+# プロンプトで `openssl rand -hex 32` で生成した値を貼る
+```
+
+**非機密の `vars`**（`wrangler.jsonc` の `vars` に追記）:
+
+```jsonc
+{
+  // ...
+  "vars": {
+    "ENVIRONMENT": "production",
+    "ALLOWED_ORIGIN": "https://frontend-dojo.your-subdomain.workers.dev"
+  }
+}
+```
+
+> ドメインは Workers 既定のサブドメイン、または独自ドメインを Dashboard → Workers → Settings → Domains & Routes で付与後に正しい値へ差し替え。
+
+D1 バインディングは §10 で `wrangler.jsonc` に記述済み。Dashboard 上のバインディング追加は不要（`wrangler.jsonc` が Source of Truth）。
 
 ---
 
 ## 12. Cloudflare Web Analytics 有効化
 
 Cloudflare Dashboard → Web Analytics → Add a site
-- Hostname: `frontend-dojo.pages.dev`
-- 「Automatic setup」を選択（Cloudflare Pages と統合される）
+- Hostname: デプロイ後の Workers URL（例: `frontend-dojo.<your-subdomain>.workers.dev`）、または独自ドメイン
+- 「Manual setup」を選択し、発行されたスニペットを `app/layout.tsx` に貼る（Workers では自動統合がないため手動）
 
 ---
 
