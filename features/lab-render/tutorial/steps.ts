@@ -1,11 +1,16 @@
 /**
  * Lab 1 チュートリアルのステップ定義。
  * - 各ステップは docs/06 §5 の 8 ステップ構成に準拠
- * - presetConfig で RenderEngine の初期状態を強制（観察の前提を揃えるため）
+ * - preset で RenderEngine の初期状態を強制（観察の前提を揃えるため）
+ * - focus: このステップで特に見てほしいメトリクス（MetricsDisplay でハイライト）
+ * - comparison: 2 レーンで Before/After を横並びに見せる場合の各側の enabledProps
  * - 本文は MDX を動的 import して当てる
  */
 
 import type { PlaygroundProp } from '../stores/playgroundStore'
+
+/** MetricsDisplay でハイライトするメトリクス種別 */
+export type MetricFocus = 'fps' | 'frame_budget' | 'style_layout' | 'rendering' | 'theory_vs_actual'
 
 export type TutorialStep = {
   id: number
@@ -17,6 +22,13 @@ export type TutorialStep = {
     elementCount: number
     enabledProps: ReadonlyArray<PlaygroundProp>
     autoStart: boolean
+  }
+  /** ハイライト対象。空配列 / 未指定ならどれも強調しない */
+  focus?: ReadonlyArray<MetricFocus>
+  /** 設定されていると、VisualizationView の代わりに ComparisonView（2 レーン）を描画する */
+  comparison?: {
+    left: { label: string; enabledProps: ReadonlyArray<PlaygroundProp> }
+    right: { label: string; enabledProps: ReadonlyArray<PlaygroundProp> }
   }
 }
 
@@ -36,6 +48,7 @@ export const TUTORIAL_STEPS: readonly TutorialStep[] = [
     objective: 'width を変えたときに Style+Layout のコストが乗ることを実測する。',
     observation: 'FPS が落ちる / Style+Layout の時間が 0ms でなくなる、この 2 点を見る。',
     preset: { elementCount: 500, enabledProps: ['width'], autoStart: true },
+    focus: ['style_layout', 'fps'],
   },
   {
     id: 3,
@@ -44,14 +57,16 @@ export const TUTORIAL_STEPS: readonly TutorialStep[] = [
     objective: 'background-color は Paint+Composite で済み、Layout が走らないことを確認する。',
     observation: '実測の Style+Layout がほぼ 0ms に張り付くはず。',
     preset: { elementCount: 500, enabledProps: ['background-color'], autoStart: true },
+    focus: ['style_layout', 'rendering'],
   },
   {
     id: 4,
     slug: 'composite-only',
     title: '最軽量の例 — transform',
-    observation: '実測の Style+Layout / Rendering 両方が小さく、FPS が安定する。',
     objective: 'transform は Composite のみで済むため、最も軽量に動く。',
+    observation: '実測の Style+Layout / Rendering 両方が小さく、FPS が安定する。',
     preset: { elementCount: 1000, enabledProps: ['transform'], autoStart: true },
+    focus: ['fps', 'rendering'],
   },
   {
     id: 5,
@@ -60,15 +75,21 @@ export const TUTORIAL_STEPS: readonly TutorialStep[] = [
     objective: 'CSS Triggers の理論表と LoAF の実測が同じ結論を出すことを確かめる。',
     observation: '下部テーブルの 理論 と 実測 の列が一致することを確認する。',
     preset: { elementCount: 800, enabledProps: ['opacity'], autoStart: true },
+    focus: ['theory_vs_actual'],
   },
   {
     id: 6,
-    slug: 'combined',
-    title: '軽いプロパティと重いプロパティの組み合わせ',
+    slug: 'compare',
+    title: '軽い vs 重い — 並べて観察する',
     objective:
-      'transform と width を両方有効にすると、重い側のコストに引きずられることを観察する。',
-    observation: 'Layout が走る時点で、transform の軽さは相殺される。',
-    preset: { elementCount: 800, enabledProps: ['transform', 'width'], autoStart: true },
+      '同じ条件 (要素数・タイミング) で transform と width を並列に動かし、見た目の滑らかさの差を体感する。',
+    observation:
+      '左 (transform) は滑らかに流れる / 右 (width) はカクつきが目立つ。両方が同時に動いていても、負荷のかかり方が全く違う。',
+    preset: { elementCount: 500, enabledProps: [], autoStart: true },
+    comparison: {
+      left: { label: 'transform (Composite のみ)', enabledProps: ['transform'] },
+      right: { label: 'width (Layout + Paint + Composite)', enabledProps: ['width'] },
+    },
   },
   {
     id: 7,
@@ -77,6 +98,7 @@ export const TUTORIAL_STEPS: readonly TutorialStep[] = [
     objective: '要素数を 2000 まで増やし、低スペック端末を模擬する。',
     observation: '軽いはずの transform でも、要素数が増えれば Composite が支配的になる。',
     preset: { elementCount: 2000, enabledProps: ['transform'], autoStart: true },
+    focus: ['fps', 'frame_budget'],
   },
   {
     id: 8,

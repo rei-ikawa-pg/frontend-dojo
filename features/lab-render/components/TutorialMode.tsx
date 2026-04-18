@@ -20,6 +20,7 @@ import { STEP_CONTENTS } from '@/features/lab-render/tutorial/stepContents'
 import { getQuiz } from '@/features/lab-render/tutorial/quizzes'
 import { getStep, TUTORIAL_STEP_COUNT, TUTORIAL_STEPS } from '@/features/lab-render/tutorial/steps'
 import { useRumCustomMetric, useRumSetContext } from '@/features/rum'
+import { ComparisonView } from './ComparisonView'
 import { MetricsDisplay } from './MetricsDisplay'
 import { StepQuiz } from './StepQuiz'
 import { VisualizationView } from './VisualizationView'
@@ -94,8 +95,18 @@ export function TutorialMode() {
 
       <div className="grid gap-6 lg:grid-cols-[1fr_400px]">
         <div className="flex flex-col gap-6">
-          <VisualizationView />
-          <MetricsDisplay />
+          {step.comparison ? (
+            <ComparisonView
+              elementCount={step.preset.elementCount}
+              left={step.comparison.left}
+              right={step.comparison.right}
+            />
+          ) : (
+            <>
+              <VisualizationView />
+              <MetricsDisplay focus={step.focus} />
+            </>
+          )}
         </div>
 
         <aside className="flex flex-col gap-6 border border-rule-dim bg-card p-5">

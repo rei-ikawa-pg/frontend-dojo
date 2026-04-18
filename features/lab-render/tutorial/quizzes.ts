@@ -85,14 +85,23 @@ export const QUIZZES: readonly Quiz[] = [
   },
   {
     stepId: 6,
-    question: '軽い transform と重い width を同時に動かした時、1 フレームのコストは？',
+    question: '左右に同じ要素数を並べた時、滑らかに見えるのはどちら？',
     options: [
-      { id: 'a', text: 'transform 側の軽さに引き寄せられる', hint: '1 フレームは「走る必要があるフェーズの一番深いところまで」必ず通ります。' },
-      { id: 'b', text: 'width 側のコストに引きずられる' },
-      { id: 'c', text: '両方の平均になる', hint: '平均する仕組みはありません。深い方に合わせて全部走ります。' },
+      { id: 'a', text: '左 (transform) の方が滑らか' },
+      {
+        id: 'b',
+        text: '右 (width) の方が滑らか',
+        hint: 'width は Layout を毎フレーム走らせるので、本来は重い側です。',
+      },
+      {
+        id: 'c',
+        text: '要素数が同じなら変わらない',
+        hint: '走る必要があるフェーズが違うと、同じ要素数でも負荷のかかり方は変わります。',
+      },
     ],
-    correctId: 'b',
-    explanation: '一度でも Layout が必要になれば、そのフレームは Style+Layout+Paint+Composite を全部通るので、重い側のコストに支配されます。',
+    correctId: 'a',
+    explanation:
+      'transform は Composite だけで済むので、同条件でも明らかに軽く動きます。「どこまで走るか」の違いが視覚的な差として現れるのが本ステップの要点です。',
   },
   {
     stepId: 7,
