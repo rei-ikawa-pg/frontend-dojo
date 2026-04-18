@@ -50,6 +50,13 @@ cloudflare-env.d.ts
 # Playwright MCP の作業用スクリーンショット / ログ
 .playwright-mcp/
 
+# Playwright の実行結果（E2E 失敗時のトレース / レポート）
+/test-results/
+/playwright-report/
+
+# Visual Regression のベースライン画像（ローカル専用、プラットフォーム依存のため管理しない）
+/tests/visual/*-snapshots/
+
 # スクリーンショット類（作業用のため追跡しない。フォルダは .gitkeep で残す）
 /*.png
 /docs/screenshots/*

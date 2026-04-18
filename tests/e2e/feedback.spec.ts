@@ -17,7 +17,14 @@ test.describe('フィードバック送信', () => {
     const section = page.getByLabel('フィードバック')
     await expect(section).toBeVisible()
 
-    await section.getByRole('button', { name: /役立った/ }).click()
+    // WebKit など hydration の遅いブラウザで click が React のイベントハンドラ登録前に
+    // 届くと state 更新が走らず、そのまま textarea が出ない。aria-pressed の反映を
+    // 成功判定にして、届いていなければクリックを再試行する
+    const goodBtn = section.getByRole('button', { name: /役立った/ })
+    await expect(async () => {
+      await goodBtn.click()
+      await expect(goodBtn).toHaveAttribute('aria-pressed', 'true', { timeout: 1000 })
+    }).toPass({ timeout: 10000 })
 
     // コメント欄が表示される
     const textarea = section.getByLabel('コメント')

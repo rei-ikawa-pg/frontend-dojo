@@ -8,6 +8,7 @@
  */
 
 import { expect, test } from '@playwright/test'
+import { ELEMENT_COUNT_DEFAULT } from '@/features/lab-render'
 
 test.describe('/lab/render 概要', () => {
   test('概要ページの大 CTA から稽古 / 道場へ遷移できる', async ({ page }) => {
@@ -45,8 +46,9 @@ test.describe('/lab/render/tutorial 稽古', () => {
 
   test('最終ステップで道場モードへの誘導が出る', async ({ page }) => {
     await page.goto('/lab/render/tutorial?step=8')
-    // モバイル viewport ではラベルが「道場」のみになる
-    await expect(page.getByRole('link', { name: /^道場/ })).toBeVisible()
+    // モバイル viewport ではラベルが「道場」のみになる。Footer の「道場について」リンクと
+    // 衝突するため、<main> 配下に限定して誘導ボタンを検証する
+    await expect(page.locator('main').getByRole('link', { name: /^道場/ })).toBeVisible()
   })
 })
 
@@ -71,7 +73,9 @@ test.describe('/lab/render/playground 道場', () => {
     test.skip(browserName !== 'chromium', 'Chromium のみで検証')
     await page.goto('/lab/render/playground')
     await page.getByRole('button', { name: /リセット/ }).click()
-    // 500 (デフォルト要素数) が表示される
-    await expect(page.getByText('500', { exact: true })).toBeVisible()
+    // デフォルト要素数が操作パネルに表示される。
+    // 値は ELEMENT_COUNT_DEFAULT を参照し、他所の偶然一致を避けるため操作パネルに限定する
+    const panel = page.locator('aside[aria-label="操作パネル"]')
+    await expect(panel.getByText(String(ELEMENT_COUNT_DEFAULT), { exact: true })).toBeVisible()
   })
 })
