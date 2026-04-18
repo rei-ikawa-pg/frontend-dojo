@@ -9,8 +9,8 @@
 
 import { useEffect } from 'react'
 import { usePlaygroundStore } from '@/features/lab-render'
-import { useFrameMetrics } from '@/features/lab-render/hooks/useFrameMetrics'
 import { aggregateImpact } from '@/features/lab-render/engine/cssTriggersData'
+import { useFrameMetrics } from '@/features/lab-render/hooks/useFrameMetrics'
 import { useRumCustomMetric } from '@/features/rum'
 import { TheoryVsActual } from './TheoryVsActual'
 

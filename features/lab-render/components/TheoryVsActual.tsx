@@ -6,8 +6,8 @@
 
 'use client'
 
-import type { FrameSample } from '@/features/lab-render/engine/types'
 import type { PhaseImpact } from '@/features/lab-render/engine/cssTriggersData'
+import type { FrameSample } from '@/features/lab-render/engine/types'
 import { cn } from '@/lib/utils'
 
 type Props = {
@@ -24,9 +24,7 @@ export function TheoryVsActual({ theoretical, lastFrame }: Props) {
   return (
     <div className="border border-rule-dim bg-card">
       <div className="border-b border-rule-dim px-4 py-3">
-        <h3 className="text-[10px] uppercase tracking-[0.24em] text-ink-400">
-          § Theory vs Actual
-        </h3>
+        <h3 className="text-[10px] uppercase tracking-[0.24em] text-ink-400">§ Theory vs Actual</h3>
         <p className="mt-1 text-xs text-ink-500">
           CSS プロパティから理論上走るべきフェーズ（理論）と、LoAF API の実測を並べています。
         </p>

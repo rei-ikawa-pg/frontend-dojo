@@ -21,16 +21,13 @@ export function BrowserCompatBanner() {
   if (compat) return null
 
   return (
-    <div
-      role="status"
-      className="border-b border-vermilion/30 bg-vermilion/10 px-5 py-3 md:px-8"
-    >
+    <div role="status" className="border-b border-vermilion/30 bg-vermilion/10 px-5 py-3 md:px-8">
       <div className="mx-auto flex w-full max-w-7xl items-start gap-3 text-sm text-vermilion">
         <Warning size={18} weight="duotone" className="mt-0.5 shrink-0" />
         <p className="leading-relaxed">
           この稽古場は <strong>Chromium 系ブラウザ</strong>（Chrome / Edge / Brave
-          等）を推奨します。
-          LoAF API などの計測は非対応ブラウザでは取得できないため、一部のメトリクスが空欄になります。
+          等）を推奨します。 LoAF API
+          などの計測は非対応ブラウザでは取得できないため、一部のメトリクスが空欄になります。
         </p>
       </div>
     </div>

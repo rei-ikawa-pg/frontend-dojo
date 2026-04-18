@@ -65,7 +65,8 @@ export const TUTORIAL_STEPS: readonly TutorialStep[] = [
     id: 6,
     slug: 'combined',
     title: '軽いプロパティと重いプロパティの組み合わせ',
-    objective: 'transform と width を両方有効にすると、重い側のコストに引きずられることを観察する。',
+    objective:
+      'transform と width を両方有効にすると、重い側のコストに引きずられることを観察する。',
     observation: 'Layout が走る時点で、transform の軽さは相殺される。',
     preset: { elementCount: 800, enabledProps: ['transform', 'width'], autoStart: true },
   },
@@ -82,7 +83,8 @@ export const TUTORIAL_STEPS: readonly TutorialStep[] = [
     slug: 'devtools',
     title: 'DevTools で同じ現象を見る',
     objective: 'Chrome DevTools の Performance パネルで同じ計測を再現する手順を踏む。',
-    observation: 'サイト内の計測と DevTools の「Rendering」「Layout」が対応していることを確認する。',
+    observation:
+      'サイト内の計測と DevTools の「Rendering」「Layout」が対応していることを確認する。',
     preset: { elementCount: 800, enabledProps: ['transform'], autoStart: false },
   },
 ] as const

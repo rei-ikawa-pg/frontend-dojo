@@ -8,9 +8,9 @@
 import { ArrowRight, BookOpen, Compass } from '@phosphor-icons/react/dist/ssr'
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import OverviewContent from '@/features/lab-render/content/overview.mdx'
-import { LAB_RENDER_META } from '@/features/lab-render'
 import { Prose } from '@/components/typography/Prose'
+import { LAB_RENDER_META } from '@/features/lab-render'
+import OverviewContent from '@/features/lab-render/content/overview.mdx'
 import { SITE } from '@/lib/site'
 
 export const metadata: Metadata = {
@@ -34,8 +34,8 @@ export default function LabRenderOverviewPage() {
         </h1>
         <p className="mt-4 max-w-2xl text-base text-ink-500 leading-relaxed">
           ブラウザが 1 枚の絵をどう描くかを、100〜2000 個の実 DOM 要素を操作しながら体験します。
-          LoAF API で実測したフレーム内訳と CSS Triggers の理論値を並置し、
-          Layout / Paint / Composite のコスト差を手元で確認できる稽古場です。
+          LoAF API で実測したフレーム内訳と CSS Triggers の理論値を並置し、 Layout / Paint /
+          Composite のコスト差を手元で確認できる稽古場です。
         </p>
       </header>
 
@@ -122,7 +122,11 @@ function ModeCta({ href, kanji, label, subtitle, description, icon, primary }: M
         }`}
       >
         開く
-        <ArrowRight size={12} weight="bold" className="transition-transform group-hover:translate-x-1" />
+        <ArrowRight
+          size={12}
+          weight="bold"
+          className="transition-transform group-hover:translate-x-1"
+        />
       </span>
     </Link>
   )

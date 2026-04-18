@@ -7,7 +7,9 @@
 
 'use client'
 
-import { Pause, Play, ArrowCounterClockwise } from '@phosphor-icons/react'
+import { ArrowCounterClockwise, Pause, Play } from '@phosphor-icons/react'
+import { Button } from '@/components/ui/button'
+import { Slider } from '@/components/ui/slider'
 import {
   ELEMENT_COUNT_MAX,
   ELEMENT_COUNT_MIN,
@@ -16,11 +18,12 @@ import {
   usePlaygroundStore,
 } from '@/features/lab-render'
 import { getPhaseImpact } from '@/features/lab-render/engine/cssTriggersData'
-import { Button } from '@/components/ui/button'
-import { Slider } from '@/components/ui/slider'
 import { cn } from '@/lib/utils'
 
-function phaseBadge(prop: PlaygroundProp): { label: string; tone: 'composite' | 'paint' | 'layout' } {
+function phaseBadge(prop: PlaygroundProp): {
+  label: string
+  tone: 'composite' | 'paint' | 'layout'
+} {
   const impact = getPhaseImpact(prop)
   if (impact.layout) return { label: 'LAYOUT', tone: 'layout' }
   if (impact.paint) return { label: 'PAINT', tone: 'paint' }
@@ -50,10 +53,7 @@ export function ControlPanel() {
     >
       <section aria-labelledby="control-count">
         <div className="mb-3 flex items-baseline justify-between">
-          <h3
-            id="control-count"
-            className="text-[10px] uppercase tracking-[0.24em] text-ink-400"
-          >
+          <h3 id="control-count" className="text-[10px] uppercase tracking-[0.24em] text-ink-400">
             § 01 — Element Count
           </h3>
           <span className="tnum font-mincho text-2xl text-ink-900">{elementCount}</span>
@@ -115,10 +115,7 @@ export function ControlPanel() {
       </section>
 
       <section aria-labelledby="control-run" className="flex flex-col gap-2">
-        <h3
-          id="control-run"
-          className="mb-1 text-[10px] uppercase tracking-[0.24em] text-ink-400"
-        >
+        <h3 id="control-run" className="mb-1 text-[10px] uppercase tracking-[0.24em] text-ink-400">
           § 03 — Run
         </h3>
         {isRunning ? (
