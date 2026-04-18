@@ -160,9 +160,17 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* 和文: CJK 文字間で改行させず、句読点など許可された位置のみで折る */
+    word-break: keep-all;
+    line-break: strict;
+    overflow-wrap: anywhere;
   }
   body {
     @apply bg-background text-foreground;
+  }
+  /* 見出しはブラウザに行長のバランスを取らせて読みやすさを上げる */
+  h1, h2, h3, h4 {
+    text-wrap: pretty;
   }
   ::selection {
     background: color-mix(in oklch, var(--vermilion) 50%, transparent);

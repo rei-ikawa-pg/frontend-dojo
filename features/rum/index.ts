@@ -1,2 +1,5 @@
-// RUM 機能の公開 API。実装タスク #11-#14 で埋める。
-export {}
+export { RumProvider } from './client/provider'
+export { useRumCustomMetric, useRumSetContext } from './client/useRumCustomMetric'
+export type { MetricMode } from './shared/schema'
+export { SDK_VERSION } from './shared/schema'
+export type { RumEvent, RumEventInput, RumMetadata } from './shared/types'

@@ -9,3 +9,22 @@ export const LAB_RENDER_META = {
   order: 1,
   path: '/lab/render',
 } as const
+
+export type { FrameMetricsSnapshot, FrameSample, PhaseImpact } from './engine'
+export {
+  aggregateImpact,
+  cssTriggersMap,
+  FpsMeter,
+  FrameObserver,
+  getPhaseImpact,
+  RenderEngine,
+} from './engine'
+export { useFrameMetrics, useRenderEngine } from './hooks'
+export {
+  ELEMENT_COUNT_DEFAULT,
+  ELEMENT_COUNT_MAX,
+  ELEMENT_COUNT_MIN,
+  PLAYGROUND_PROPS,
+  type PlaygroundProp,
+  usePlaygroundStore,
+} from './stores/playgroundStore'

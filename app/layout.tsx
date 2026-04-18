@@ -4,10 +4,13 @@ import Script from 'next/script'
 import './globals.css'
 import { Footer } from '@/components/layout/Footer'
 import { Header } from '@/components/layout/Header'
+import { RumProvider } from '@/features/rum'
 import { SITE } from '@/lib/site'
 import { cn } from '@/lib/utils'
 
 const CF_ANALYTICS_TOKEN = process.env.NEXT_PUBLIC_CF_ANALYTICS_TOKEN
+const RUM_ENABLED = process.env.NEXT_PUBLIC_RUM_ENABLED === 'true'
+const RUM_ENDPOINT = '/api/rum/collect'
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
@@ -76,9 +79,11 @@ export default function RootLayout({
           aria-hidden
           className="pointer-events-none fixed inset-0 z-0 opacity-[0.035] [background-image:radial-gradient(circle_at_1px_1px,_var(--color-foreground)_1px,_transparent_0)] [background-size:24px_24px]"
         />
-        <Header />
-        <main className="relative z-10 flex-1">{children}</main>
-        <Footer />
+        <RumProvider endpoint={RUM_ENDPOINT} enabled={RUM_ENABLED}>
+          <Header />
+          <main className="relative z-10 flex-1">{children}</main>
+          <Footer />
+        </RumProvider>
         {CF_ANALYTICS_TOKEN && (
           <Script
             defer

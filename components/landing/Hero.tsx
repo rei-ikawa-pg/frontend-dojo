@@ -32,7 +32,10 @@ export function Hero() {
           >
             <span className="text-4xl md:text-6xl">ブラウザの中を、</span>
             <span className="text-5xl md:text-[84px]">
-              <span className="text-vermilion">触って</span>理解する。
+              <span className="text-vermilion">触って</span>
+              {/* 「触って」と「理解する。」の間だけ折り返し可 */}
+              <wbr />
+              理解する。
             </span>
             <span className="mt-2 font-serif text-2xl italic leading-tight text-ink-500 md:text-3xl">
               A lab you operate, not a blog you scroll.
