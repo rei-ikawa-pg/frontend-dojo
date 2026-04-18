@@ -1,0 +1,35 @@
+## なぜレンダリングパイプラインを触って学ぶのか
+
+ブラウザが 1 枚の絵をどう作っているかは、文字の上で追うだけでは腑に落ちにくい領域です。
+DOM と CSS を書いて画面が動くところまでは馴染みがあっても、
+「この `top` の変更で何が起きたか」「なぜ `transform` は軽いのか」
+を **実測できる形で説明できる** 人はそう多くありません。
+
+この Lab では、実際に 100〜2000 個の DOM 要素を触りながら、
+LoAF (Long Animation Frame) API で 1 フレームの内訳を観察します。
+**Layout / Paint / Composite** のどこまで走ったかを、CSS Triggers データ（理論）と
+LoAF の実測値の両方で並べて確認できます。
+
+## 稽古 と 道場 の違い
+
+- **稽古（Tutorial）** — 8 ステップでガイド付き。「width を変えるとどうなるか」「transform はなぜ軽いか」を順番に観察します。初見ならこちらから。
+- **道場（Playground）** — 制約なしの実験場。要素数と CSS プロパティを自由に組み合わせて、手元で自由に計測できます。
+
+## DevTools との対応
+
+稽古場での体験は、ゴールではなく入り口です。
+サイト内で概念を掴んだら、同じ挙動を **Chrome DevTools の Performance パネル** で
+再現してみてください。Lab 末尾に手順へのリンクがあります。
+
+## 前提
+
+- **Chromium 系ブラウザ推奨**（LoAF API が取れるのは Chromium 123+）
+- Safari / Firefox では解説と UI は動作しますが、フレーム内訳の実測値は空欄になります
+- モバイル端末では「PC 推奨」表示になります。実測は PC でご確認ください
+
+## 参考
+
+- [web.dev — Long Animation Frames API](https://web.dev/articles/long-animation-frames-api)
+- [web.dev — Avoid large, complex layouts and layout thrashing](https://web.dev/articles/avoid-large-complex-layouts-and-layout-thrashing)
+- [CSS Triggers (archived)](https://web.archive.org/web/20200422035219/https://csstriggers.com/)
+- [Blink Rendering Pipeline (Chromium docs)](https://chromium.googlesource.com/chromium/src/+/main/third_party/blink/renderer/core/paint/README.md)

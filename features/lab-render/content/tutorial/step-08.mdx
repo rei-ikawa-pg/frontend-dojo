@@ -1,0 +1,23 @@
+ここまで見てきたメトリクスは、**全部 Chrome DevTools の Performance パネル** でも観察できます。
+むしろ実務で見るのは DevTools 側です。このサイトは「入口」。
+
+### 手順
+
+1. この画面で **実行** を押したまま、DevTools を開く（Cmd + Option + I）
+2. **Performance** タブを選び、⏺ で計測開始
+3. 数秒後に停止、生成されたタイムラインを確認
+4. タイムライン下部の **Summary** で `Rendering` / `Painting` / `Scripting` の割合を見る
+5. 個別フレームに色がついている領域 = **Long Frame**。本サイトの `lastFrame.wasLongFrame` と対応する
+
+### 対応関係
+
+| 本サイト            | DevTools Performance           |
+| ------------------- | ------------------------------ |
+| Style+Layout        | 紫（Rendering → Layout）        |
+| Rendering           | 緑（Painting）+ 紫（Composite）|
+| LoAF `long_frame`   | 赤枠のフレーム                 |
+
+### ここから
+
+サイト内で **概念** と **数字** の対応が掴めたら、あとは実務コードで DevTools を回すだけです。
+道場モードで自分のケースを再現してから DevTools を覗くのも有効です。

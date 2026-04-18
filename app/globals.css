@@ -160,10 +160,10 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* 和文: CJK 文字間で改行させず、句読点など許可された位置のみで折る */
+    /* 和文: CJK 文字間で改行させず、句読点・<wbr>・空白など許可された位置のみで折る */
     word-break: keep-all;
     line-break: strict;
-    overflow-wrap: anywhere;
+    /* overflow-wrap は既定値 (normal) のままにして keep-all を上書きさせない */
   }
   body {
     @apply bg-background text-foreground;
@@ -198,4 +198,14 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Lab 1 可視化エリアの個別要素（RenderEngine が生成） */
+.lab-render-item {
+  width: 20px;
+  height: 20px;
+  background-color: var(--color-ink-500);
+  border: 1px solid var(--color-rule-dim);
+  flex: 0 0 auto;
+  will-change: transform;
 }

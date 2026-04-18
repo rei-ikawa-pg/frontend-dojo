@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Instrument_Serif, JetBrains_Mono, Shippori_Mincho } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { Footer } from '@/components/layout/Footer'
 import { Header } from '@/components/layout/Header'
 import { RumProvider } from '@/features/rum'
@@ -79,11 +80,13 @@ export default function RootLayout({
           aria-hidden
           className="pointer-events-none fixed inset-0 z-0 opacity-[0.035] [background-image:radial-gradient(circle_at_1px_1px,_var(--color-foreground)_1px,_transparent_0)] [background-size:24px_24px]"
         />
-        <RumProvider endpoint={RUM_ENDPOINT} enabled={RUM_ENABLED}>
-          <Header />
-          <main className="relative z-10 flex-1">{children}</main>
-          <Footer />
-        </RumProvider>
+        <NuqsAdapter>
+          <RumProvider endpoint={RUM_ENDPOINT} enabled={RUM_ENABLED}>
+            <Header />
+            <main className="relative z-10 flex-1">{children}</main>
+            <Footer />
+          </RumProvider>
+        </NuqsAdapter>
         {CF_ANALYTICS_TOKEN && (
           <Script
             defer
