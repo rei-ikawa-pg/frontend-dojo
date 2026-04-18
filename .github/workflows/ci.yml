@@ -31,6 +31,10 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
+      # wrangler.jsonc から Cloudflare バインディング型を生成（ローカルでは手動、CI では毎回生成）
+      - name: Generate Cloudflare types
+        run: pnpm cf-typegen
+
       - name: Biome check (lint + format + import sort)
         run: pnpm biome check .
 
@@ -63,11 +67,22 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
+      - name: Generate Cloudflare types
+        run: pnpm cf-typegen
+
+      # playwright.config.ts の webServer は CI で `pnpm start` を呼ぶため、事前にビルドしておく
+      - name: Next.js build
+        env:
+          NEXT_PUBLIC_SITE_URL: https://frontend-dojo.rakurai.workers.dev
+        run: pnpm build
+
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
 
+      # CI では chromium / mobile-chrome のみ、かつ tests/e2e だけを対象にする。
+      # firefox/webkit はローカル検証用、Visual Regression は baseline 運用が必要なのでローカル専用。
       - name: Run E2E
-        run: pnpm test:e2e
+        run: pnpm exec playwright test tests/e2e --project=chromium --project=mobile-chrome
 
       - uses: actions/upload-artifact@v4
         if: always()

@@ -30,6 +30,9 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
+      - name: Generate Cloudflare types
+        run: pnpm cf-typegen
+
       - name: Build
         env:
           NEXT_PUBLIC_SITE_URL: https://frontend-dojo.rakurai.workers.dev
