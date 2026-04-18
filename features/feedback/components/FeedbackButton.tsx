@@ -111,9 +111,7 @@ export function FeedbackButton() {
             aria-label="コメント"
           />
           <div className="flex items-center justify-between text-[11px] text-ink-400">
-            <span>
-              {comment.length} / 200
-            </span>
+            <span>{comment.length} / 200</span>
             <Button type="button" size="sm" onClick={submit} disabled={state === 'submitting'}>
               {state === 'submitting' ? '送信中…' : '送信する'}
             </Button>
