@@ -33,19 +33,6 @@ export default function AboutPage() {
           <li>チームに説明する際の「触って見せる」教材を探している技術リード</li>
         </ul>
 
-        <h2>技術スタック</h2>
-        <p>
-          本サイト自体が「こう作れば良い RUM
-          になる」という見本になることを目指しています。主要な構成は以下のとおりです。
-        </p>
-        <ul>
-          <li>Next.js 16 (App Router) / React 19 / TypeScript strict</li>
-          <li>Tailwind CSS / shadcn/ui / MDX</li>
-          <li>Zustand / nuqs / Zod</li>
-          <li>Cloudflare Workers (OpenNext) / D1 / Web Analytics</li>
-          <li>自前 RUM（web-vitals + LoAF + カスタムメトリクス）</li>
-        </ul>
-
         <h2>連絡先</h2>
         <p>
           フィードバックやバグ報告は<Link href="/contact"> お問い合わせ</Link>
