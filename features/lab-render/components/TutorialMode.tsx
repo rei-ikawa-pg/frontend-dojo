@@ -22,6 +22,7 @@ import { getStep, TUTORIAL_STEP_COUNT, TUTORIAL_STEPS } from '@/features/lab-ren
 import { useRumCustomMetric, useRumSetContext } from '@/features/rum'
 import { ComparisonView } from './ComparisonView'
 import { MetricsDisplay } from './MetricsDisplay'
+import { PipelineDiagram } from './PipelineDiagram'
 import { StepQuiz } from './StepQuiz'
 import { VisualizationView } from './VisualizationView'
 
@@ -110,8 +111,16 @@ export function TutorialMode() {
         日本語の左→右の読み順と学習フロー（理解 → 観察）に揃えている。
         lg 未満では aside が先に積まれる（stack）のでモバイルでも「読んでから観察」の順になる。
       */}
+      {/*
+        grid の `lg:items-start` で各カラムの高さが中身ぴったりになり、
+        各カラムの grid セル内で sticky が独立に効く。
+        結果として:
+          - 左の解説が短い → 左が先に sticky を抜け、右 Canvas が引き続き追従
+          - 右 Canvas が短い → 右が先に抜け、左の解説が追従
+        ユーザーがどちらを読んでいても、短い側が画面に残る自然な挙動になる。
+      */}
       <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
-        <aside className="flex flex-col gap-6 border border-rule-dim bg-card p-5">
+        <aside className="flex flex-col gap-6 border border-rule-dim bg-card p-5 lg:sticky lg:top-20 lg:self-start">
           <section>
             <h2 className="text-[11px] uppercase tracking-[0.24em] text-ink-400">
               § 目的 / Objective
@@ -136,7 +145,10 @@ export function TutorialMode() {
           {quiz && <StepQuiz quiz={quiz} />}
         </aside>
 
-        {/* 右カラム: 長い解説を読む間もキャンバスが見えるよう sticky にする */}
+        {/* 右カラム: 長い解説を読む間もキャンバスが見えるよう sticky にする。
+            PipelineDiagram を最上段に置き「概念の地図」で理解を固定してから、
+            下の VisualizationView / MetricsDisplay で「実測の裏付け」を見せる順番にしている。
+            comparison モードは左右の PipelineDiagram を各 Lane に内包するので、ここでは出さない。 */}
         <div className="flex flex-col gap-6 lg:sticky lg:top-20">
           {step.comparison ? (
             <ComparisonView
@@ -146,6 +158,7 @@ export function TutorialMode() {
             />
           ) : (
             <>
+              <PipelineDiagram props={step.preset.enabledProps} />
               <VisualizationView />
               <MetricsDisplay focus={step.focus} />
             </>

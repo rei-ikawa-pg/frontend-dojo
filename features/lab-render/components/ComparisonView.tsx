@@ -13,6 +13,7 @@
 import { useEffect, useRef } from 'react'
 import { RenderEngine } from '../engine/renderer'
 import { type PlaygroundProp, usePlaygroundStore } from '../stores/playgroundStore'
+import { PipelineDiagram } from './PipelineDiagram'
 
 type LaneConfig = {
   label: string
@@ -74,8 +75,8 @@ export function ComparisonView({ elementCount, left, right }: ComparisonViewProp
 
   return (
     <div className="grid gap-3 md:grid-cols-2">
-      <Lane ref={leftRef} label={left.label} sub="LEFT" />
-      <Lane ref={rightRef} label={right.label} sub="RIGHT" />
+      <Lane ref={leftRef} label={left.label} sub="LEFT" enabledProps={left.enabledProps} />
+      <Lane ref={rightRef} label={right.label} sub="RIGHT" enabledProps={right.enabledProps} />
     </div>
   )
 }
@@ -83,22 +84,33 @@ export function ComparisonView({ elementCount, left, right }: ComparisonViewProp
 type LaneProps = {
   label: string
   sub: string
+  enabledProps: ReadonlyArray<PlaygroundProp>
   ref: React.RefObject<HTMLDivElement | null>
 }
 
-function Lane({ label, sub, ref }: LaneProps) {
+function Lane({ label, sub, enabledProps, ref }: LaneProps) {
   return (
-    <div className="relative overflow-hidden border border-rule-dim bg-ink-050/50">
-      <div className="absolute inset-x-4 top-3 flex items-center justify-between gap-3 text-[11px] uppercase tracking-[0.24em] text-ink-400">
-        <span className="text-vermilion">§ {sub}</span>
-        <span className="truncate font-mono text-ink-500" title={label}>
-          {label}
-        </span>
-      </div>
+    // 親 grid の items-stretch + flex-1 な canvas で、左右レーンの外枠・Canvas 領域が常に揃う。
+    // ヘッダは 2 行固定 (ラベル行 + chip 行) で左右同じ高さにする。
+    <div className="flex flex-col overflow-hidden border border-rule-dim bg-ink-050/50">
+      <header className="flex flex-col gap-2 border-b border-rule-dim px-4 py-2.5">
+        <div className="flex min-w-0 items-start gap-3">
+          <span className="whitespace-nowrap pt-px text-xs uppercase tracking-[0.24em] text-vermilion">
+            § {sub}
+          </span>
+          {/* ラベルは省略せず折り返しを許可。
+              左右で 1 行 / 2 行と折り返し数が変わると高さが揃わないので、
+              min-h で常に 2 行分の縦スペースを確保して視覚的に等高にする */}
+          <span className="block min-h-[2.75em] min-w-0 flex-1 font-mono text-xs leading-snug text-ink-500">
+            {label}
+          </span>
+        </div>
+        <PipelineDiagram variant="compact" props={enabledProps} />
+      </header>
       <div
         ref={ref}
         role="presentation"
-        className="flex min-h-[320px] flex-wrap content-start gap-1 p-4 pt-10 md:min-h-[400px]"
+        className="flex min-h-[320px] flex-1 flex-wrap content-start gap-1 p-4 md:min-h-[400px]"
       />
     </div>
   )

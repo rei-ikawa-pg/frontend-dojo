@@ -14,6 +14,13 @@
 /** 要素に付与するクラス名（globals.css 側のデフォルト見た目と対になる） */
 const DEFAULT_CLASS = 'lab-render-item'
 const TWO_PI = Math.PI * 2
+/**
+ * sin 波の周波数。元は 1 Hz（= TWO_PI）だったが、視覚的な「チカチカ」が強すぎて
+ * 学習者が画面に集中できない問題があったため 0.4 Hz（≒ 2.5 秒に 1 周期）まで下げた。
+ * LoAF で観測できる差（Layout 有効時 vs Composite のみ）は周波数が低くても残るので、
+ * 計測目的は達成しつつ視覚ノイズだけを抑える狙い。
+ */
+const WAVE_FREQ = 0.4
 
 export type RendererOptions = {
   container: HTMLElement
@@ -98,6 +105,13 @@ export class RenderEngine {
   /**
    * 毎フレーム呼ばれる本体。経過時間 t と要素インデックス i から
    * sin 波で各プロパティを揺らすことで、「継続的にブラウザに仕事をさせる」状態を作る。
+   *
+   * 各振幅・色相幅は「チカチカ感」を抑えつつ LoAF で差を観測できる最小限に調整済み。
+   * 具体的な値の根拠:
+   *   - hue-rotate は 0..30deg（旧 0..360deg）。色相が一周すると視覚ノイズが大きすぎた
+   *   - background-color は彩度 40% / 明度 50%（旧 70% / 55%）で彩度を抑えた
+   *   - color は ink-900 ⇄ ink-400 の同系 2 段（旧 白⇄黒 点滅）
+   *   - width/height/font-size は振幅を半減
    */
   private applyChanges(): void {
     if (this.elements.length === 0) return
@@ -108,46 +122,52 @@ export class RenderEngine {
       const el = this.elements[i]
       if (!el) continue
       // インデックスでフェーズをずらすことで、要素ごとに異なるタイミングで動かす
-      const phase = (i % 64) / 64
-      const wave = Math.sin((t + phase) * TWO_PI)
+      // 刻みを 64 → 128 に細かくして、同期的な "波" に見えないようにする
+      const phase = (i % 128) / 128
+      const wave = Math.sin((t + phase) * TWO_PI * WAVE_FREQ)
 
       // --- Composite only ---
       if (props.has('transform')) {
-        el.style.transform = `translateX(${wave * 8}px)`
+        el.style.transform = `translateX(${wave * 5}px)`
       }
       if (props.has('opacity')) {
-        el.style.opacity = String(0.55 + 0.45 * (wave * 0.5 + 0.5))
+        // 0.75〜1.0 の狭い範囲（旧 0.55〜1.0）。半透明が濃すぎて目障りだった
+        el.style.opacity = String(0.75 + 0.25 * (wave * 0.5 + 0.5))
       }
       if (props.has('filter')) {
-        el.style.filter = `hue-rotate(${(wave * 0.5 + 0.5) * 360}deg)`
+        // hue-rotate は 0..30deg の微小回転。元は 0..360deg でレインボー状態になっていた
+        el.style.filter = `hue-rotate(${(wave * 0.5 + 0.5) * 30}deg)`
       }
 
       // --- Paint + Composite ---
       if (props.has('background-color')) {
-        const hue = ((wave * 0.5 + 0.5) * 360 + i * 0.5) % 360
-        el.style.backgroundColor = `hsl(${hue} 70% 55%)`
+        // 彩度/明度を下げ、要素間の色相拡散も抑制（i * 0.5 → 0.2）
+        const hue = ((wave * 0.5 + 0.5) * 360 + i * 0.2) % 360
+        el.style.backgroundColor = `hsl(${hue} 40% 50%)`
       }
       if (props.has('color')) {
-        el.style.color = wave > 0 ? '#f5f5f5' : '#1a1a1a'
+        // 白黒点滅を廃止し、ink-900 / ink-400 の同系色 2 段に。
+        // テキストを持たない正方形でも fill 等に影響するため、Paint は依然として走る
+        el.style.color = wave > 0 ? 'var(--ink-900)' : 'var(--ink-400)'
       }
       if (props.has('box-shadow')) {
-        const blur = 4 + Math.abs(wave) * 12
-        el.style.boxShadow = `0 0 ${blur}px rgba(255,255,255,0.4)`
+        const blur = 2 + Math.abs(wave) * 4
+        el.style.boxShadow = `0 0 ${blur}px rgba(255,255,255,0.25)`
       }
 
       // --- Layout + Paint + Composite ---
       if (props.has('width')) {
-        el.style.width = `${20 + Math.abs(wave) * 12}px`
+        el.style.width = `${20 + Math.abs(wave) * 6}px`
       }
       if (props.has('height')) {
-        el.style.height = `${20 + Math.abs(wave) * 12}px`
+        el.style.height = `${20 + Math.abs(wave) * 6}px`
       }
       if (props.has('top')) {
         el.style.position = 'relative'
-        el.style.top = `${wave * 6}px`
+        el.style.top = `${wave * 3}px`
       }
       if (props.has('font-size')) {
-        el.style.fontSize = `${10 + Math.abs(wave) * 6}px`
+        el.style.fontSize = `${10 + Math.abs(wave) * 3}px`
       }
     }
   }

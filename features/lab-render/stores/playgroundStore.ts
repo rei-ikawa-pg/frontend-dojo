@@ -27,10 +27,16 @@ export const PLAYGROUND_PROPS = [
 
 export type PlaygroundProp = (typeof PLAYGROUND_PROPS)[number]
 
-/** 要素数スライダーの範囲。上限 2000 は低スペック端末で 30fps を維持できる経験則の上限 */
+/**
+ * 要素数スライダーの範囲。
+ * - 上限 2000 は低スペック端末で 30fps を維持できる経験則の上限（step 7 で使う）
+ * - デフォルトは「視覚ノイズを出さず、かつ LoAF の差は観測できる」150 に設定。
+ *   元は 500 だったが、画面上の色振動が多すぎて学習者が集中できなかった。
+ *   150 でも width/height 変化は Layout 時間が 0 でなくなるため教育目的は達成可能。
+ */
 export const ELEMENT_COUNT_MIN = 100
 export const ELEMENT_COUNT_MAX = 2000
-export const ELEMENT_COUNT_DEFAULT = 500
+export const ELEMENT_COUNT_DEFAULT = 150
 
 type PlaygroundState = {
   elementCount: number

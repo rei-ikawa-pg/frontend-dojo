@@ -30,10 +30,11 @@ function phaseBadge(prop: PlaygroundProp): {
   return { label: 'COMPOSITE', tone: 'composite' }
 }
 
+// Phase 色は globals.css の --phase-* トークンに統一（PipelineDiagram と一致させるため）
 const TONE_CLASS = {
-  composite: 'border-emerald-500/40 text-emerald-300',
-  paint: 'border-amber-500/40 text-amber-300',
-  layout: 'border-vermilion/60 text-vermilion',
+  composite: 'border-phase-composite/50 text-phase-composite',
+  paint: 'border-phase-paint/60 text-phase-paint',
+  layout: 'border-phase-layout/60 text-phase-layout',
 } as const
 
 export function ControlPanel() {

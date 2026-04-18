@@ -37,6 +37,12 @@
   --sig-warn: oklch(0.82 0.14 85);
   --sig-crit: oklch(0.70 0.20 25);
 
+  /* 描画パイプラインの phase 色（Layout=朱 / Paint=黄 / Composite=緑）
+     Lab 1 の PipelineDiagram / ControlPanel / TheoryVsActual で共通利用する */
+  --phase-layout: var(--vermilion);
+  --phase-paint: var(--sig-warn);
+  --phase-composite: var(--sig-ok);
+
   /* 汎用トークン（shadcn API 互換） */
   --background: var(--ink-000);
   --foreground: var(--ink-900);
@@ -123,6 +129,11 @@
   --color-sig-ok: var(--sig-ok);
   --color-sig-warn: var(--sig-warn);
   --color-sig-crit: var(--sig-crit);
+
+  /* 描画パイプライン phase 色 */
+  --color-phase-layout: var(--phase-layout);
+  --color-phase-paint: var(--phase-paint);
+  --color-phase-composite: var(--phase-composite);
 
   /* チャート */
   --color-chart-1: var(--chart-1);
