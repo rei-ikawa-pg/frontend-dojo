@@ -70,6 +70,18 @@ export function TutorialMode() {
     }
   }, [stepId, emit])
 
+  // ステップ切替時は常に画面トップへ戻す（前ステップで下部まで読み進めていても、
+  // 新しい目的・解説から読み始められるように）。初回マウントはデフォで top=0 なのでスキップ。
+  const isFirstRenderRef = useRef(true)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: stepId の変化を純粋にトリガとしてのみ使用
+  useEffect(() => {
+    if (isFirstRenderRef.current) {
+      isFirstRenderRef.current = false
+      return
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [stepId])
+
   const Content = useMemo(() => STEP_CONTENTS[stepId], [stepId])
   const quiz = useMemo(() => getQuiz(stepId), [stepId])
   const progress = (stepId / TUTORIAL_STEP_COUNT) * 100
@@ -93,22 +105,12 @@ export function TutorialMode() {
         </h1>
       </header>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_400px]">
-        <div className="flex flex-col gap-6">
-          {step.comparison ? (
-            <ComparisonView
-              elementCount={step.preset.elementCount}
-              left={step.comparison.left}
-              right={step.comparison.right}
-            />
-          ) : (
-            <>
-              <VisualizationView />
-              <MetricsDisplay focus={step.focus} />
-            </>
-          )}
-        </div>
-
+      {/*
+        レイアウト: 左に読み物（目的→観察ポイント→解説→クイズ）、右に観測対象（Canvas / Metrics）。
+        日本語の左→右の読み順と学習フロー（理解 → 観察）に揃えている。
+        lg 未満では aside が先に積まれる（stack）のでモバイルでも「読んでから観察」の順になる。
+      */}
+      <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
         <aside className="flex flex-col gap-6 border border-rule-dim bg-card p-5">
           <section>
             <h2 className="text-[11px] uppercase tracking-[0.24em] text-ink-400">
@@ -133,6 +135,22 @@ export function TutorialMode() {
 
           {quiz && <StepQuiz quiz={quiz} />}
         </aside>
+
+        {/* 右カラム: 長い解説を読む間もキャンバスが見えるよう sticky にする */}
+        <div className="flex flex-col gap-6 lg:sticky lg:top-20">
+          {step.comparison ? (
+            <ComparisonView
+              elementCount={step.preset.elementCount}
+              left={step.comparison.left}
+              right={step.comparison.right}
+            />
+          ) : (
+            <>
+              <VisualizationView />
+              <MetricsDisplay focus={step.focus} />
+            </>
+          )}
+        </div>
       </div>
 
       <nav

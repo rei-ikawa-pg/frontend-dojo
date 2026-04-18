@@ -8,10 +8,13 @@
  *   - Escape で閉じる
  *   - popover 内に /glossary#id への深掘りリンクを含める
  *
- * 設計:
- *   - Radix 等の外部依存は入れず、最小実装に留める（MVP）
- *   - Portal は使わず inline absolute 配置。長いテキストや画面端では位置調整が必要になる可能性があるが
- *     Lab 1 の語彙は短いので現時点で許容する
+ * 位置決め:
+ *   - trigger ボタンの getBoundingClientRect() から popover の位置を算出し、
+ *     position: fixed で画面に直接配置する。これにより、祖先の overflow や
+ *     sticky コンテナの内側にいても画面端でクリップされない。
+ *   - 水平方向は trigger の中央寄せ → 画面両端に対して MARGIN でクランプ
+ *   - 垂直方向は trigger の上に出すのが基本。上が狭ければ下に flip
+ *   - 開いた後にスクロール / リサイズされたら追従が面倒なので一度閉じる（シンプル優先）
  */
 
 'use client'
@@ -29,32 +32,86 @@ type TermProps = {
   children?: ReactNode
 }
 
+type Position = {
+  top: number
+  left: number
+  /** 上に出す場合は true、下に flip した場合は false */
+  above: boolean
+}
+
+const POPOVER_MAX_WIDTH = 320
+const POPOVER_HEIGHT_ESTIMATE = 160
+const EDGE_MARGIN = 12
+const TRIGGER_GAP = 8
+
 export function Term({ id, children }: TermProps) {
   const entry = getGlossary(id)
   const [open, setOpen] = useState(false)
-  const containerRef = useRef<HTMLSpanElement | null>(null)
+  const [pos, setPos] = useState<Position | null>(null)
+  const buttonRef = useRef<HTMLButtonElement | null>(null)
+  const popoverRef = useRef<HTMLSpanElement | null>(null)
   // hover で開いた時に pointerleave で遅延して閉じる（マウス移動の震えで消えないように）
   const leaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const descId = useId()
 
-  const close = useCallback(() => setOpen(false), [])
+  const close = useCallback(() => {
+    setOpen(false)
+    setPos(null)
+  }, [])
 
-  // 外クリック / Escape で閉じる
+  const computePosition = useCallback((): Position | null => {
+    const btn = buttonRef.current
+    if (!btn || typeof window === 'undefined') return null
+    const rect = btn.getBoundingClientRect()
+    const viewportWidth = window.innerWidth
+    const viewportHeight = window.innerHeight
+    const popoverWidth = Math.min(POPOVER_MAX_WIDTH, viewportWidth - EDGE_MARGIN * 2)
+
+    // 水平: trigger 中央に寄せ、両端で EDGE_MARGIN 未満にならないようクランプ
+    const rawLeft = rect.left + rect.width / 2 - popoverWidth / 2
+    const left = Math.max(
+      EDGE_MARGIN,
+      Math.min(rawLeft, viewportWidth - popoverWidth - EDGE_MARGIN),
+    )
+
+    // 垂直: 上が狭いなら下に flip
+    const above = rect.top >= POPOVER_HEIGHT_ESTIMATE + TRIGGER_GAP + EDGE_MARGIN
+    const top = above ? rect.top - TRIGGER_GAP : rect.bottom + TRIGGER_GAP
+
+    // 画面外の top はクランプ（下に flip した時に画面下にはみ出す対応）
+    const clampedTop = above
+      ? top
+      : Math.min(top, viewportHeight - POPOVER_HEIGHT_ESTIMATE - EDGE_MARGIN)
+
+    return { top: clampedTop, left, above }
+  }, [])
+
+  // 開いている間: 位置計算 + 外クリック / Escape / スクロール / リサイズで閉じる
   useEffect(() => {
     if (!open) return
+    setPos(computePosition())
     const onPointerDown = (e: PointerEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) close()
+      const target = e.target as Node
+      if (buttonRef.current?.contains(target)) return
+      if (popoverRef.current?.contains(target)) return
+      close()
     }
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') close()
     }
+    // スクロール / リサイズ追従は煩雑になるので、単純に閉じる
+    const onReflow = () => close()
     document.addEventListener('pointerdown', onPointerDown)
     document.addEventListener('keydown', onKey)
+    window.addEventListener('scroll', onReflow, true)
+    window.addEventListener('resize', onReflow)
     return () => {
       document.removeEventListener('pointerdown', onPointerDown)
       document.removeEventListener('keydown', onKey)
+      window.removeEventListener('scroll', onReflow, true)
+      window.removeEventListener('resize', onReflow)
     }
-  }, [open, close])
+  }, [open, close, computePosition])
 
   // 辞書に未登録なら装飾せずにプレーンテキストとして返す（ビルド時点で気づけるように console にも出す）
   if (!entry) {
@@ -79,12 +136,12 @@ export function Term({ id, children }: TermProps) {
   return (
     // biome-ignore lint/a11y/noStaticElementInteractions: 実際の操作対象は内側の button / a、span は hover の遅延解除用
     <span
-      ref={containerRef}
       className="relative inline-block"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <button
+        ref={buttonRef}
         type="button"
         aria-expanded={open}
         aria-describedby={open ? descId : undefined}
@@ -99,14 +156,21 @@ export function Term({ id, children }: TermProps) {
         <Info size={11} weight="bold" className="ml-0.5 shrink-0 text-vermilion/70" />
       </button>
 
-      {open && (
+      {open && pos && (
         <span
+          ref={popoverRef}
           role="tooltip"
           id={descId}
+          style={{
+            top: `${pos.top}px`,
+            left: `${pos.left}px`,
+            maxWidth: `${POPOVER_MAX_WIDTH}px`,
+            width: 'calc(100vw - 24px)',
+          }}
           className={cn(
-            'absolute bottom-[calc(100%+6px)] left-1/2 z-30 w-[min(320px,80vw)] -translate-x-1/2',
-            'border border-rule-normal bg-popover text-popover-foreground shadow-lg',
+            'fixed z-50 block border border-rule-normal bg-popover text-popover-foreground shadow-lg',
             'p-3 text-left text-xs leading-relaxed',
+            pos.above ? '-translate-y-full' : '',
           )}
           // popover 自体にホバーしてる間は閉じない
           onMouseEnter={handleMouseEnter}

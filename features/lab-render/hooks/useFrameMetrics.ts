@@ -22,6 +22,10 @@ export function useFrameMetrics(): FrameMetricsSnapshot {
   useEffect(() => {
     if (!isRunning) {
       setFps(0)
+      // 停止時は lastFrame もクリアする。
+      // チュートリアルでステップを跨いだとき、前のステップの実測値が残って
+      // 判定列に誤った「一致/不一致」が出るのを防ぐ。
+      setLastFrame(null)
       return
     }
     const meter = new FpsMeter()

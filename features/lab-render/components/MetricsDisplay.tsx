@@ -56,7 +56,7 @@ export function MetricsDisplay({ focus }: MetricsDisplayProps = {}) {
 
   return (
     <section aria-label="メトリクス" className="flex flex-col gap-6">
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4">
         <Metric label="FPS" value={isRunning ? String(fps) : '—'} focus={focused.has('fps')} />
         <Metric
           label="Frame Budget"
