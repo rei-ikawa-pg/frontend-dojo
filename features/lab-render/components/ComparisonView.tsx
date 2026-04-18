@@ -12,7 +12,7 @@
 
 import { useEffect, useRef } from 'react'
 import { RenderEngine } from '../engine/renderer'
-import { usePlaygroundStore, type PlaygroundProp } from '../stores/playgroundStore'
+import { type PlaygroundProp, usePlaygroundStore } from '../stores/playgroundStore'
 
 type LaneConfig = {
   label: string
@@ -89,7 +89,7 @@ type LaneProps = {
 function Lane({ label, sub, ref }: LaneProps) {
   return (
     <div className="relative overflow-hidden border border-rule-dim bg-ink-050/50">
-      <div className="absolute inset-x-4 top-3 flex items-center justify-between gap-3 text-[10px] uppercase tracking-[0.24em] text-ink-400">
+      <div className="absolute inset-x-4 top-3 flex items-center justify-between gap-3 text-[11px] uppercase tracking-[0.24em] text-ink-400">
         <span className="text-vermilion">§ {sub}</span>
         <span className="truncate font-mono text-ink-500" title={label}>
           {label}

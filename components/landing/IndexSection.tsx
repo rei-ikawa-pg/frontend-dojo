@@ -62,7 +62,7 @@ export function IndexSection() {
                   >
                     {st.kanji}
                   </span>
-                  <span className="tnum text-[9px] uppercase tracking-[0.24em] text-ink-300">
+                  <span className="tnum text-[11px] uppercase tracking-[0.24em] text-ink-300">
                     {String(idx + 1).padStart(2, '0')} / 03
                   </span>
                 </div>

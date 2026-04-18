@@ -10,9 +10,7 @@ import { expect, test } from '@playwright/test'
 test.describe('フィードバック送信', () => {
   test('Good → コメント入力 → 送信で完了メッセージが出る', async ({ page }) => {
     // API を stub（実ネットワーク・実 D1 を呼ばずに済ませる）
-    await page.route('**/api/feedback', (route) =>
-      route.fulfill({ status: 204, body: '' }),
-    )
+    await page.route('**/api/feedback', (route) => route.fulfill({ status: 204, body: '' }))
 
     await page.goto('/lab/render')
 

@@ -31,8 +31,8 @@ export function MetricReadout({
   }[signal]
 
   const sizeConfig = {
-    sm: { value: 'text-xl', unit: 'text-[10px]', label: 'text-[9px]' },
-    md: { value: 'text-3xl', unit: 'text-xs', label: 'text-[10px]' },
+    sm: { value: 'text-xl', unit: 'text-[11px]', label: 'text-[11px]' },
+    md: { value: 'text-3xl', unit: 'text-xs', label: 'text-[11px]' },
     lg: { value: 'text-5xl', unit: 'text-sm', label: 'text-xs' },
   }[size]
 
@@ -49,7 +49,7 @@ export function MetricReadout({
           </span>
         )}
       </div>
-      {sub && <div className="mt-1 text-[10px] text-ink-400">{sub}</div>}
+      {sub && <div className="mt-1 text-[11px] text-ink-400">{sub}</div>}
     </div>
   )
 }

@@ -29,7 +29,7 @@ export default function GlossaryPage() {
   return (
     <div className="mx-auto w-full max-w-4xl px-5 py-12 md:px-8 md:py-16">
       <header className="mb-12">
-        <p className="mb-2 text-[10px] uppercase tracking-[0.28em] text-ink-400">§ Glossary</p>
+        <p className="mb-2 text-[11px] uppercase tracking-[0.28em] text-ink-400">§ Glossary</p>
         <h1 className="font-mincho text-3xl tracking-tight text-ink-900 md:text-4xl">用語集</h1>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-500">
           フロントエンド道場で使われる語の一覧です。各 Lab の解説文にも同じ用語が登場し、
@@ -61,7 +61,7 @@ export default function GlossaryPage() {
                 {entry.term}
               </h2>
               {entry.reading && (
-                <span className="text-[10px] uppercase tracking-[0.22em] text-ink-400">
+                <span className="text-[11px] uppercase tracking-[0.22em] text-ink-400">
                   {entry.reading}
                 </span>
               )}

@@ -16,15 +16,15 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import {
   DailyLineChart,
-  MetricBucketBar,
-  SharePie,
-  StatCard,
   fetchBrowserShare,
   fetchDailyPageviews,
   fetchDailyUniqueUsers,
   fetchLabUsage,
   fetchMetricDistribution,
   fetchRecentEvents,
+  MetricBucketBar,
+  SharePie,
+  StatCard,
 } from '@/features/admin-dashboard'
 
 export const runtime = 'edge'
@@ -66,7 +66,7 @@ export default async function AdminRumPage({ searchParams }: PageProps) {
   return (
     <div className="mx-auto w-full max-w-7xl px-5 py-12 md:px-8 md:py-16">
       <header className="mb-10">
-        <p className="mb-2 text-[10px] uppercase tracking-[0.28em] text-ink-400">§ Admin</p>
+        <p className="mb-2 text-[11px] uppercase tracking-[0.28em] text-ink-400">§ Admin</p>
         <h1 className="font-mincho text-3xl tracking-tight text-ink-900 md:text-4xl">
           RUM ダッシュボード
         </h1>
@@ -78,20 +78,12 @@ export default async function AdminRumPage({ searchParams }: PageProps) {
       <section aria-label="サマリ" className="mb-10 grid grid-cols-2 gap-4 md:grid-cols-4">
         <StatCard label="PV (30d)" value={totalPv.toLocaleString()} />
         <StatCard label="UU (30d)" value={totalUu.toLocaleString()} />
-        <StatCard
-          label="LCP Good比率 (7d)"
-          value={`${percent(lcp, 'good')}%`}
-          sub="≤ 2500 ms"
-        />
-        <StatCard
-          label="INP Good比率 (7d)"
-          value={`${percent(inp, 'good')}%`}
-          sub="≤ 200 ms"
-        />
+        <StatCard label="LCP Good比率 (7d)" value={`${percent(lcp, 'good')}%`} sub="≤ 2500 ms" />
+        <StatCard label="INP Good比率 (7d)" value={`${percent(inp, 'good')}%`} sub="≤ 200 ms" />
       </section>
 
       <section aria-labelledby="chart-pv" className="mb-10">
-        <h2 id="chart-pv" className="mb-3 text-[10px] uppercase tracking-[0.24em] text-ink-400">
+        <h2 id="chart-pv" className="mb-3 text-[11px] uppercase tracking-[0.24em] text-ink-400">
           § 01 — Daily Pageviews / Unique Users
         </h2>
         <div className="grid gap-6 border border-rule-dim bg-card p-5 md:grid-cols-2">
@@ -107,7 +99,7 @@ export default async function AdminRumPage({ searchParams }: PageProps) {
       </section>
 
       <section aria-labelledby="chart-cwv" className="mb-10">
-        <h2 id="chart-cwv" className="mb-3 text-[10px] uppercase tracking-[0.24em] text-ink-400">
+        <h2 id="chart-cwv" className="mb-3 text-[11px] uppercase tracking-[0.24em] text-ink-400">
           § 02 — Core Web Vitals Distribution (7d)
         </h2>
         <div className="grid gap-6 border border-rule-dim bg-card p-5 md:grid-cols-3">
@@ -121,7 +113,7 @@ export default async function AdminRumPage({ searchParams }: PageProps) {
         <div>
           <h2
             id="chart-browser"
-            className="mb-3 text-[10px] uppercase tracking-[0.24em] text-ink-400"
+            className="mb-3 text-[11px] uppercase tracking-[0.24em] text-ink-400"
           >
             § 03 — Browser Share (7d)
           </h2>
@@ -131,7 +123,7 @@ export default async function AdminRumPage({ searchParams }: PageProps) {
         </div>
 
         <div>
-          <h2 className="mb-3 text-[10px] uppercase tracking-[0.24em] text-ink-400">
+          <h2 className="mb-3 text-[11px] uppercase tracking-[0.24em] text-ink-400">
             § 04 — Lab Usage (7d)
           </h2>
           <div className="border border-rule-dim bg-card p-5">
@@ -146,13 +138,16 @@ export default async function AdminRumPage({ searchParams }: PageProps) {
       </section>
 
       <section aria-labelledby="recent-events">
-        <h2 id="recent-events" className="mb-3 text-[10px] uppercase tracking-[0.24em] text-ink-400">
+        <h2
+          id="recent-events"
+          className="mb-3 text-[11px] uppercase tracking-[0.24em] text-ink-400"
+        >
           § 05 — Recent Events
         </h2>
         <div className="overflow-x-auto border border-rule-dim bg-card">
           <table className="w-full text-xs">
             <thead>
-              <tr className="border-b border-rule-dim text-[10px] uppercase tracking-[0.18em] text-ink-400">
+              <tr className="border-b border-rule-dim text-[11px] uppercase tracking-[0.18em] text-ink-400">
                 <th className="px-3 py-2 text-left">created_at</th>
                 <th className="px-3 py-2 text-left">path</th>
                 <th className="px-3 py-2 text-left">lab</th>

@@ -20,8 +20,7 @@ export default {
     const threshold = new Date(Date.now() - retentionDays * 24 * 60 * 60 * 1000).toISOString()
 
     try {
-      const result = await env.DB
-        .prepare('DELETE FROM rum_events WHERE created_at < ?')
+      const result = await env.DB.prepare('DELETE FROM rum_events WHERE created_at < ?')
         .bind(threshold)
         .run()
 
@@ -34,9 +33,7 @@ export default {
         }),
       )
     } catch (err) {
-      console.error(
-        JSON.stringify({ event: 'rum_cleanup.failed', error: String(err) }),
-      )
+      console.error(JSON.stringify({ event: 'rum_cleanup.failed', error: String(err) }))
       throw err
     }
   },

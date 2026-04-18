@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { TUTORIAL_STEPS } from './steps'
 import { getQuiz, QUIZZES } from './quizzes'
+import { TUTORIAL_STEPS } from './steps'
 
 describe('quizzes', () => {
   it('全ステップ分のクイズが用意されている', () => {

@@ -62,7 +62,7 @@ export function ValueSection() {
               key={o.id}
               className="group relative flex flex-col gap-6 border-b border-rule-dim p-8 transition-colors hover:bg-ink-000 md:border-b-0 md:border-r md:last:border-r-0 md:p-10"
             >
-              <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.24em] text-ink-300">
+              <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.24em] text-ink-300">
                 <span className="tnum text-vermilion">§ {o.id}</span>
                 <span>GAIN · {idx + 1}/3</span>
               </div>
@@ -77,7 +77,7 @@ export function ValueSection() {
                 {o.tags.map((t) => (
                   <li
                     key={t}
-                    className="border border-rule-dim bg-ink-000 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-ink-400"
+                    className="border border-rule-dim bg-ink-000 px-2.5 py-1 text-[11px] uppercase tracking-[0.18em] text-ink-400"
                   >
                     {t}
                   </li>

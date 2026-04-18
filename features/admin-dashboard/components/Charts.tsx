@@ -20,7 +20,7 @@ import {
   YAxis,
 } from 'recharts'
 
-const AXIS_CLASS = 'text-[10px]'
+const AXIS_CLASS = 'text-[11px]'
 const PIE_COLORS = ['#dd4b39', '#e8b34c', '#4f9d69', '#4a6fa5', '#7a5ba9']
 
 type DailySeries = { day: string; count: number }[]

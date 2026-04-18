@@ -35,7 +35,7 @@ export function InstrumentPanel({
       )}
     >
       {(label || index) && (
-        <div className="flex items-center justify-between border-b border-rule-dim bg-ink-050/40 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-ink-300">
+        <div className="flex items-center justify-between border-b border-rule-dim bg-ink-050/40 px-3 py-1.5 text-[11px] uppercase tracking-[0.18em] text-ink-300">
           {label && <span className="tnum">{label}</span>}
           {index && <span className="tnum text-ink-400">{index}</span>}
         </div>

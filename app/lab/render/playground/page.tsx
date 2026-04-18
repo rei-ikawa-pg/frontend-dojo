@@ -36,7 +36,7 @@ export default function LabRenderPlaygroundPage() {
     <div className="mx-auto w-full max-w-7xl px-5 py-12 md:px-8 md:py-16">
       <JsonLd data={JSON_LD} />
       <header className="mb-8">
-        <p className="text-[10px] uppercase tracking-[0.28em] text-ink-400">§ Playground</p>
+        <p className="text-[11px] uppercase tracking-[0.28em] text-ink-400">§ Playground</p>
         <h1 className="mt-2 font-mincho text-3xl tracking-tight text-ink-900 md:text-4xl">
           道場 — 自由操作
         </h1>

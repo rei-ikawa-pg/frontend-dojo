@@ -28,7 +28,7 @@ export function TheoryVsActual({ theoretical, lastFrame }: Props) {
     <div className="border border-rule-dim bg-card">
       <div className="flex flex-col gap-3 border-b border-rule-dim px-4 py-4">
         <div>
-          <h3 className="text-[10px] uppercase tracking-[0.24em] text-ink-400">
+          <h3 className="text-[11px] uppercase tracking-[0.24em] text-ink-400">
             § Theory vs Actual — 理論と実測
           </h3>
           <p className="mt-2 text-xs leading-relaxed text-ink-500">
@@ -40,7 +40,7 @@ export function TheoryVsActual({ theoretical, lastFrame }: Props) {
             の予測どおりブラウザが動いている証拠です。
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-rule-dim pt-3 text-[10px] uppercase tracking-[0.18em] text-ink-400">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-rule-dim pt-3 text-[11px] uppercase tracking-[0.18em] text-ink-400">
           <span className="flex items-center gap-1.5">
             <Dot on />
             走る
@@ -62,13 +62,13 @@ export function TheoryVsActual({ theoretical, lastFrame }: Props) {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-rule-dim bg-ink-050/40">
-            <th className="px-4 py-2.5 text-left text-[10px] font-normal uppercase tracking-[0.2em] text-ink-400">
+            <th className="px-4 py-2.5 text-left text-[11px] font-normal uppercase tracking-[0.2em] text-ink-400">
               Phase
             </th>
             <Th>理論</Th>
             <Th>実測</Th>
             <Th>判定</Th>
-            <th className="px-4 py-2.5 text-right text-[10px] font-normal uppercase tracking-[0.2em] text-ink-400">
+            <th className="px-4 py-2.5 text-right text-[11px] font-normal uppercase tracking-[0.2em] text-ink-400">
               時間
             </th>
           </tr>
@@ -97,7 +97,7 @@ export function TheoryVsActual({ theoretical, lastFrame }: Props) {
 
 function Th({ children }: { children: React.ReactNode }) {
   return (
-    <th className="px-4 py-2.5 text-center text-[10px] font-normal uppercase tracking-[0.2em] text-ink-400">
+    <th className="px-4 py-2.5 text-center text-[11px] font-normal uppercase tracking-[0.2em] text-ink-400">
       {children}
     </th>
   )
@@ -118,7 +118,7 @@ function Row({ phase, theoretical, actual, hasMeasurement, time, hint }: RowProp
     <tr className="border-b border-rule-dim last:border-b-0">
       <td className="px-4 py-3">
         <div className="font-mincho text-ink-900">{phase}</div>
-        {hint && <div className="mt-0.5 text-[10px] text-ink-400">{hint}</div>}
+        {hint && <div className="mt-0.5 text-[11px] text-ink-400">{hint}</div>}
       </td>
       <td className="px-4 py-3 text-center">
         <Dot on={theoretical} variant="theory" />

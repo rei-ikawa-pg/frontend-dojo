@@ -81,7 +81,7 @@ export function FeedbackButton() {
       className="flex flex-col gap-4 border border-rule-dim bg-card p-6"
     >
       <div className="flex flex-col gap-1">
-        <h3 className="text-[10px] uppercase tracking-[0.24em] text-ink-400">§ Feedback</h3>
+        <h3 className="text-[11px] uppercase tracking-[0.24em] text-ink-400">§ Feedback</h3>
         <p className="font-mincho text-lg text-ink-900">この稽古場はいかがでしたか？</p>
       </div>
 

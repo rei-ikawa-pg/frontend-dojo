@@ -49,7 +49,7 @@ export function CatalogSection() {
                   >
                     {kanji}
                   </span>
-                  <span className="tnum text-[10px] uppercase tracking-[0.24em] text-ink-300">
+                  <span className="tnum text-[11px] uppercase tracking-[0.24em] text-ink-300">
                     LAB {paddedNum}
                   </span>
                 </div>
@@ -69,7 +69,7 @@ export function CatalogSection() {
                 {/* ステータス（公開中／予定） */}
                 <div className="hidden md:block">
                   <span
-                    className={`inline-flex items-center gap-2 border px-3 py-1.5 text-[10px] uppercase tracking-[0.2em] ${
+                    className={`inline-flex items-center gap-2 border px-3 py-1.5 text-[11px] uppercase tracking-[0.2em] ${
                       isPublished
                         ? 'border-vermilion/60 bg-vermilion/10 text-vermilion'
                         : 'border-rule-dim bg-ink-000 text-ink-400'
@@ -98,7 +98,7 @@ export function CatalogSection() {
                 {/* モバイル時のステータス表示 */}
                 <div className="col-span-3 mt-2 md:hidden">
                   <span
-                    className={`inline-flex items-center gap-2 border px-2 py-1 text-[10px] uppercase tracking-[0.18em] ${
+                    className={`inline-flex items-center gap-2 border px-2 py-1 text-[11px] uppercase tracking-[0.18em] ${
                       isPublished
                         ? 'border-vermilion/60 text-vermilion'
                         : 'border-rule-dim text-ink-400'

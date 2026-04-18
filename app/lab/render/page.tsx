@@ -47,7 +47,7 @@ export default function LabRenderOverviewPage() {
     <div className="mx-auto w-full max-w-7xl px-5 py-12 md:px-8 md:py-16">
       <JsonLd data={JSON_LD} />
       <header className="mb-10">
-        <p className="mb-3 text-[10px] uppercase tracking-[0.28em] text-ink-400">§ 01 — Lab</p>
+        <p className="mb-3 text-[11px] uppercase tracking-[0.28em] text-ink-400">§ 01 — Lab</p>
         <h1 className="font-mincho text-3xl leading-tight tracking-tight text-ink-900 md:text-5xl">
           {LAB_RENDER_META.title}
         </h1>
@@ -123,7 +123,7 @@ function ModeCta({ href, kanji, label, subtitle, description, icon, primary }: M
             >
               {label}
             </div>
-            <div className="mt-1 text-[10px] uppercase tracking-[0.24em] text-ink-400">
+            <div className="mt-1 text-[11px] uppercase tracking-[0.24em] text-ink-400">
               {subtitle}
             </div>
           </div>

@@ -44,7 +44,7 @@ export function Footer() {
           {/* ブランド（サイト名・説明） */}
           <section aria-labelledby="footer-brand" className="flex flex-col gap-4">
             <div>
-              <div className="text-[10px] uppercase tracking-[0.28em] text-ink-300">
+              <div className="text-[11px] uppercase tracking-[0.28em] text-ink-300">
                 § 00 — Colophon
               </div>
               <h2 id="footer-brand" className="mt-3 font-serif text-4xl italic text-ink-900">
@@ -66,7 +66,7 @@ export function Footer() {
               className="flex flex-col gap-4"
             >
               <div>
-                <div className="text-[10px] uppercase tracking-[0.28em] text-vermilion">
+                <div className="text-[11px] uppercase tracking-[0.28em] text-vermilion">
                   § {col.title}
                 </div>
                 <h2 id={`footer-${col.id}`} className="mt-1 font-mincho text-base text-ink-500">
@@ -90,7 +90,7 @@ export function Footer() {
 
           <section aria-labelledby="footer-external" className="flex flex-col gap-4">
             <div>
-              <div className="text-[10px] uppercase tracking-[0.28em] text-vermilion">§ LINK</div>
+              <div className="text-[11px] uppercase tracking-[0.28em] text-vermilion">§ LINK</div>
               <h2 id="footer-external" className="mt-1 font-mincho text-base text-ink-500">
                 外部
               </h2>
@@ -113,10 +113,10 @@ export function Footer() {
         </div>
 
         <div className="mt-14 flex flex-col gap-2 border-t border-rule-dim pt-6 md:flex-row md:items-center md:justify-between">
-          <p className="text-[10px] uppercase tracking-[0.24em] text-ink-400">
+          <p className="text-[11px] uppercase tracking-[0.24em] text-ink-400">
             © 2026 {SITE.name} · Personal Lab · Built in Tokyo
           </p>
-          <p className="tnum text-[10px] uppercase tracking-[0.24em] text-ink-400">
+          <p className="tnum text-[11px] uppercase tracking-[0.24em] text-ink-400">
             v0.1.0 / Early Access
           </p>
         </div>

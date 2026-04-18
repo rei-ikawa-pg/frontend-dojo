@@ -59,7 +59,7 @@ export function FlowSection() {
 
               {/* 詳細テキスト */}
               <div className="flex flex-col gap-3">
-                <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.24em] text-ink-300">
+                <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.24em] text-ink-300">
                   <span className="tnum">STEP {String(i + 1).padStart(2, '0')}</span>
                   <span>{step.duration}</span>
                 </div>

@@ -88,19 +88,17 @@ export function StepQuiz({ quiz }: StepQuizProps) {
         <div className="flex-1">
           <h3
             id={`quiz-${quiz.stepId}`}
-            className="text-[10px] uppercase tracking-[0.24em] text-vermilion"
+            className="text-[11px] uppercase tracking-[0.24em] text-vermilion"
           >
             § 理解度チェック
           </h3>
-          <p className="mt-2 font-mincho text-base leading-relaxed text-ink-900">
-            {quiz.question}
-          </p>
+          <p className="mt-2 font-mincho text-base leading-relaxed text-ink-900">{quiz.question}</p>
         </div>
         {!isAnswered && (
           <button
             type="button"
             onClick={() => setDismissed(true)}
-            className="cursor-pointer text-[10px] uppercase tracking-[0.18em] text-ink-400 hover:text-ink-900"
+            className="cursor-pointer text-[11px] uppercase tracking-[0.18em] text-ink-400 hover:text-ink-900"
           >
             あとで
           </button>
@@ -132,12 +130,14 @@ export function StepQuiz({ quiz }: StepQuizProps) {
               >
                 <span
                   aria-hidden
-                  className="tnum mt-0.5 shrink-0 text-[10px] uppercase tracking-[0.18em] text-ink-400"
+                  className="tnum mt-0.5 shrink-0 text-[11px] uppercase tracking-[0.18em] text-ink-400"
                 >
                   {opt.id.toUpperCase()}
                 </span>
                 <span className="flex-1">{opt.text}</span>
-                {showAsCorrect && <CheckCircle size={16} weight="duotone" className="shrink-0 mt-0.5" />}
+                {showAsCorrect && (
+                  <CheckCircle size={16} weight="duotone" className="shrink-0 mt-0.5" />
+                )}
                 {showAsWrong && <XCircle size={16} weight="duotone" className="shrink-0 mt-0.5" />}
               </button>
             </li>
@@ -156,12 +156,12 @@ export function StepQuiz({ quiz }: StepQuizProps) {
         >
           {isCorrect ? (
             <>
-              <div className="text-[10px] uppercase tracking-[0.24em] text-emerald-300">正解</div>
+              <div className="text-[11px] uppercase tracking-[0.24em] text-emerald-300">正解</div>
               <p>{quiz.explanation}</p>
             </>
           ) : (
             <>
-              <div className="text-[10px] uppercase tracking-[0.24em] text-vermilion">
+              <div className="text-[11px] uppercase tracking-[0.24em] text-vermilion">
                 もう一度見てみましょう
               </div>
               <p>{selected?.hint ?? 'もう一度、画面のメトリクスを観察してみてください。'}</p>

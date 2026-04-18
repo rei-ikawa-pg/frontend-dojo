@@ -105,12 +105,12 @@ function Metric({ label, value, warn, focus }: MetricProps) {
       {focus && (
         <span
           aria-hidden
-          className="absolute -top-2 left-3 bg-background px-1 text-[9px] uppercase tracking-[0.2em] text-vermilion"
+          className="absolute -top-2 left-3 bg-background px-1 text-[11px] uppercase tracking-[0.2em] text-vermilion"
         >
           FOCUS
         </span>
       )}
-      <div className="text-[10px] uppercase tracking-[0.24em] text-ink-400">{label}</div>
+      <div className="text-[11px] uppercase tracking-[0.24em] text-ink-400">{label}</div>
       <div
         className={cn(
           'mt-2 tnum font-mincho text-2xl leading-none',

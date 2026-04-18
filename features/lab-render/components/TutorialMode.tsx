@@ -16,8 +16,8 @@ import { Prose } from '@/components/typography/Prose'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { LAB_RENDER_META, usePlaygroundStore } from '@/features/lab-render'
-import { STEP_CONTENTS } from '@/features/lab-render/tutorial/stepContents'
 import { getQuiz } from '@/features/lab-render/tutorial/quizzes'
+import { STEP_CONTENTS } from '@/features/lab-render/tutorial/stepContents'
 import { getStep, TUTORIAL_STEP_COUNT, TUTORIAL_STEPS } from '@/features/lab-render/tutorial/steps'
 import { useRumCustomMetric, useRumSetContext } from '@/features/rum'
 import { ComparisonView } from './ComparisonView'
@@ -80,7 +80,7 @@ export function TutorialMode() {
   return (
     <div className="flex flex-col gap-6">
       <header className="flex flex-col gap-3">
-        <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.24em] text-ink-400">
+        <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.24em] text-ink-400">
           <span>
             § {String(step.id).padStart(2, '0')} / {String(TUTORIAL_STEP_COUNT).padStart(2, '0')} —
             Tutorial
@@ -111,21 +111,21 @@ export function TutorialMode() {
 
         <aside className="flex flex-col gap-6 border border-rule-dim bg-card p-5">
           <section>
-            <h2 className="text-[10px] uppercase tracking-[0.24em] text-ink-400">
+            <h2 className="text-[11px] uppercase tracking-[0.24em] text-ink-400">
               § 目的 / Objective
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-ink-900">{step.objective}</p>
           </section>
 
           <section>
-            <h2 className="text-[10px] uppercase tracking-[0.24em] text-ink-400">
+            <h2 className="text-[11px] uppercase tracking-[0.24em] text-ink-400">
               § 観察ポイント / Observation
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-ink-500">{step.observation}</p>
           </section>
 
           <section className="border-t border-rule-dim pt-4">
-            <h2 className="mb-3 text-[10px] uppercase tracking-[0.24em] text-ink-400">§ 解説</h2>
+            <h2 className="mb-3 text-[11px] uppercase tracking-[0.24em] text-ink-400">§ 解説</h2>
             <Prose className="text-sm">
               <Content />
             </Prose>

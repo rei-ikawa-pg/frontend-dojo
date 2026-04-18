@@ -89,14 +89,14 @@ export function HeroScope() {
                 )
               })}
             </div>
-            <div className="mt-3 flex justify-between text-[9px] uppercase tracking-[0.24em] text-ink-300">
+            <div className="mt-3 flex justify-between text-[11px] uppercase tracking-[0.24em] text-ink-300">
               <span>T-24 FRAMES</span>
               <span className="tnum">{styleLayoutMs} MS · NOW</span>
             </div>
             {accent && (
               <span
                 aria-hidden
-                className="absolute right-4 top-4 flex items-center gap-2 border border-vermilion/60 bg-ink-000/70 px-2 py-0.5 text-[9px] uppercase tracking-[0.2em] text-vermilion"
+                className="absolute right-4 top-4 flex items-center gap-2 border border-vermilion/60 bg-ink-000/70 px-2 py-0.5 text-[11px] uppercase tracking-[0.2em] text-vermilion"
               >
                 <span className="inline-block h-1.5 w-1.5 animate-pulse bg-vermilion" />
                 Spike
@@ -140,7 +140,7 @@ export function HeroScope() {
       </InstrumentPanel>
 
       {/* スコープ下部のキャプション */}
-      <p className="mt-3 flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-ink-400">
+      <p className="mt-3 flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-ink-400">
         <span>FIG. 01 — Sample readout from Lab 01 (Render)</span>
         <span className="tnum text-ink-300">REF: LoAF · CSS TRIGGERS</span>
       </p>

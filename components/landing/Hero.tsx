@@ -8,7 +8,7 @@ export function Hero() {
   return (
     <section aria-labelledby="hero-heading" className="relative border-b border-rule-dim">
       {/* 左欄外：章番号マーカー（縦書き） */}
-      <div className="pointer-events-none absolute left-5 top-10 hidden flex-col items-start gap-2 text-[10px] uppercase tracking-[0.28em] text-ink-300 md:flex">
+      <div className="pointer-events-none absolute left-5 top-10 hidden flex-col items-start gap-2 text-[11px] uppercase tracking-[0.28em] text-ink-300 md:flex">
         <span className="tnum text-vermilion">§ 01</span>
         <span className="h-12 w-px bg-rule-dim" />
         <span className="[writing-mode:vertical-rl]">PORTAL / 入口</span>
@@ -21,7 +21,7 @@ export function Hero() {
 
       <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-12 px-5 py-20 md:grid-cols-[1.2fr_1fr] md:gap-16 md:px-20 md:py-28">
         <div className="flex flex-col gap-10">
-          <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.28em] text-ink-300">
+          <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-ink-300">
             <span className="inline-block h-1.5 w-1.5 bg-vermilion" />
             <span>Japanese Interactive Lab · Est. 2026</span>
           </div>
@@ -54,7 +54,7 @@ export function Hero() {
               href={`${LAB_RENDER_META.path}/tutorial`}
               className="group relative inline-flex items-center gap-4 border border-vermilion bg-vermilion/10 px-6 py-4 text-sm font-medium uppercase tracking-[0.2em] text-ink-900 transition-all hover:bg-vermilion hover:text-ink-000"
             >
-              <span className="tnum text-[10px] text-vermilion group-hover:text-ink-000">RUN</span>
+              <span className="tnum text-[11px] text-vermilion group-hover:text-ink-000">RUN</span>
               <span>Lab 01 を試す</span>
               <ArrowRight
                 size={16}
@@ -72,7 +72,7 @@ export function Hero() {
           </div>
 
           {/* メタ情報帯（Lab 数・公開状況・言語） */}
-          <dl className="mt-4 grid grid-cols-3 gap-0 border-t border-rule-dim pt-5 text-[10px] uppercase tracking-[0.2em] text-ink-400">
+          <dl className="mt-4 grid grid-cols-3 gap-0 border-t border-rule-dim pt-5 text-[11px] uppercase tracking-[0.2em] text-ink-400">
             <div className="flex flex-col gap-1 border-r border-rule-dim pr-4">
               <dt>No. of Labs</dt>
               <dd className="tnum text-2xl font-medium text-ink-900">

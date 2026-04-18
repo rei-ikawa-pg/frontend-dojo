@@ -53,7 +53,7 @@ export function ControlPanel() {
     >
       <section aria-labelledby="control-count">
         <div className="mb-3 flex items-baseline justify-between">
-          <h3 id="control-count" className="text-[10px] uppercase tracking-[0.24em] text-ink-400">
+          <h3 id="control-count" className="text-[11px] uppercase tracking-[0.24em] text-ink-400">
             § 01 — Element Count
           </h3>
           <span className="tnum font-mincho text-2xl text-ink-900">{elementCount}</span>
@@ -68,7 +68,7 @@ export function ControlPanel() {
             if (typeof next === 'number') setElementCount(next)
           }}
         />
-        <div className="mt-2 flex justify-between text-[10px] text-ink-400 tnum">
+        <div className="mt-2 flex justify-between text-[11px] text-ink-400 tnum">
           <span>{ELEMENT_COUNT_MIN}</span>
           <span>{ELEMENT_COUNT_MAX}</span>
         </div>
@@ -77,7 +77,7 @@ export function ControlPanel() {
       <section aria-labelledby="control-props">
         <h3
           id="control-props"
-          className="mb-3 text-[10px] uppercase tracking-[0.24em] text-ink-400"
+          className="mb-3 text-[11px] uppercase tracking-[0.24em] text-ink-400"
         >
           § 02 — CSS Properties
         </h3>
@@ -101,7 +101,7 @@ export function ControlPanel() {
                   <span className="font-mono text-xs">{prop}</span>
                   <span
                     className={cn(
-                      'border px-1.5 py-0.5 text-[9px] uppercase tracking-[0.18em]',
+                      'border px-1.5 py-0.5 text-[11px] uppercase tracking-[0.18em]',
                       TONE_CLASS[tone],
                     )}
                   >
@@ -115,7 +115,7 @@ export function ControlPanel() {
       </section>
 
       <section aria-labelledby="control-run" className="flex flex-col gap-2">
-        <h3 id="control-run" className="mb-1 text-[10px] uppercase tracking-[0.24em] text-ink-400">
+        <h3 id="control-run" className="mb-1 text-[11px] uppercase tracking-[0.24em] text-ink-400">
           § 03 — Run
         </h3>
         {isRunning ? (

@@ -39,7 +39,7 @@ export function MobileMenu() {
           <div className="flex h-14 items-center justify-between border-b border-rule-dim px-5">
             <span className="flex flex-col leading-none">
               <span className="font-serif text-base italic text-ink-900">{SITE.nameEn}</span>
-              <span className="mt-0.5 text-[9px] uppercase tracking-[0.28em] text-ink-400">
+              <span className="mt-0.5 text-[11px] uppercase tracking-[0.28em] text-ink-400">
                 {SITE.name}
               </span>
             </span>
@@ -62,7 +62,7 @@ export function MobileMenu() {
                     onClick={() => setOpen(false)}
                     className="group flex items-baseline gap-4 border-b border-rule-dim py-5 text-ink-900 transition-colors hover:text-vermilion"
                   >
-                    <span className="tnum text-[10px] uppercase tracking-[0.24em] text-ink-300 group-hover:text-vermilion">
+                    <span className="tnum text-[11px] uppercase tracking-[0.24em] text-ink-300 group-hover:text-vermilion">
                       § {String(index + 1).padStart(2, '0')}
                     </span>
                     <span className="font-mincho text-2xl">{item.label}</span>
@@ -93,7 +93,7 @@ export function MobileMenu() {
             </div>
           </nav>
 
-          <footer className="border-t border-rule-dim px-5 py-4 text-[10px] uppercase tracking-[0.22em] text-ink-300">
+          <footer className="border-t border-rule-dim px-5 py-4 text-[11px] uppercase tracking-[0.22em] text-ink-300">
             EST. 2026 / Personal Lab
           </footer>
         </div>

@@ -23,7 +23,7 @@ export function SectionMarker({ index, label, caption, className }: SectionMarke
   return (
     <div
       className={cn(
-        'flex items-center gap-4 text-[10px] uppercase tracking-[0.24em] text-ink-300',
+        'flex items-center gap-4 text-[11px] uppercase tracking-[0.24em] text-ink-300',
         className,
       )}
     >

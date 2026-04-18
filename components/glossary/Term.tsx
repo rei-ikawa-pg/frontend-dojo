@@ -18,8 +18,8 @@
 
 import { Info } from '@phosphor-icons/react'
 import Link from 'next/link'
-import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
+import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { getGlossary } from '@/lib/glossary'
 import { cn } from '@/lib/utils'
 
@@ -115,7 +115,7 @@ export function Term({ id, children }: TermProps) {
           <span className="flex items-baseline justify-between gap-3">
             <span className="font-mincho text-sm text-ink-900">{entry.term}</span>
             {entry.reading && (
-              <span className="text-[10px] uppercase tracking-[0.18em] text-ink-400">
+              <span className="text-[11px] uppercase tracking-[0.18em] text-ink-400">
                 {entry.reading}
               </span>
             )}
