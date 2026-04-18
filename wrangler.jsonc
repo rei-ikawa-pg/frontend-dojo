@@ -12,7 +12,14 @@
     "enabled": true
   },
   "vars": {
-    "ENVIRONMENT": "production"
-  }
-  // D1 binding (DB) is added in SETUP.md §10 after `wrangler d1 create frontend-dojo-rum`.
+    "ENVIRONMENT": "production",
+    "ALLOWED_ORIGIN": "https://frontend-dojo.rakurai.workers.dev"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "frontend-dojo-rum",
+      "database_id": "01e4399b-746c-461c-81cc-ebaad1146b1f"
+    }
+  ]
 }
