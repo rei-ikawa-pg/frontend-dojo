@@ -2,7 +2,7 @@ import type { LabStatus } from './labs'
 
 export const LAB_STATUS_LABEL: Record<LabStatus, string> = {
   published: '公開中',
-  'phase-2': 'Phase 2 予定',
-  'phase-3': 'Phase 3 予定',
-  formal: '正式版',
+  'phase-2': '近日公開',
+  'phase-3': '近日公開',
+  formal: '近日公開',
 }

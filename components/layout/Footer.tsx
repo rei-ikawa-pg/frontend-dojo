@@ -116,7 +116,7 @@ export function Footer() {
             © 2026 {SITE.name} · Personal Lab · Built in Tokyo
           </p>
           <p className="tnum text-[10px] uppercase tracking-[0.24em] text-ink-400">
-            v0.1.0 / PHASE-01 / MVP
+            v0.1.0 / Early Access
           </p>
         </div>
       </div>
