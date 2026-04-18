@@ -55,5 +55,8 @@
     "typescript": "^5",
     "vitest": "^4.1.4",
     "wrangler": "^4.83.0"
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": ["sharp", "unrs-resolver"]
   }
 }
