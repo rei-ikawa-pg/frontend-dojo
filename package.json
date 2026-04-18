@@ -17,6 +17,8 @@
     "db:migrate:remote": "wrangler d1 migrations apply frontend-dojo-rum --remote",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "deploy:cron": "wrangler deploy --config workers/rum-cleanup/wrangler.jsonc",
+    "deploy:all": "bash scripts/deploy.sh",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "icon:export": "node scripts/export-apple-icon.mjs"
@@ -48,6 +50,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.12",
+    "@cloudflare/workers-types": "^4.20260418.1",
     "@playwright/test": "^1.59.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",

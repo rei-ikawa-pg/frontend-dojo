@@ -1,0 +1,23 @@
+// RUM データ保持期限を超えた行を削除する Cron Worker。
+// メインサイトとは分離してデプロイする（別 Worker 名）。
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "frontend-dojo-rum-cleanup",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-04-17",
+  "compatibility_flags": ["nodejs_compat"],
+  "triggers": {
+    // 毎日 3AM UTC（= 12:00 JST）
+    "crons": ["0 3 * * *"]
+  },
+  "vars": {
+    "RETENTION_DAYS": "90"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "frontend-dojo-rum",
+      "database_id": "01e4399b-746c-461c-81cc-ebaad1146b1f"
+    }
+  ]
+}
