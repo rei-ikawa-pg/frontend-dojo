@@ -28,7 +28,8 @@ test.describe('/lab/render/tutorial 稽古', () => {
     await page.goto('/lab/render/tutorial')
     await expect(page.locator('h1')).toContainText(/導入|ブラウザの 1 フレーム/)
 
-    await page.getByRole('button', { name: /次のステップ/ }).click()
+    // モバイル viewport ではラベルが「次」のみになるため regex をゆるめる
+    await page.getByRole('button', { name: /^次/ }).click()
     await expect(page).toHaveURL(/\?step=2/)
   })
 
@@ -39,7 +40,8 @@ test.describe('/lab/render/tutorial 稽古', () => {
 
   test('最終ステップで道場モードへの誘導が出る', async ({ page }) => {
     await page.goto('/lab/render/tutorial?step=8')
-    await expect(page.getByRole('link', { name: /道場モードへ/ })).toBeVisible()
+    // モバイル viewport ではラベルが「道場」のみになる
+    await expect(page.getByRole('link', { name: /^道場/ })).toBeVisible()
   })
 })
 

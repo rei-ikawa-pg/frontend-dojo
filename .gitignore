@@ -49,5 +49,9 @@ cloudflare-env.d.ts
 
 # Playwright MCP の作業用スクリーンショット / ログ
 .playwright-mcp/
+
+# スクリーンショット類（作業用のため追跡しない。フォルダは .gitkeep で残す）
 /*.png
+/docs/screenshots/*
+!/docs/screenshots/.gitkeep
 

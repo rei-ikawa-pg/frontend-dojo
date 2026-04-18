@@ -64,7 +64,7 @@ zustand / nuqs / zod / web-vitals / @next/mdx / vitest / @vitest/ui / @testing-l
 
 ### #5 共通レイアウト（Header / Footer / Nav）作成
 
-`components/layout/{Header, Footer, Nav, MobileMenu}.tsx` を実装。Header: ロゴ、稽古場、ロードマップ、道場について、GitHub、Zenn。Footer: 3 カラム（道場について / 規約 / 連絡 + フィードバックボタン + Google Forms）。モバイルはハンバーガー。
+`components/layout/{Header, Footer, Nav, MobileMenu}.tsx` を実装。Header: ロゴ、稽古場、ロードマップ、道場について、Zenn。Footer: 3 カラム（道場について / 規約 / 連絡 + フィードバックボタン + Google Forms）。モバイルはハンバーガー。
 
 - 参照: `docs/02-information-architecture.md` §3
 - 完了条件: 全ページでヘッダー/フッターが一貫表示、モバイルメニュー動作
@@ -251,7 +251,7 @@ zustand / nuqs / zod / web-vitals / @next/mdx / vitest / @vitest/ui / @testing-l
 
 ### #30 Phase 1 受け入れ条件チェック + Zenn 第 1 弾記事
 
-`docs/01-requirements.md` §6 の全項目を実機で確認（Chromium/Safari/Firefox/モバイル）。Core Web Vitals が全ページで Good、プライバシーポリシー・利用規約公開、GitHub 公開、Zenn 記事第 1 弾投稿（Lab 1 のコンセプトと使い方、DevTools との対応）。初回公開後の RUM データが D1 に届いているかを確認。
+`docs/01-requirements.md` §6 の全項目を実機で確認（Chromium/Safari/Firefox/モバイル）。Core Web Vitals が全ページで Good、プライバシーポリシー・利用規約公開、Zenn 記事第 1 弾投稿（Lab 1 のコンセプトと使い方、DevTools との対応）。初回公開後の RUM データが D1 に届いているかを確認。
 
 - 参照: `docs/01-requirements.md` §6, `CLAUDE.md` 受け入れ条件
 - 完了条件: チェックリスト全項目にチェック

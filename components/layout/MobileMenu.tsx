@@ -73,15 +73,6 @@ export function MobileMenu() {
 
             <div className="mt-10 flex flex-col gap-3 border-t border-rule-dim pt-6">
               <a
-                href={SITE.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setOpen(false)}
-                className="text-[11px] uppercase tracking-[0.24em] text-ink-400 transition-colors hover:text-ink-900"
-              >
-                GitHub ↗
-              </a>
-              <a
                 href={SITE.zenn}
                 target="_blank"
                 rel="noopener noreferrer"

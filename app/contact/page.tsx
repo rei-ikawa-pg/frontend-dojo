@@ -29,12 +29,9 @@ export default function ContactPage() {
           </Button>
         </div>
 
-        <h2>GitHub Issue</h2>
-        <p>バグや実装上の提案は、GitHub リポジトリの Issue でも受け付けます。</p>
         <p>
-          <a href={SITE.github} target="_blank" rel="noopener noreferrer">
-            {SITE.github}
-          </a>
+          各 Lab ページ末尾のフィードバックボタンからも、Good / Bad
+          と一言コメントを送れます。関連記事は Zenn で公開しています。
         </p>
       </Prose>
     </div>

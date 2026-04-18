@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Prose } from '@/components/typography/Prose'
-import { SITE } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: '道場について',
@@ -46,17 +45,6 @@ export default function AboutPage() {
           <li>Cloudflare Workers (OpenNext) / D1 / Web Analytics</li>
           <li>自前 RUM（web-vitals + LoAF + カスタムメトリクス）</li>
         </ul>
-
-        <h2>ソースコード</h2>
-        <p>
-          サイトのソースコードは GitHub で公開しています。実装の参考にしたり、Issue
-          で提案したりしてください。
-        </p>
-        <p>
-          <a href={SITE.github} target="_blank" rel="noopener noreferrer">
-            {SITE.github}
-          </a>
-        </p>
 
         <h2>連絡先</h2>
         <p>

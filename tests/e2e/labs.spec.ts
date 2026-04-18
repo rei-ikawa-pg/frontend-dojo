@@ -9,9 +9,11 @@ import { expect, test } from '@playwright/test'
 test.describe('/labs 稽古場一覧', () => {
   test('Lab 1 カードから /lab/render に遷移できる', async ({ page }) => {
     await page.goto('/labs')
-    await expect(page.locator('h1')).toContainText('稽古場一覧')
+    // h1 はインパクト優先で「全 06 稽古場。」。セクションマーカー側に「稽古場一覧」を載せる
+    await expect(page.locator('h1')).toContainText('稽古場')
+    await expect(page.getByText('稽古場一覧').first()).toBeVisible()
 
-    // Lab 1 リンク
+    // Lab 1 リンク（aria-label は `${shortTitle} — 公開中`）
     const lab1 = page.getByRole('link', { name: /Lab 1: レンダリング/ })
     await expect(lab1).toBeVisible()
     await lab1.click()

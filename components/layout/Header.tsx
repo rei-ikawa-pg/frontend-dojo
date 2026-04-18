@@ -1,4 +1,3 @@
-import { GithubLogo } from '@phosphor-icons/react/dist/ssr'
 import Link from 'next/link'
 import { SITE } from '@/lib/site'
 import { MobileMenu } from './MobileMenu'
@@ -42,15 +41,6 @@ export function Header() {
         <div className="flex items-center gap-6">
           <Nav />
           <div className="hidden items-center gap-4 border-l border-rule-dim pl-6 md:flex">
-            <a
-              href={SITE.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-              className="text-ink-500 transition-colors hover:text-vermilion"
-            >
-              <GithubLogo size={17} weight="regular" />
-            </a>
             <a
               href={SITE.zenn}
               target="_blank"

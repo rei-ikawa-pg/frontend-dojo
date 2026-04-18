@@ -26,7 +26,6 @@ const COLUMNS = [
 ] as const
 
 const EXTERNAL = [
-  { label: 'GitHub', href: SITE.github },
   { label: 'Zenn', href: SITE.zenn },
   { label: 'Feedback', href: SITE.feedbackForm },
 ] as const

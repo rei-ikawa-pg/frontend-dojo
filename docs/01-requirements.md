@@ -43,7 +43,6 @@ Phase 1 MVPは「共通計測基盤 + Lab 1（レンダリングパイプライ�
 - サイトコンセプトの一文表示（「フロントエンドの鬼門を、読むのではなく触って理解する」）
 - 現在公開中のLab一覧（Phase 1ではLab 1のみ、他は「近日公開」ラベル）
 - Phase 2, 3 のロードマップ（「次はメモリリーク稽古場」「次はスクロールジャンク稽古場」）
-- GitHubリポジトリへのリンク
 - Zenn記事へのリンク
 - フィードバックボタン（フッター）
 
@@ -121,7 +120,7 @@ Phase 1 MVPは「共通計測基盤 + Lab 1（レンダリングパイプライ�
 - フッターにGoogle Formsへのリンク（詳細なフィードバック用）
 
 ### 1.6 ナビゲーション・共通UI
-- ヘッダー: ロゴ、Lab一覧、GitHubリンク、Zennリンク
+- ヘッダー: ロゴ、Lab一覧、Zennリンク
 - フッター: コピーライト、プライバシーポリシー、利用規約、問い合わせ（Google Forms）、フィードバックボタン
 - ダークモード固定（MVPではライトモード切替なし）
 
@@ -245,22 +244,40 @@ Phase 1 MVPは「共通計測基盤 + Lab 1（レンダリングパイプライ�
 
 ---
 
-## 6. 受け入れ条件（Phase 1リリースの判定基準）
+## 6. 受け入れ条件（Phase 1 リリースの判定基準）
 
-以下を全て満たしたら初回公開OK。
+以下を全て満たしたら初回公開 OK。
 
-- [ ] トップページが存在し、Lab 1 への導線がある
-- [ ] Lab 1 がチュートリアルモード・自由操作モードの両方で動く
-- [ ] 共通RUMがデータを収集し、D1に保存できる
-- [ ] Cloudflare Web Analytics が動いている
-- [ ] フィードバックボタンでコメントが送信できる
-- [ ] Chromium で全機能動作
-- [ ] Safari/Firefox で解説は読める、非対応機能は明示される
-- [ ] モバイルで解説は読める、Labは「PC推奨」表示
-- [ ] Core Web Vitals が全ページでGood
-- [ ] プライバシーポリシー・利用規約が公開されている
-- [ ] GitHub リポジトリ が公開されている
-- [ ] Zenn記事 第1弾が投稿されている
+凡例: `[x]` 実装完了、`[~]` 実装済み・実機確認待ち、`[ ]` 未着手。
+
+### 実装で確認できる項目
+
+- [x] トップページが存在し、Lab 1 への導線がある（`app/page.tsx` → Hero CTA / CatalogSection）
+- [x] Lab 1 がチュートリアルモード・自由操作モードの両方で動く（`/lab/render/tutorial`, `/lab/render/playground`）
+- [x] フィードバックボタンでコメントが送信できる（`features/feedback/components/FeedbackButton.tsx` → `/api/feedback` → D1）
+- [x] Safari/Firefox で解説は読める、非対応機能は明示される（`components/lab/BrowserCompatBanner.tsx`）
+- [x] モバイルで解説は読める、Lab は「PC 推奨」表示（`components/lab/MobileAdvisoryBanner.tsx`）
+- [x] プライバシーポリシー・利用規約が公開されている（`/privacy`, `/terms`）
+
+### 本番デプロイ後に実機確認が必要
+
+- [~] 共通 RUM がデータを収集し、D1 に保存できる
+  - 実装: `features/rum/client/*` + `app/api/rum/collect/route.ts` + `migrations/0001_initial.sql`
+  - 確認: 本番で `NEXT_PUBLIC_RUM_ENABLED=true` を設定 → `/admin/rum?token=XXX` にイベントが並ぶか
+- [~] Cloudflare Web Analytics が動いている
+  - 実装: `app/layout.tsx` で `NEXT_PUBLIC_CF_ANALYTICS_TOKEN` があれば beacon script 挿入
+  - 確認: CF ダッシュボードに PV が計上されるか
+- [~] Chromium で全機能動作
+  - 実装: Playwright E2E（`tests/e2e/*`）が CI で緑、Lighthouse CI もしきい値設定済
+  - 確認: 本番 URL で Tutorial 8 ステップ完走・Playground で FPS が動く・フィードバック送信成功
+- [~] Core Web Vitals が全ページで Good
+  - 実装: Lighthouse CI（`lighthouserc.json`）が PR で走る
+  - 確認: 本番で `/`, `/labs`, `/lab/render`, `/lab/render/tutorial`, `/lab/render/playground` の LCP/INP/CLS を測定
+
+### サイト外作業
+
+- [ ] Zenn 記事 第 1 弾が投稿されている（Lab 1 のコンセプトと DevTools との対応）
+  - 投稿後、`lib/site.ts` の `SITE.zenn` を実記事 URL に差し替える
 
 ---
 
