@@ -17,8 +17,13 @@ test.describe('/lab/render 概要', () => {
     // モードタブ
     await expect(page.getByRole('tab', { name: '概要' })).toHaveAttribute('aria-selected', 'true')
 
-    // 大 CTA 「稽古」
-    await page.getByRole('link', { name: /稽古/, exact: false }).first().click()
+    // 大 CTA 「稽古」。Header や Footer の「稽古場(一覧)」リンクに当たらないよう
+    // モード選択セクションに限定して取得する
+    await page
+      .locator('section[aria-label="モード選択"]')
+      .getByRole('link', { name: /稽古/ })
+      .first()
+      .click()
     await expect(page).toHaveURL(/\/lab\/render\/tutorial/)
   })
 })

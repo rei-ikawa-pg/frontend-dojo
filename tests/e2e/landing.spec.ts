@@ -21,7 +21,8 @@ test.describe('/ ランディング', () => {
 
   test('Lab 1 の CTA から /lab/render/tutorial へ遷移できる', async ({ page }) => {
     await page.goto('/')
-    await page.getByRole('link', { name: /Lab 1 を試す/ }).click()
+    // Hero の大 CTA ラベルは "Lab 01 を試す"（ゼロ埋め）
+    await page.getByRole('link', { name: /Lab 0?1 を試す/ }).click()
     await expect(page).toHaveURL(/\/lab\/render\/tutorial/)
   })
 
@@ -29,6 +30,10 @@ test.describe('/ ランディング', () => {
     await page.goto('/')
     await page.getByRole('link', { name: 'プライバシーポリシー' }).click()
     await expect(page).toHaveURL(/\/privacy/)
-    await expect(page.locator('h1')).toContainText('プライバシーポリシー')
+    // ランディングの hero h1 が DOM に残っているタイミングでも誤検出しないよう
+    // 見出しレベル + 名前で厳密に特定する
+    await expect(
+      page.getByRole('heading', { level: 1, name: 'プライバシーポリシー' }),
+    ).toBeVisible()
   })
 })

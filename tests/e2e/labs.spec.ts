@@ -22,8 +22,9 @@ test.describe('/labs 稽古場一覧', () => {
 
   test('近日公開の Lab は「近日公開」ラベル付きで disable 表示', async ({ page }) => {
     await page.goto('/labs')
-    // Lab 2 (メモリリーク稽古場) は Lab 1 のリンク配下に無い（= リンクではない）
-    const comingSoonLabels = page.getByText('近日公開')
-    await expect(comingSoonLabels.first()).toBeVisible()
+    // デスクトップとモバイルで表示される span が入れ替わるため（hidden md:block / md:hidden）、
+    // 現在のビューポートで実際に可視な要素に絞って検証する
+    const visibleComingSoon = page.locator(':text("近日公開"):visible')
+    await expect(visibleComingSoon.first()).toBeVisible()
   })
 })
