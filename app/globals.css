@@ -160,10 +160,10 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* 和文: CJK 文字間で改行させず、句読点・<wbr>・空白など許可された位置のみで折る */
-    word-break: keep-all;
+    /* 和文の改行: 句読点の行頭回避 + 長い英単語の途中折り返しを許容。
+       word-break: keep-all は数字と和文助数詞の間のスペースで不自然に折れるため採用しない。 */
     line-break: strict;
-    /* overflow-wrap は既定値 (normal) のままにして keep-all を上書きさせない */
+    overflow-wrap: anywhere;
   }
   body {
     @apply bg-background text-foreground;

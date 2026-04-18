@@ -92,10 +92,10 @@ export function ControlPanel() {
                   onClick={() => toggleProp(prop)}
                   aria-pressed={enabled}
                   className={cn(
-                    'flex w-full items-center justify-between border px-3 py-2 text-left text-sm transition-colors',
+                    'flex w-full cursor-pointer items-center justify-between border px-3 py-2 text-left text-sm transition-colors',
                     enabled
-                      ? 'border-ink-500 bg-ink-050 text-ink-900'
-                      : 'border-rule-dim text-ink-400 hover:border-ink-300 hover:text-ink-900',
+                      ? 'border-ink-500 bg-ink-100 text-ink-900'
+                      : 'border-rule-dim text-ink-400 hover:border-ink-300 hover:bg-ink-100/60 hover:text-ink-900',
                   )}
                 >
                   <span className="font-mono text-xs">{prop}</span>

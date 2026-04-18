@@ -133,22 +133,27 @@ export function TutorialMode() {
           前のステップ
         </Button>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           {TUTORIAL_STEPS.map((s) => (
             <button
               key={s.id}
               type="button"
-              aria-label={`ステップ ${s.id} へ`}
+              aria-label={`ステップ ${s.id}: ${s.title} へ`}
               aria-current={s.id === stepId ? 'step' : undefined}
               onClick={() => setStepIdRaw(s.id)}
-              className={`h-2 w-8 border transition-colors ${
-                s.id === stepId
-                  ? 'border-vermilion bg-vermilion'
-                  : s.id < stepId
-                    ? 'border-ink-500 bg-ink-500/60'
-                    : 'border-rule-dim bg-transparent hover:border-ink-300'
-              }`}
-            />
+              className="group/dot flex h-8 w-8 cursor-pointer items-center justify-center focus-visible:outline-none"
+            >
+              <span
+                aria-hidden="true"
+                className={`block h-[3px] w-7 border transition-all group-hover/dot:h-[5px] ${
+                  s.id === stepId
+                    ? 'border-vermilion bg-vermilion shadow-[0_0_8px_var(--vermilion)]'
+                    : s.id < stepId
+                      ? 'border-ink-400 bg-ink-400/70'
+                      : 'border-rule-normal bg-transparent group-hover/dot:border-ink-300'
+                }`}
+              />
+            </button>
           ))}
         </div>
 

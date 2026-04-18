@@ -46,3 +46,8 @@ next-env.d.ts
 .wrangler/
 .dev.vars
 cloudflare-env.d.ts
+
+# Playwright MCP の作業用スクリーンショット / ログ
+.playwright-mcp/
+/*.png
+

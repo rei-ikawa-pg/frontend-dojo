@@ -35,7 +35,7 @@ export function Header() {
             <span className="font-serif text-[22px] italic leading-none text-ink-900">
               {SITE.nameEn}
             </span>
-            <span className="mt-1 font-mincho text-[13px] text-ink-500">{SITE.name}</span>
+            <span className="mt-1 font-mincho text-[13px] text-ink-400">{SITE.name}</span>
           </span>
         </Link>
 
@@ -47,7 +47,7 @@ export function Header() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
-              className="text-ink-500 transition-colors hover:text-ink-900"
+              className="text-ink-500 transition-colors hover:text-vermilion"
             >
               <GithubLogo size={17} weight="regular" />
             </a>
@@ -55,7 +55,7 @@ export function Header() {
               href={SITE.zenn}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[12px] font-medium uppercase tracking-[0.18em] text-ink-500 transition-colors hover:text-ink-900"
+              className="text-[12px] font-medium uppercase tracking-[0.18em] text-ink-500 transition-colors hover:text-vermilion"
             >
               Zenn ↗
             </a>

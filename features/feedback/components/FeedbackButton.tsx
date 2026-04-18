@@ -136,10 +136,10 @@ function RatingButton({ icon, label, active, onClick }: RatingButtonProps) {
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        'inline-flex items-center gap-2 border px-4 py-2 text-sm transition-colors',
+        'inline-flex cursor-pointer items-center gap-2 border px-4 py-2 text-sm transition-colors',
         active
           ? 'border-vermilion bg-vermilion/10 text-vermilion'
-          : 'border-rule-dim text-ink-500 hover:border-ink-500 hover:text-ink-900',
+          : 'border-rule-dim text-ink-500 hover:border-ink-500 hover:bg-ink-100 hover:text-ink-900',
       )}
     >
       {icon}

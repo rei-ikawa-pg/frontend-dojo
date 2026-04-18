@@ -23,7 +23,7 @@ export function MobileMenu() {
         type="button"
         aria-label="メニューを開く"
         aria-expanded={open}
-        className="flex h-8 w-8 items-center justify-center border border-rule-dim text-ink-400 transition-colors hover:border-vermilion hover:text-ink-900 md:hidden"
+        className="flex h-8 w-8 cursor-pointer items-center justify-center border border-rule-dim text-ink-400 transition-colors hover:border-vermilion hover:text-ink-900 md:hidden"
         onClick={() => setOpen(true)}
       >
         <List size={16} weight="regular" />
@@ -46,7 +46,7 @@ export function MobileMenu() {
             <button
               type="button"
               aria-label="メニューを閉じる"
-              className="flex h-8 w-8 items-center justify-center border border-rule-dim text-ink-400 transition-colors hover:border-vermilion hover:text-ink-900"
+              className="flex h-8 w-8 cursor-pointer items-center justify-center border border-rule-dim text-ink-400 transition-colors hover:border-vermilion hover:text-ink-900"
               onClick={() => setOpen(false)}
             >
               <X size={16} weight="regular" />

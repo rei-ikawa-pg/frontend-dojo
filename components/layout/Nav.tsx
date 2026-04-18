@@ -10,10 +10,10 @@ export function Nav() {
           href={item.href}
           className="group relative flex items-baseline gap-2 py-2 transition-colors"
         >
-          <span className="tnum text-[10px] font-medium tracking-[0.22em] text-ink-300 group-hover:text-vermilion">
+          <span className="tnum text-[10px] font-medium tracking-[0.22em] text-ink-400 group-hover:text-vermilion">
             {String(index + 1).padStart(2, '0')}
           </span>
-          <span className="font-mincho text-[15px] leading-none text-ink-500 group-hover:text-ink-900">
+          <span className="font-mincho text-[15px] font-medium leading-none text-ink-900 group-hover:text-vermilion">
             {item.label}
           </span>
         </Link>
