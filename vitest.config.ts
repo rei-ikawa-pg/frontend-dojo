@@ -8,6 +8,8 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: './tests/setup.ts',
+    // Playwright のテストは vitest で拾わない（tests/e2e, tests/visual は playwright 管轄）
+    exclude: ['node_modules', '.next', '.open-next', 'tests/e2e/**', 'tests/visual/**'],
   },
   resolve: {
     alias: {

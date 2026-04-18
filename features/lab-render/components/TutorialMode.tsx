@@ -17,9 +17,11 @@ import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { LAB_RENDER_META, usePlaygroundStore } from '@/features/lab-render'
 import { STEP_CONTENTS } from '@/features/lab-render/tutorial/stepContents'
+import { getQuiz } from '@/features/lab-render/tutorial/quizzes'
 import { getStep, TUTORIAL_STEP_COUNT, TUTORIAL_STEPS } from '@/features/lab-render/tutorial/steps'
 import { useRumCustomMetric, useRumSetContext } from '@/features/rum'
 import { MetricsDisplay } from './MetricsDisplay'
+import { StepQuiz } from './StepQuiz'
 import { VisualizationView } from './VisualizationView'
 
 export function TutorialMode() {
@@ -68,6 +70,7 @@ export function TutorialMode() {
   }, [stepId, emit])
 
   const Content = useMemo(() => STEP_CONTENTS[stepId], [stepId])
+  const quiz = useMemo(() => getQuiz(stepId), [stepId])
   const progress = (stepId / TUTORIAL_STEP_COUNT) * 100
   const isLast = stepId >= TUTORIAL_STEP_COUNT
 
@@ -116,6 +119,8 @@ export function TutorialMode() {
               <Content />
             </Prose>
           </section>
+
+          {quiz && <StepQuiz quiz={quiz} />}
         </aside>
       </div>
 
