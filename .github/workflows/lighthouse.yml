@@ -1,0 +1,44 @@
+# Lighthouse CI: PR の Core Web Vitals 回帰チェック。
+# - next start で本番ビルドを起動し、対象 URL に対して計測する
+# - しきい値は lighthouserc.json に集約
+
+name: Lighthouse
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: lighthouse-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lhci:
+    name: Lighthouse CI
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        env:
+          NEXT_PUBLIC_SITE_URL: https://frontend-dojo.rakurai.workers.dev
+        run: pnpm build
+
+      - name: Install Lighthouse CI
+        run: pnpm add -g @lhci/cli@0.15.x
+
+      - name: Run Lighthouse CI
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+        run: lhci autorun
