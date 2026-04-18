@@ -1,10 +1,15 @@
+import createMDX from '@next/mdx'
 import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare'
 import type { NextConfig } from 'next'
 
+const withMDX = createMDX({
+  extension: /\.mdx?$/,
+})
+
 const nextConfig: NextConfig = {
-  /* config options here */
+  pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
 }
 
 initOpenNextCloudflareForDev()
 
-export default nextConfig
+export default withMDX(nextConfig)
