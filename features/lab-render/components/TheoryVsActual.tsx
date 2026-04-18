@@ -2,10 +2,12 @@
  * CSS Triggers（理論）と LoAF（実測）の突き合わせテーブル。
  * - Paint と Composite は LoAF では合算でしか取得できないので "Rendering" として表示
  * - 実測 0ms に近ければフェーズが走っていないと見做す（教材上の簡略化）
+ * - 「理論と実測が一致するか」が最大の学びなので、判定列を設けて明示する
  */
 
 'use client'
 
+import { CheckCircle, Minus, WarningCircle } from '@phosphor-icons/react'
 import type { PhaseImpact } from '@/features/lab-render/engine/cssTriggersData'
 import type { FrameSample } from '@/features/lab-render/engine/types'
 import { cn } from '@/lib/utils'
@@ -20,28 +22,53 @@ const EPSILON_MS = 0.5
 export function TheoryVsActual({ theoretical, lastFrame }: Props) {
   const actualLayout = (lastFrame?.styleLayoutDuration ?? 0) > EPSILON_MS
   const actualRendering = (lastFrame?.renderingDuration ?? 0) > EPSILON_MS
+  const hasMeasurement = lastFrame !== null
 
   return (
     <div className="border border-rule-dim bg-card">
-      <div className="border-b border-rule-dim px-4 py-3">
-        <h3 className="text-[10px] uppercase tracking-[0.24em] text-ink-400">§ Theory vs Actual</h3>
-        <p className="mt-1 text-xs text-ink-500">
-          CSS プロパティから理論上走るべきフェーズ（理論）と、LoAF API の実測を並べています。
-        </p>
+      <div className="flex flex-col gap-3 border-b border-rule-dim px-4 py-4">
+        <div>
+          <h3 className="text-[10px] uppercase tracking-[0.24em] text-ink-400">
+            § Theory vs Actual — 理論と実測
+          </h3>
+          <p className="mt-2 text-xs leading-relaxed text-ink-500">
+            CSS プロパティから予測される「走るべきフェーズ」（
+            <strong className="text-ink-900">理論</strong>）と、 LoAF API で計測した実際の挙動（
+            <strong className="text-ink-900">実測</strong>）を並べています。
+            <br />
+            <strong className="text-ink-900">両者が一致（判定 ✓）</strong>していれば、 CSS Triggers
+            の予測どおりブラウザが動いている証拠です。
+          </p>
+        </div>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-rule-dim pt-3 text-[10px] uppercase tracking-[0.18em] text-ink-400">
+          <span className="flex items-center gap-1.5">
+            <Dot on />
+            走る
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Dot on={false} />
+            走らない
+          </span>
+          <span className="flex items-center gap-1.5">
+            <CheckCircle size={12} weight="fill" className="text-sig-ok" />
+            一致
+          </span>
+          <span className="flex items-center gap-1.5">
+            <WarningCircle size={12} weight="fill" className="text-sig-warn" />
+            不一致
+          </span>
+        </div>
       </div>
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-rule-dim">
-            <th className="px-4 py-2 text-left text-[10px] font-normal uppercase tracking-[0.2em] text-ink-400">
+          <tr className="border-b border-rule-dim bg-ink-050/40">
+            <th className="px-4 py-2.5 text-left text-[10px] font-normal uppercase tracking-[0.2em] text-ink-400">
               Phase
             </th>
-            <th className="px-4 py-2 text-center text-[10px] font-normal uppercase tracking-[0.2em] text-ink-400">
-              理論
-            </th>
-            <th className="px-4 py-2 text-center text-[10px] font-normal uppercase tracking-[0.2em] text-ink-400">
-              実測
-            </th>
-            <th className="px-4 py-2 text-right text-[10px] font-normal uppercase tracking-[0.2em] text-ink-400">
+            <Th>理論</Th>
+            <Th>実測</Th>
+            <Th>判定</Th>
+            <th className="px-4 py-2.5 text-right text-[10px] font-normal uppercase tracking-[0.2em] text-ink-400">
               時間
             </th>
           </tr>
@@ -51,12 +78,14 @@ export function TheoryVsActual({ theoretical, lastFrame }: Props) {
             phase="Layout"
             theoretical={theoretical.layout}
             actual={actualLayout}
+            hasMeasurement={hasMeasurement}
             time={lastFrame ? `${lastFrame.styleLayoutDuration.toFixed(1)}ms` : '—'}
           />
           <Row
             phase="Paint + Composite"
             theoretical={theoretical.paint || theoretical.composite}
             actual={actualRendering}
+            hasMeasurement={hasMeasurement}
             time={lastFrame ? `${lastFrame.renderingDuration.toFixed(1)}ms` : '—'}
             hint="LoAF では Paint と Composite を分離できないため合算値"
           />
@@ -66,15 +95,25 @@ export function TheoryVsActual({ theoretical, lastFrame }: Props) {
   )
 }
 
+function Th({ children }: { children: React.ReactNode }) {
+  return (
+    <th className="px-4 py-2.5 text-center text-[10px] font-normal uppercase tracking-[0.2em] text-ink-400">
+      {children}
+    </th>
+  )
+}
+
 type RowProps = {
   phase: string
   theoretical: boolean
   actual: boolean
+  hasMeasurement: boolean
   time: string
   hint?: string
 }
 
-function Row({ phase, theoretical, actual, time, hint }: RowProps) {
+function Row({ phase, theoretical, actual, hasMeasurement, time, hint }: RowProps) {
+  const isMatch = theoretical === actual
   return (
     <tr className="border-b border-rule-dim last:border-b-0">
       <td className="px-4 py-3">
@@ -82,27 +121,61 @@ function Row({ phase, theoretical, actual, time, hint }: RowProps) {
         {hint && <div className="mt-0.5 text-[10px] text-ink-400">{hint}</div>}
       </td>
       <td className="px-4 py-3 text-center">
-        <Mark on={theoretical} />
+        <Dot on={theoretical} variant="theory" />
       </td>
       <td className="px-4 py-3 text-center">
-        <Mark on={actual} />
+        <Dot on={actual} variant="actual" />
+      </td>
+      <td className="px-4 py-3 text-center">
+        {hasMeasurement ? (
+          <Verdict isMatch={isMatch} />
+        ) : (
+          <Minus size={14} className="inline text-ink-300" aria-label="未計測" />
+        )}
       </td>
       <td className="px-4 py-3 text-right tnum text-ink-900">{time}</td>
     </tr>
   )
 }
 
-function Mark({ on }: { on: boolean }) {
+type DotVariant = 'theory' | 'actual' | 'legend'
+
+function Dot({ on, variant = 'legend' }: { on: boolean; variant?: DotVariant }) {
+  // 理論 = vermilion（予測の色）、実測 = ink-900（計測値の色）で列ごとに視覚を分離
+  const onClass =
+    variant === 'actual'
+      ? 'border-ink-500 bg-ink-500 shadow-[0_0_6px_var(--ink-500)]'
+      : 'border-vermilion bg-vermilion shadow-[0_0_6px_var(--vermilion)]'
   return (
     <span
       role="img"
-      aria-label={on ? '走った' : '走らない'}
+      aria-label={on ? '走る' : '走らない'}
       className={cn(
-        'inline-flex h-6 w-6 items-center justify-center border text-xs font-mono',
-        on ? 'border-vermilion/70 bg-vermilion/10 text-vermilion' : 'border-rule-dim text-ink-400',
+        'inline-block h-2.5 w-2.5 rounded-full border align-middle',
+        on ? onClass : 'border-rule-normal bg-transparent',
       )}
+    />
+  )
+}
+
+function Verdict({ isMatch }: { isMatch: boolean }) {
+  return isMatch ? (
+    <span
+      role="img"
+      aria-label="理論と実測が一致"
+      className="inline-flex items-center gap-1 text-[11px] text-sig-ok"
     >
-      {on ? '○' : '×'}
+      <CheckCircle size={14} weight="fill" />
+      一致
+    </span>
+  ) : (
+    <span
+      role="img"
+      aria-label="理論と実測が不一致"
+      className="inline-flex items-center gap-1 text-[11px] text-sig-warn"
+    >
+      <WarningCircle size={14} weight="fill" />
+      不一致
     </span>
   )
 }

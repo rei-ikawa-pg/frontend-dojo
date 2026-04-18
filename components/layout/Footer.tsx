@@ -9,6 +9,7 @@ const COLUMNS = [
     links: [
       { label: '稽古場一覧', href: '/labs' },
       { label: 'ロードマップ', href: '/roadmap' },
+      { label: '用語集', href: '/glossary' },
       { label: '道場について', href: '/about' },
     ],
   },
