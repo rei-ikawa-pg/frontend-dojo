@@ -55,7 +55,8 @@
       "!components/ui",
       "!app/globals.css",
       "!public/_headers",
-      "!cloudflare-env.d.ts"
+      "!cloudflare-env.d.ts",
+      "!next-env.d.ts"
     ]
   }
 }
