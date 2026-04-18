@@ -1,11 +1,13 @@
 `transform` を有効にしてみましょう。
 
 transform は <Term id="composite">**Composite**</Term> のみで済む特殊な CSS プロパティです。
-Chromium では `transform` や `opacity` は <Term id="compositor-layer">合成レイヤー</Term> の合成情報だけを書き換えるため、
-<Term id="paint">Paint</Term> すら走りません。
+ただし条件があります — 対象の要素が <Term id="compositor-layer">合成レイヤー</Term> に昇格している場合に限り、
+<Term id="paint">Paint</Term> をスキップして合成情報だけを書き換えられます。
+Chromium は `transform` を連続アニメーションとして動かしている要素を自動的にレイヤーに昇格させる傾向があり、
+この Lab でも毎フレーム transform を更新しているためその条件に乗っています。
 
 - `Style+Layout` ≒ 0 ms
-- `Rendering` も極めて小さい（合成コストだけ）
+- `Rendering` も極めて小さい（Paint は走らず、合成コストだけ）
 - <Term id="fps">FPS</Term> は 60 に張り付きやすい
 
 「アニメーションさせたいなら transform か opacity を使う」

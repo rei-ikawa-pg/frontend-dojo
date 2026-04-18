@@ -3,10 +3,13 @@
 width の変更は **「この要素の幅が変わる → 周囲のレイアウトも再計算が必要かもしれない」** という扱いになるため、
 <Term id="layout">Layout</Term> から最後まで全部走ります。
 
-右の「Theory vs Actual」テーブルでは:
+右側の表示を 2 つ対応づけて見ます:
 
-- **理論** … <Term id="css-triggers">CSS Triggers</Term> が「Layout が必要」と言っている
-- **実測** … <Term id="loaf">LoAF</Term> API で `Style+Layout` が実際に時間を食っている
+- **理論** … Theory vs Actual テーブルの `Layout` 行が、<Term id="css-triggers">CSS Triggers</Term> に従って ● に点灯
+- **実測** … `Style+Layout` メトリクスカード（= テーブルの `Layout` 行と同じもの）に、<Term id="loaf">LoAF</Term> API で計測した時間が乗る
 
-の両方に ○ がつくはずです。
-<Term id="fps">FPS</Term> も、要素数が増えるほど下がりやすくなることに注目してください。
+の両方が揃うはずです。ただし LoAF は 50 ms を超えたフレームでだけ発火する仕様のため、
+計測が出ないときは道場モードで要素数を増やして再確認してください。
+
+要素数を変えたときの <Term id="fps">FPS</Term> への影響はステップ 7 で改めて扱います。
+ここではまず「`width` は Layout を引き起こす」ことを押さえてください。

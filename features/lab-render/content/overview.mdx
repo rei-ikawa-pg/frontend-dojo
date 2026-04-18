@@ -6,7 +6,7 @@ DOM と CSS を書いて画面が動くところまでは馴染みがあって�
 を **実測できる形で説明できる** 人はそう多くありません。
 
 この Lab では、実際に 100〜2000 個の DOM 要素を触りながら、
-<Term id="loaf">LoAF</Term> (Long Animation Frame) API で 1 フレームの内訳を観察します。
+<Term id="loaf">LoAF</Term> (Long Animation Frames API) で 1 フレームの内訳を観察します。
 <Term id="layout">Layout</Term> / <Term id="paint">Paint</Term> / <Term id="composite">Composite</Term>
 のどこまで走ったかを、<Term id="css-triggers">CSS Triggers</Term> データ（理論）と
 LoAF の実測値の両方で並べて確認できます。
@@ -25,12 +25,18 @@ LoAF の実測値の両方で並べて確認できます。
 ## 前提
 
 - **Chromium 系ブラウザ推奨**（LoAF API が取れるのは Chromium 123+）
-- Safari / Firefox では解説と UI は動作しますが、フレーム内訳の実測値は空欄になります
+- Safari / Firefox では解説と UI は動作しますが、フレーム内訳の実測値は `—`（未計測）のまま表示されます
 - モバイル端末では「PC 推奨」表示になります。実測は PC でご確認ください
+
+## 計測の読み方 — なぜ実測が出ないことがあるか
+
+LoAF API は仕様上、**処理が 50 ms を超えたフレームでしか発火しません**。
+そのため、高性能な PC で軽いプロパティ（例: `transform` のみ）を動かしている間は、
+実測欄が `—` のまま表示されることがあります。これは計測失敗ではなく、
+**「今のフレームは 50 ms に届かないほど軽い」** ことを意味しています。
+差を確かめたい場合は、道場モードで要素数を増やすか、
+重いプロパティ（`width` など）を重ねて試してください。
 
 ## 参考
 
-- [web.dev — Long Animation Frames API](https://web.dev/articles/long-animation-frames-api)
 - [web.dev — Avoid large, complex layouts and layout thrashing](https://web.dev/articles/avoid-large-complex-layouts-and-layout-thrashing)
-- [CSS Triggers (archived)](https://web.archive.org/web/20200422035219/https://csstriggers.com/)
-- [Blink Rendering Pipeline (Chromium docs)](https://chromium.googlesource.com/chromium/src/+/main/third_party/blink/renderer/core/paint/README.md)

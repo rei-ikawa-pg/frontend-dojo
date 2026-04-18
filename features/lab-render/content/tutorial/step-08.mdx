@@ -3,19 +3,19 @@
 
 ### 手順
 
-1. この画面で **実行** を押したまま、DevTools を開く（Cmd + Option + I）
+1. この画面で **実行** を押したまま、DevTools を開く（Mac: Cmd + Option + I / Windows・Linux: Ctrl + Shift + I）
 2. **Performance** タブを選び、⏺ で計測開始
 3. 数秒後に停止、生成されたタイムラインを確認
 4. タイムライン下部の **Summary** で `Rendering` / `Painting` / `Scripting` の割合を見る
-5. 個別フレームに色がついている領域 = **Long Frame**。本サイトの `lastFrame.wasLongFrame` と対応する
+5. 個別フレームに色がついている領域 = **Long Frame**。本サイト右上の `Frame Budget` が 16.7 ms を超えて赤字になるフレームと対応する
 
 ### 対応関係
 
 | 本サイト            | DevTools Performance           |
 | ------------------- | ------------------------------ |
 | Style+Layout        | 紫（Rendering → Layout）        |
-| Rendering           | 緑（Painting）+ 紫（Composite）|
-| <Term id="loaf">LoAF</Term> `long_frame`   | 赤枠のフレーム                 |
+| Rendering           | 緑（Painting）+ Compositing イベント（Chromium のバージョンによって独立した色で表示される） |
+| <Term id="loaf">LoAF</Term> 検出フレーム   | タイムライン上に赤マークが付くフレーム |
 
 ### ここから
 

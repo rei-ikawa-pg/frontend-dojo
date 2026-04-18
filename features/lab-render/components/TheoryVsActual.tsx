@@ -159,23 +159,25 @@ function Dot({ on, variant = 'legend' }: { on: boolean; variant?: DotVariant }) 
 }
 
 function Verdict({ isMatch }: { isMatch: boolean }) {
+  // 判定列は「不一致」など 3 文字入るとテーブル幅次第で折り返すため、
+  // flex-col でアイコンの下にラベルを配置し、横幅に依存しないレイアウトにする
   return isMatch ? (
     <span
       role="img"
       aria-label="理論と実測が一致"
-      className="inline-flex items-center gap-1 text-[11px] text-sig-ok"
+      className="inline-flex flex-col items-center gap-0.5 text-[11px] text-sig-ok"
     >
       <CheckCircle size={14} weight="fill" />
-      一致
+      <span className="whitespace-nowrap">一致</span>
     </span>
   ) : (
     <span
       role="img"
       aria-label="理論と実測が不一致"
-      className="inline-flex items-center gap-1 text-[11px] text-sig-warn"
+      className="inline-flex flex-col items-center gap-0.5 text-[11px] text-sig-warn"
     >
       <WarningCircle size={14} weight="fill" />
-      不一致
+      <span className="whitespace-nowrap">不一致</span>
     </span>
   )
 }

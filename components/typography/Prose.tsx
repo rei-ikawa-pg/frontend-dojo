@@ -18,8 +18,14 @@ export function Prose({ children, className }: ProseProps) {
         '[&_p]:mb-4 [&_p]:text-ink-500 [&_p]:[text-wrap:pretty]',
         '[&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:text-ink-500 [&_ul]:space-y-1.5',
         '[&_ol]:mb-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:text-ink-500 [&_ol]:space-y-1.5',
+        // リスト項目内で <code> が折り返されると、code の background/border が隣の行と
+        // 重なって見えるため、li の line-height を本文より広めに取る
+        '[&_li]:leading-[2.4]',
         '[&_a]:text-vermilion [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-vermilion/40 hover:[&_a]:decoration-vermilion',
-        '[&_code]:rounded-none [&_code]:border [&_code]:border-rule-dim [&_code]:bg-ink-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[0.9em] [&_code]:font-mono [&_code]:text-ink-900',
+        // code 枠は意図的に小さめに: inline-block + align-middle で縦位置を安定させ、
+        // 上下 padding を 0、font-size を 0.85em、leading-tight で内部高さを最小化する。
+        // li の leading-[2.4] と合わせて、折り返しても上下の code 枠が接触しない寸法にしている。
+        '[&_code]:inline-block [&_code]:align-middle [&_code]:leading-tight [&_code]:rounded-none [&_code]:border [&_code]:border-rule-dim [&_code]:bg-ink-100 [&_code]:px-1.5 [&_code]:py-0 [&_code]:text-[0.85em] [&_code]:font-mono [&_code]:text-ink-900',
         '[&_strong]:font-semibold [&_strong]:text-ink-900',
         className,
       )}

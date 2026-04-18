@@ -5,8 +5,8 @@
 
 確認ポイント:
 
-- `Style+Layout` の時間が ≒ 0 ms に張り付く
-- `Rendering`（<Term id="paint">Paint</Term> + <Term id="composite">Composite</Term> の合算）にだけ時間が乗る
+- `Style+Layout` メトリクスの時間が ≒ 0 ms に張り付く（Theory vs Actual テーブルの `Layout` 行も ○ に消灯）
+- `Rendering` メトリクスにだけ時間が乗る（テーブルの `Paint + Composite` 行と同じもので、LoAF では両者を分離できないため合算値として表示される）
 - FPS は width の時より明らかに余裕がある
 
 これが「重い CSS / 軽い CSS」の差の第一歩です。
