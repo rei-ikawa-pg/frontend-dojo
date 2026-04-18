@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { DOMAIN_LABEL, DOMAIN_ORDER, LAB_CANDIDATES } from '@/features/lab-candidates'
 import { LABS } from '@/features/labs'
 import { SITE } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: '修行ロードマップ',
-  description: 'フロントエンド道場で公開中の Lab と、今後追加予定の Lab 一覧。',
+  description:
+    'フロントエンド道場の全景。公開中の稽古場、近日公開の稽古場、そして Lab 化を検討している鬼門の一覧。',
   alternates: { canonical: '/roadmap' },
 }
 
@@ -43,6 +45,11 @@ export default function RoadmapPage() {
           </a>
           へ。
         </p>
+        <p className="mt-2 text-xs text-muted-foreground">
+          難易度は <span className="font-heading">初段</span>(入口) →{' '}
+          <span className="font-heading">二段</span>(標準) →{' '}
+          <span className="font-heading">三段</span>(応用) の順で上がります。
+        </p>
       </header>
 
       <div className="space-y-10">
@@ -64,14 +71,19 @@ export default function RoadmapPage() {
                   const isPublished = lab.status === 'published'
                   return (
                     <li key={lab.id} className="rounded-lg border border-border bg-card p-5">
-                      <div className="font-heading text-base">
-                        {isPublished ? (
-                          <Link href={lab.path} className="hover:text-primary transition-colors">
-                            {lab.shortTitle}
-                          </Link>
-                        ) : (
-                          lab.shortTitle
-                        )}
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="font-heading text-base">
+                          {isPublished ? (
+                            <Link href={lab.path} className="hover:text-primary transition-colors">
+                              {lab.shortTitle}
+                            </Link>
+                          ) : (
+                            lab.shortTitle
+                          )}
+                        </div>
+                        <span className="shrink-0 rounded border border-border/60 bg-background/60 px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
+                          {lab.difficulty}
+                        </span>
                       </div>
                       <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
                         {lab.description}
@@ -83,6 +95,50 @@ export default function RoadmapPage() {
             </section>
           )
         })}
+
+        {/* 検討中の鬼門: Lab 化構想段階のトピックを分野別に提示する。データは features/lab-candidates.ts */}
+        <section aria-labelledby="group-candidates">
+          <h2
+            id="group-candidates"
+            className="mb-1 font-heading text-xl font-semibold tracking-tight"
+          >
+            検討中の鬼門
+          </h2>
+          <p className="mb-6 text-sm text-muted-foreground">
+            Lab 化を構想している鬼門。順次、稽古場として整えていきます。
+          </p>
+          <div className="space-y-6">
+            {DOMAIN_ORDER.map((domain) => {
+              const items = LAB_CANDIDATES.filter((c) => c.domain === domain)
+              if (items.length === 0) return null
+              return (
+                <div key={domain}>
+                  <h3 className="mb-3 text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                    {DOMAIN_LABEL[domain]}
+                  </h3>
+                  <ul className="grid gap-3 md:grid-cols-2">
+                    {items.map((candidate) => (
+                      <li
+                        key={candidate.id}
+                        className="rounded-lg border border-dashed border-border/70 bg-card/50 p-4"
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="font-heading text-sm">{candidate.title}</div>
+                          <span className="shrink-0 rounded border border-border/60 bg-background/60 px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
+                            {candidate.difficulty}
+                          </span>
+                        </div>
+                        <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
+                          {candidate.description}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            })}
+          </div>
+        </section>
       </div>
     </div>
   )

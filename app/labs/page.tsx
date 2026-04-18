@@ -1,6 +1,6 @@
 /**
  * 稽古場一覧 (/labs)。
- * - 公開中 / Phase 2 / Phase 3 / 正式版 の 4 カテゴリに分けて表示
+ * - 公開中 / 近日公開 の 2 カテゴリに分けて表示（公開予定の細分化は内部管理用で、UI には出さない）
  * - ランディングの CatalogSection がハイライトなのに対し、こちらは全件を密に並べる一覧
  * - デザインはサイト共通の計測器トーン（ink-* / rule-dim / vermilion / font-mincho）
  */
@@ -12,6 +12,7 @@ import { SectionMarker } from '@/components/instrument/SectionMarker'
 import { LABS, type LabMeta, type LabStatus } from '@/features/labs'
 import { LAB_STATUS_LABEL } from '@/features/labs-status-labels'
 import { cn } from '@/lib/utils'
+import { toKanjiNum } from '@/lib/utils/kanjiNum'
 
 export const metadata: Metadata = {
   title: '稽古場一覧',
@@ -20,16 +21,25 @@ export const metadata: Metadata = {
   alternates: { canonical: '/labs' },
 }
 
-const KANJI_NUM = ['〇', '壱', '弐', '参', '肆', '伍', '陸', '漆']
-
-/** カテゴリ表示の順序と見出し。将来 Lab 追加時も配列を変えるだけで済むように分離。 */
-const GROUPS: ReadonlyArray<{ status: LabStatus; index: number; label: string; caption: string }> =
-  [
-    { status: 'published', index: 1, label: 'PUBLISHED', caption: '公開中' },
-    { status: 'phase-2', index: 2, label: 'PHASE 02', caption: '次の稽古場' },
-    { status: 'phase-3', index: 3, label: 'PHASE 03', caption: 'その次の稽古場' },
-    { status: 'formal', index: 4, label: 'FORMAL', caption: '正式版で公開' },
-  ]
+/**
+ * カテゴリ表示の順序と見出し。将来 Lab 追加時も配列を変えるだけで済むように分離。
+ * UI は「公開中 / 近日公開」の 2 カテゴリ固定。LabStatus の細分化 (phase-2 / phase-3 / formal)
+ * は内部管理用に残し、公開予定はすべて同じ COMING SOON 群に集約する。
+ */
+const GROUPS: ReadonlyArray<{
+  statuses: ReadonlyArray<LabStatus>
+  index: number
+  label: string
+  caption: string
+}> = [
+  { statuses: ['published'], index: 1, label: 'PUBLISHED', caption: '公開中' },
+  {
+    statuses: ['phase-2', 'phase-3', 'formal'],
+    index: 2,
+    label: 'COMING SOON',
+    caption: '近日公開',
+  },
+]
 
 export default function LabsPage() {
   const totalCount = LABS.length
@@ -44,10 +54,17 @@ export default function LabsPage() {
             全 <span className="tnum text-vermilion">{String(totalCount).padStart(2, '0')}</span>{' '}
             稽古場。
           </h1>
-          <p className="max-w-md text-sm leading-relaxed text-ink-500">
-            フロントエンドの鬼門ごとに用意した稽古場の目次です。
-            公開済みのものから順に触ってみてください。
-          </p>
+          <div className="flex max-w-md flex-col gap-3">
+            <p className="text-sm leading-relaxed text-ink-500">
+              フロントエンドの鬼門ごとに用意した稽古場の目次です。
+              公開済みのものから順に触ってみてください。
+            </p>
+            <p className="text-[11px] leading-relaxed text-ink-400">
+              難易度は <span className="font-mincho text-ink-500">初段</span>(入口) →{' '}
+              <span className="font-mincho text-ink-500">二段</span>(標準) →{' '}
+              <span className="font-mincho text-ink-500">三段</span>(応用) の順で上がります。
+            </p>
+          </div>
         </div>
 
         <dl className="grid grid-cols-3 gap-0 border-t border-rule-dim pt-6 text-[11px] uppercase tracking-[0.2em] text-ink-400">
@@ -74,11 +91,11 @@ export default function LabsPage() {
 
       <div className="flex flex-col gap-20">
         {GROUPS.map((group) => {
-          const items = LABS.filter((l) => l.status === group.status)
+          const items = LABS.filter((l) => group.statuses.includes(l.status))
           if (items.length === 0) return null
           return (
             <LabGroup
-              key={group.status}
+              key={group.label}
               index={group.index}
               label={group.label}
               caption={group.caption}
@@ -116,7 +133,7 @@ function LabGroup({ index, label, caption, items }: LabGroupProps) {
 
 function LabRow({ lab }: { lab: LabMeta }) {
   const isPublished = lab.status === 'published'
-  const kanji = KANJI_NUM[lab.order] ?? ''
+  const kanji = toKanjiNum(lab.order)
   const paddedNum = String(lab.order).padStart(2, '0')
   const statusLabel = LAB_STATUS_LABEL[lab.status]
 
@@ -137,7 +154,14 @@ function LabRow({ lab }: { lab: LabMeta }) {
       </div>
 
       <div className="flex flex-col gap-2">
-        <h3 className="font-mincho text-2xl leading-tight text-ink-900 md:text-3xl">{lab.title}</h3>
+        <div className="flex flex-wrap items-center gap-3">
+          <h3 className="font-mincho text-2xl leading-tight text-ink-900 md:text-3xl">
+            {lab.title}
+          </h3>
+          <span className="inline-flex shrink-0 items-center border border-rule-dim bg-ink-000 px-2 py-0.5 font-mincho text-xs text-ink-500">
+            {lab.difficulty}
+          </span>
+        </div>
         <p className="max-w-2xl text-sm leading-relaxed text-ink-500">{lab.description}</p>
       </div>
 

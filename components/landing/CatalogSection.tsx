@@ -3,8 +3,7 @@ import Link from 'next/link'
 import { SectionMarker } from '@/components/instrument/SectionMarker'
 import { LABS } from '@/features/labs'
 import { LAB_STATUS_LABEL } from '@/features/labs-status-labels'
-
-const KANJI_NUM = ['〇', '壱', '弐', '参', '肆', '伍', '陸', '漆']
+import { toKanjiNum } from '@/lib/utils/kanjiNum'
 
 export function CatalogSection() {
   return (
@@ -31,7 +30,7 @@ export function CatalogSection() {
         <ol className="flex flex-col border-t border-rule-dim">
           {LABS.map((lab) => {
             const isPublished = lab.status === 'published'
-            const kanji = KANJI_NUM[lab.order] ?? ''
+            const kanji = toKanjiNum(lab.order)
             const paddedNum = String(lab.order).padStart(2, '0')
             const statusLabel = LAB_STATUS_LABEL[lab.status]
 
@@ -56,10 +55,13 @@ export function CatalogSection() {
 
                 {/* タイトルと説明 */}
                 <div className="flex flex-col gap-2">
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-wrap items-center gap-3">
                     <h3 className="font-mincho text-2xl leading-tight text-ink-900 md:text-3xl">
                       {lab.title}
                     </h3>
+                    <span className="inline-flex shrink-0 items-center border border-rule-dim bg-ink-000 px-2 py-0.5 font-mincho text-xs text-ink-500">
+                      {lab.difficulty}
+                    </span>
                   </div>
                   <p className="max-w-2xl text-sm leading-relaxed text-ink-500">
                     {lab.description}

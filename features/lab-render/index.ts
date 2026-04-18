@@ -6,6 +6,7 @@ export const LAB_RENDER_META = {
   description:
     'ブラウザが1フレームをどう描くかを、実DOMを操作しながら体験する。Layout / Paint / Composite の差を触って理解する。',
   status: 'published',
+  difficulty: '初段',
   order: 1,
   path: '/lab/render',
 } as const
