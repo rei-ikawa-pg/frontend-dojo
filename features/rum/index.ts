@@ -1,4 +1,5 @@
 export { RumProvider } from './client/provider'
+export { getOrCreateSessionId } from './client/session'
 export { useRumCustomMetric, useRumSetContext } from './client/useRumCustomMetric'
 export type { MetricMode } from './shared/schema'
 export { SDK_VERSION } from './shared/schema'

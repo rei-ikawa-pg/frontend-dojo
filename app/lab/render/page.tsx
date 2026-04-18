@@ -8,9 +8,11 @@
 import { ArrowRight, BookOpen, Compass } from '@phosphor-icons/react/dist/ssr'
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { JsonLd } from '@/components/seo/JsonLd'
 import { Prose } from '@/components/typography/Prose'
 import { LAB_RENDER_META } from '@/features/lab-render'
 import OverviewContent from '@/features/lab-render/content/overview.mdx'
+import { buildTechArticle } from '@/lib/seo'
 import { SITE } from '@/lib/site'
 
 export const metadata: Metadata = {
@@ -24,9 +26,26 @@ export const metadata: Metadata = {
   },
 }
 
+const JSON_LD = buildTechArticle({
+  title: LAB_RENDER_META.title,
+  description: LAB_RENDER_META.description,
+  path: LAB_RENDER_META.path,
+  datePublished: '2026-04-18',
+  keywords: [
+    'レンダリングパイプライン',
+    'Layout',
+    'Paint',
+    'Composite',
+    'LoAF',
+    'Core Web Vitals',
+    'パフォーマンス',
+  ],
+})
+
 export default function LabRenderOverviewPage() {
   return (
     <div className="mx-auto w-full max-w-7xl px-5 py-12 md:px-8 md:py-16">
+      <JsonLd data={JSON_LD} />
       <header className="mb-10">
         <p className="mb-3 text-[10px] uppercase tracking-[0.28em] text-ink-400">§ 01 — Lab</p>
         <h1 className="font-mincho text-3xl leading-tight tracking-tight text-ink-900 md:text-5xl">

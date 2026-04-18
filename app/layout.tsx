@@ -5,7 +5,10 @@ import './globals.css'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { Footer } from '@/components/layout/Footer'
 import { Header } from '@/components/layout/Header'
+import { JsonLd } from '@/components/seo/JsonLd'
+import { Toaster } from '@/components/ui/sonner'
 import { RumProvider } from '@/features/rum'
+import { buildWebSite } from '@/lib/seo'
 import { SITE } from '@/lib/site'
 import { cn } from '@/lib/utils'
 
@@ -87,6 +90,8 @@ export default function RootLayout({
             <Footer />
           </RumProvider>
         </NuqsAdapter>
+        <Toaster position="bottom-right" />
+        <JsonLd data={buildWebSite()} />
         {CF_ANALYTICS_TOKEN && (
           <Script
             defer

@@ -4,8 +4,10 @@
  */
 
 import type { Metadata } from 'next'
+import { JsonLd } from '@/components/seo/JsonLd'
 import { LAB_RENDER_META } from '@/features/lab-render'
 import { PlaygroundMode } from '@/features/lab-render/components/PlaygroundMode'
+import { buildTechArticle } from '@/lib/seo'
 import { SITE } from '@/lib/site'
 
 export const metadata: Metadata = {
@@ -20,9 +22,19 @@ export const metadata: Metadata = {
   },
 }
 
+const JSON_LD = buildTechArticle({
+  title: `${LAB_RENDER_META.shortTitle} 道場`,
+  description:
+    '要素数と CSS プロパティを自由に組み合わせ、Layout / Paint / Composite の実測値と理論値を並べて確認できる自由操作モード。',
+  path: `${LAB_RENDER_META.path}/playground`,
+  datePublished: '2026-04-18',
+  keywords: ['Playground', 'レンダリングパイプライン', 'FPS', 'LoAF'],
+})
+
 export default function LabRenderPlaygroundPage() {
   return (
     <div className="mx-auto w-full max-w-7xl px-5 py-12 md:px-8 md:py-16">
+      <JsonLd data={JSON_LD} />
       <header className="mb-8">
         <p className="text-[10px] uppercase tracking-[0.28em] text-ink-400">§ Playground</p>
         <h1 className="mt-2 font-mincho text-3xl tracking-tight text-ink-900 md:text-4xl">

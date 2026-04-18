@@ -1,2 +1,3 @@
-// フィードバック機能の公開 API。実装タスク #23 で埋める。
-export {}
+export { FeedbackButton } from './components/FeedbackButton'
+export { feedbackSchema } from './schema'
+export type { FeedbackInput } from './schema'
