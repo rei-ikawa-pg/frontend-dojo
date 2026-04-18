@@ -17,7 +17,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const labRoutes: MetadataRoute.Sitemap = LABS.filter((lab) => lab.status === 'published').flatMap(
     (lab) => [
-      { url: `${SITE.url}${lab.path}`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+      {
+        url: `${SITE.url}${lab.path}`,
+        lastModified: now,
+        changeFrequency: 'weekly',
+        priority: 0.9,
+      },
       {
         url: `${SITE.url}${lab.path}/tutorial`,
         lastModified: now,

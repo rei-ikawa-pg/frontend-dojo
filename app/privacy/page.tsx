@@ -28,13 +28,18 @@ export default function PrivacyPage() {
         <ul>
           <li>Core Web Vitals（LCP / INP / CLS / FCP / TTFB）</li>
           <li>Long Animation Frames（フレーム時間、対応ブラウザのみ）</li>
-          <li>各 Lab での計測値（フレームレート、メモリ使用量、操作から次フレームまでのレイテンシ等）</li>
-          <li>匿名セッション ID（<code>sessionStorage</code> に保存、タブを閉じると消えます）</li>
+          <li>
+            各 Lab での計測値（フレームレート、メモリ使用量、操作から次フレームまでのレイテンシ等）
+          </li>
+          <li>
+            匿名セッション ID（<code>sessionStorage</code> に保存、タブを閉じると消えます）
+          </li>
           <li>ページパス、Lab ID、モード、デバイス種別、ブラウザ種別、ビューポートサイズ</li>
         </ul>
         <p>
-          <strong>Cookie は使用しません</strong>。IP アドレスはサーバで受信時に即時破棄し、ログにも残しません。
-          User-Agent は「Chromium / Safari / Firefox / other」のいずれかへ抽出した後の値のみ保存します。
+          <strong>Cookie は使用しません</strong>。IP
+          アドレスはサーバで受信時に即時破棄し、ログにも残しません。 User-Agent は「Chromium /
+          Safari / Firefox / other」のいずれかへ抽出した後の値のみ保存します。
         </p>
 
         <h3>1.2 Cloudflare Web Analytics</h3>
@@ -45,9 +50,8 @@ export default function PrivacyPage() {
 
         <h3>1.3 フィードバック</h3>
         <p>
-          フィードバックボタンから送信された評価（Good/Bad）と任意のコメントは、
-          匿名セッション ID・送信元ページパスと共に保存されます。
-          コメントに個人情報を含めないようご協力ください。
+          フィードバックボタンから送信された評価（Good/Bad）と任意のコメントは、 匿名セッション
+          ID・送信元ページパスと共に保存されます。 コメントに個人情報を含めないようご協力ください。
         </p>
 
         <h2>2. データの保存先と期間</h2>
@@ -66,8 +70,8 @@ export default function PrivacyPage() {
 
         <h2>4. 第三者への提供</h2>
         <p>
-          収集したデータを第三者へ提供することはありません。
-          Cloudflare に対しては、同社のデータ処理規約に基づき処理されます。
+          収集したデータを第三者へ提供することはありません。 Cloudflare
+          に対しては、同社のデータ処理規約に基づき処理されます。
         </p>
 
         <h2>5. お問い合わせ</h2>
@@ -80,9 +84,7 @@ export default function PrivacyPage() {
         </p>
 
         <h2>6. 改訂</h2>
-        <p>
-          本ポリシーは必要に応じて改訂されます。改訂時は本ページの最終更新日を更新します。
-        </p>
+        <p>本ポリシーは必要に応じて改訂されます。改訂時は本ページの最終更新日を更新します。</p>
         <p>最終更新: 2026-04-18</p>
       </Prose>
     </div>

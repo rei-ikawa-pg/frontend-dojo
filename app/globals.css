@@ -1,130 +1,193 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * ============================================================
+ *  Frontend Dojo — 計測室 / Instrument Panel
+ *  ダーク基調のデザイントークン。
+ * ============================================================
+ */
+
+:root,
+.dark {
+  /* サーフェス（背景階調） */
+  --ink-000: oklch(0.13 0.005 240);   /* 最下層（ページ背景） */
+  --ink-050: oklch(0.16 0.006 240);   /* パネル面 */
+  --ink-100: oklch(0.20 0.007 240);   /* 浮き上がり */
+  --ink-150: oklch(0.25 0.008 240);   /* hover */
+  --ink-200: oklch(0.32 0.008 240);   /* 強い罫線 */
+  --ink-300: oklch(0.45 0.008 240);   /* 控えめなテキスト */
+  --ink-400: oklch(0.62 0.008 240);   /* セカンダリテキスト */
+  --ink-500: oklch(0.78 0.006 240);   /* 本文テキスト */
+  --ink-900: oklch(0.96 0.005 90);    /* 主要テキスト（暖色寄りの白） */
+
+  /* 罫線 */
+  --rule-dim: oklch(0.24 0.006 240);
+  --rule-normal: oklch(0.32 0.008 240);
+
+  /* アクセント（朱色） */
+  --vermilion: oklch(0.65 0.19 33);
+  --vermilion-strong: oklch(0.70 0.22 33);
+  --vermilion-dim: oklch(0.50 0.13 33);
+
+  /* 計測値の意味色 */
+  --sig-ok: oklch(0.80 0.12 152);
+  --sig-warn: oklch(0.82 0.14 85);
+  --sig-crit: oklch(0.70 0.20 25);
+
+  /* 汎用トークン（shadcn API 互換） */
+  --background: var(--ink-000);
+  --foreground: var(--ink-900);
+  --card: var(--ink-050);
+  --card-foreground: var(--ink-900);
+  --popover: var(--ink-100);
+  --popover-foreground: var(--ink-900);
+  --primary: var(--ink-900);
+  --primary-foreground: var(--ink-000);
+  --secondary: var(--ink-100);
+  --secondary-foreground: var(--ink-900);
+  --muted: var(--ink-050);
+  --muted-foreground: var(--ink-400);
+  --accent: var(--vermilion);
+  --accent-foreground: var(--ink-000);
+  --destructive: var(--sig-crit);
+  --border: var(--rule-dim);
+  --input: var(--ink-100);
+  --ring: var(--vermilion-dim);
+
+  /* チャート（最小限） */
+  --chart-1: var(--vermilion);
+  --chart-2: var(--sig-ok);
+  --chart-3: var(--sig-warn);
+  --chart-4: var(--ink-400);
+  --chart-5: var(--ink-300);
+
+  /* サイドバー（未使用、スタブ） */
+  --sidebar: var(--ink-050);
+  --sidebar-foreground: var(--ink-500);
+  --sidebar-primary: var(--vermilion);
+  --sidebar-primary-foreground: var(--ink-000);
+  --sidebar-accent: var(--ink-100);
+  --sidebar-accent-foreground: var(--ink-900);
+  --sidebar-border: var(--rule-dim);
+  --sidebar-ring: var(--vermilion-dim);
+
+  /* 角丸（計測機らしく極小に） */
+  --radius: 2px;
+}
+
 @theme inline {
+  /* Tailwind ユーティリティ用のセマンティックカラー */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-mono);
-  --font-heading: var(--font-mono);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
-}
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 
-:root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
+  /* サーフェス階調 */
+  --color-ink-000: var(--ink-000);
+  --color-ink-050: var(--ink-050);
+  --color-ink-100: var(--ink-100);
+  --color-ink-150: var(--ink-150);
+  --color-ink-200: var(--ink-200);
+  --color-ink-300: var(--ink-300);
+  --color-ink-400: var(--ink-400);
+  --color-ink-500: var(--ink-500);
+  --color-ink-900: var(--ink-900);
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* 罫線 */
+  --color-rule-dim: var(--rule-dim);
+  --color-rule-normal: var(--rule-normal);
+
+  /* アクセント各階調 */
+  --color-vermilion: var(--vermilion);
+  --color-vermilion-strong: var(--vermilion-strong);
+  --color-vermilion-dim: var(--vermilion-dim);
+
+  /* シグナルカラー */
+  --color-sig-ok: var(--sig-ok);
+  --color-sig-warn: var(--sig-warn);
+  --color-sig-crit: var(--sig-crit);
+
+  /* チャート */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* フォント */
+  --font-mono: var(--font-mono);
+  --font-sans: var(--font-mono);
+  --font-serif: var(--font-serif);
+  --font-mincho: var(--font-mincho);
+  --font-heading: var(--font-serif);
+
+  /* 角丸 */
+  --radius-xs: 1px;
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+  --radius-xl: 6px;
+  --radius-2xl: 8px;
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
+  }
+  *:focus-visible {
+    @apply outline-none ring-1 ring-vermilion ring-offset-2 ring-offset-background;
+  }
+  html {
+    @apply font-mono;
+    font-feature-settings: "tnum", "ss01", "cv11";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   body {
     @apply bg-background text-foreground;
   }
-  html {
-    @apply font-mono;
+  ::selection {
+    background: color-mix(in oklch, var(--vermilion) 50%, transparent);
+    color: var(--ink-900);
+  }
+  /* nav 等ではリストの行頭記号を消し、明示的に装飾する */
+  nav ul,
+  nav ol {
+    list-style: none;
+  }
+
+  /* 計測値表示用：桁揃えの数字（tabular-nums） */
+  .tnum {
+    font-feature-settings: "tnum" 1, "lnum" 1;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

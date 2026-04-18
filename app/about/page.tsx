@@ -5,8 +5,7 @@ import { SITE } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: '道場について',
-  description:
-    'フロントエンド道場の理念、対象読者、技術スタック、制作者について。',
+  description: 'フロントエンド道場の理念、対象読者、技術スタック、制作者について。',
   alternates: { canonical: '/about' },
 }
 

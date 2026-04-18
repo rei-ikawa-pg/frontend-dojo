@@ -1,7 +1,7 @@
 import { ArrowSquareOut } from '@phosphor-icons/react/dist/ssr'
 import type { Metadata } from 'next'
-import { Button } from '@/components/ui/button'
 import { Prose } from '@/components/typography/Prose'
+import { Button } from '@/components/ui/button'
 import { SITE } from '@/lib/site'
 
 export const metadata: Metadata = {
@@ -30,9 +30,7 @@ export default function ContactPage() {
         </div>
 
         <h2>GitHub Issue</h2>
-        <p>
-          バグや実装上の提案は、GitHub リポジトリの Issue でも受け付けます。
-        </p>
+        <p>バグや実装上の提案は、GitHub リポジトリの Issue でも受け付けます。</p>
         <p>
           <a href={SITE.github} target="_blank" rel="noopener noreferrer">
             {SITE.github}
