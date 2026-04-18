@@ -50,7 +50,7 @@ zustand / nuqs / zod / web-vitals / @next/mdx / vitest / @vitest/ui / @testing-l
 
 ### #3 Next.js + MDX + OpenNext (Cloudflare Workers) 設定
 
-`next.config.ts` に @next/mdx を追加、MDX コンポーネントマッピング設定。`wrangler.jsonc`（D1 バインディング名 `DB`）と `open-next.config.ts` は SETUP.md §5/§10 で作成済み。`cloudflare-env.d.ts` を `pnpm cf-typegen` で生成して Cloudflare バインディングの型を取得。
+`next.config.ts` に @next/mdx を追加、MDX コンポーネントマッピング設定。`wrangler.jsonc`（D1 バインディング名 `DB`）と `open-next.config.ts` は初期セットアップ済み。`cloudflare-env.d.ts` を `pnpm cf-typegen` で生成して Cloudflare バインディングの型を取得。
 
 - 参照: `docs/03-architecture-directory.md` §2, `docs/05-architecture-rum.md` §3-4
 - 完了条件: .mdx ファイルが import でき、`pnpm preview` でローカル Worker が起動できる
