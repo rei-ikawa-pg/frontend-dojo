@@ -9,8 +9,6 @@ import { getCloudflareContext } from '@opennextjs/cloudflare'
 import type { NextRequest } from 'next/server'
 import { feedbackSchema } from '@/features/feedback/schema'
 
-export const runtime = 'edge'
-
 function corsHeaders(origin: string | null, allowed: string): Record<string, string> {
   const allowOrigin = origin && isOriginAllowed(origin, allowed) ? origin : allowed
   return {
