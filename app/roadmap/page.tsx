@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { DOMAIN_LABEL, DOMAIN_ORDER, LAB_CANDIDATES } from '@/features/lab-candidates'
 import { LABS } from '@/features/labs'
-import { SITE } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: '修行ロードマップ',
@@ -35,14 +34,9 @@ export default function RoadmapPage() {
         </h1>
         <p className="mt-3 text-muted-foreground">
           稽古場は順次追加していきます。 「こんな稽古場が欲しい」という意見は
-          <a
-            href={SITE.feedbackForm}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ml-1 text-primary underline-offset-2 hover:underline"
-          >
-            フィードバックフォーム
-          </a>
+          <Link href="/contact" className="ml-1 text-primary underline-offset-2 hover:underline">
+            お問い合わせフォーム
+          </Link>
           へ。
         </p>
         <p className="mt-2 text-xs text-muted-foreground">

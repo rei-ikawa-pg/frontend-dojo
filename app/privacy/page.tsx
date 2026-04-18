@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { Prose } from '@/components/typography/Prose'
-import { SITE } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'プライバシーポリシー',
@@ -77,9 +77,7 @@ export default function PrivacyPage() {
         <h2>5. お問い合わせ</h2>
         <p>
           本ポリシーに関する問い合わせは、
-          <a href={SITE.feedbackForm} target="_blank" rel="noopener noreferrer">
-            お問い合わせフォーム
-          </a>
+          <Link href="/contact">お問い合わせフォーム</Link>
           からお願いします。
         </p>
 

@@ -59,7 +59,7 @@ export function FeedbackButton() {
       })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       setState('submitted')
-      toast.success('フィードバックありがとうございました')
+      toast.success('フィードバックありがとうございました！')
     } catch (err) {
       console.error('feedback failed', err)
       setState('selected')

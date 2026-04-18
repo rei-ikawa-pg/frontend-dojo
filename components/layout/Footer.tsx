@@ -25,10 +25,7 @@ const COLUMNS = [
   },
 ] as const
 
-const EXTERNAL = [
-  { label: 'Zenn', href: SITE.zenn },
-  { label: 'Feedback', href: SITE.feedbackForm },
-] as const
+const EXTERNAL = [{ label: 'Zenn', href: SITE.zenn }] as const
 
 export function Footer() {
   return (

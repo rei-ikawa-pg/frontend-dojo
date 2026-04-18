@@ -1,8 +1,6 @@
-import { ArrowSquareOut } from '@phosphor-icons/react/dist/ssr'
 import type { Metadata } from 'next'
 import { Prose } from '@/components/typography/Prose'
-import { Button } from '@/components/ui/button'
-import { SITE } from '@/lib/site'
+import { ContactForm } from '@/features/contact'
 
 export const metadata: Metadata = {
   title: 'お問い合わせ',
@@ -16,24 +14,18 @@ export default function ContactPage() {
       <Prose>
         <h1>お問い合わせ</h1>
         <p>
-          フィードバック・提案・バグ報告は以下のフォームから受け付けています。
-          返信はベストエフォートですのでご了承ください。
+          フィードバック・提案・バグ報告はこのフォームから受け付けています。
+          お返事は可能な場合のみ、メールを記入いただいた方へお送りします（ベストエフォート）。
         </p>
-
-        <div className="not-prose my-8">
-          <Button asChild size="lg">
-            <a href={SITE.feedbackForm} target="_blank" rel="noopener noreferrer">
-              フォームを開く
-              <ArrowSquareOut size={16} weight="bold" className="ml-1" />
-            </a>
-          </Button>
-        </div>
-
         <p>
-          各 Lab ページ末尾のフィードバックボタンからも、Good / Bad
-          と一言コメントを送れます。関連記事は Zenn で公開しています。
+          各 Lab ページ末尾の Good / Bad ボタンからも匿名で一言コメントを送れます。
+          短いフィードバックはそちらからでも構いません。
         </p>
       </Prose>
+
+      <div className="mt-10 max-w-3xl">
+        <ContactForm />
+      </div>
     </div>
   )
 }
