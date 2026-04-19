@@ -29,7 +29,7 @@ const EXTERNAL = [{ label: 'Zenn', href: SITE.zenn }] as const
 
 export function Footer() {
   return (
-    <footer className="relative mt-24 border-t border-rule-dim bg-ink-000">
+    <footer className="relative bg-ink-000">
       {/* フッタ上端の朱色アクセント帯 */}
       <div className="relative h-[2px] bg-ink-050">
         <div className="absolute inset-y-0 right-0 w-1/12 bg-vermilion" aria-hidden />
@@ -108,14 +108,9 @@ export function Footer() {
           </section>
         </div>
 
-        <div className="mt-14 flex flex-col gap-2 border-t border-rule-dim pt-6 md:flex-row md:items-center md:justify-between">
-          <p className="text-[11px] uppercase tracking-[0.24em] text-ink-400">
-            © 2026 {SITE.name} · Personal Lab · Built in Tokyo
-          </p>
-          <p className="tnum text-[11px] uppercase tracking-[0.24em] text-ink-400">
-            v0.1.0 / Early Access
-          </p>
-        </div>
+        <p className="mt-14 text-[11px] uppercase tracking-[0.24em] text-ink-400">
+          © 2026 {SITE.name} · Personal Lab
+        </p>
       </div>
     </footer>
   )
