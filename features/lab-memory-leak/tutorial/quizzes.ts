@@ -15,7 +15,7 @@ export const QUIZZES: readonly Quiz[] = [
     options: [
       {
         id: 'a',
-        text: 'ブラウザによっては精度が粗く丸められるため（Chromium 限定・Site Isolation 要件あり）',
+        text: 'ブラウザによっては精度が粗く丸められるため（Chromium 限定・cross-origin isolation 要件あり）',
       },
       {
         id: 'b',
@@ -30,7 +30,7 @@ export const QUIZZES: readonly Quiz[] = [
     ],
     correctId: 'a',
     explanation:
-      'performance.memory は非標準の Chromium 拡張です。Site Isolation の条件を満たさない場合は 3 分刻みに丸められますが、傾向を見る目的には十分使えます。',
+      'performance.memory は非標準の Chromium 拡張です。cross-origin isolated (COOP/COEP) でない場合、値はバケット化され、更新間隔も数十秒に抑制されます。それでも傾向を見る目的には十分使えます。',
   },
   {
     stepId: 2,

@@ -40,8 +40,9 @@ export default function LabMemoryLeakPlaygroundPage() {
         </h1>
         <p className="mt-3 max-w-2xl text-sm text-ink-500 leading-relaxed">
           リーク種別・対策・保持サイズ・サイクル数を自由に組み合わせて `performance.memory`
-          の推移を観察します。 「1 サイクル実行」で手動 1 回、「自動実行」で 1
-          秒間隔で連続サイクルを回せます。
+          の推移を観察します。「1 サイクル実行」ボタンは設定した Cycles/tick
+          回数ぶん（既定 10 回）をまとめて回します。「自動実行」は同じ一周を 1
+          秒間隔で繰り返します。
         </p>
       </header>
       <PlaygroundMode />

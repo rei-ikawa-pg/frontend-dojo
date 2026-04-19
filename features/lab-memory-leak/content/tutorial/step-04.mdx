@@ -9,19 +9,26 @@ DOM ツリーから切り離されたが、JS からはまだ参照されてい�
 
 ### なぜ消えない？
 
-`useRef` の中身は React の管理外で、unmount 時に自動で `null` にはなりません。
-参照を切りたい場合は cleanup で自分で代入する必要があります。
+通常、コンポーネント内でしか使わない `useRef` は、コンポーネント自体が
+到達不能になれば `ref` ごと GC 対象になり、`ref.current` が指す DOM も
+回収されます。問題は、**ref が外に共有されている場合** です。
+`forwardRef` で親から渡された / `Context` やグローバル state に格納した /
+クロージャで外側の関数が持ち続けている、といったケースでは ref が
+コンポーネントより長生きし、`ref.current` の DOM ノードが解放されません。
 
 ```tsx
+// 外部に共有している ref が長生きする設計のとき、
+// cleanup で明示的に参照を切る
 const ref = useRef<HTMLDivElement | null>(null)
 useEffect(() => {
-  // コンポーネントが unmount されるとき、DOM からは抜ける
-  // でも ref.current は依然としてその要素を指している → GC できない
   return () => {
-    ref.current = null // ← これを書かないと握ったまま
+    ref.current = null // ← 外部に共有されている ref でのみ必要
   }
 }, [])
 ```
+
+ref そのものを共有しない実装（コンポーネント内で閉じている）ならば
+この明示的な nullification は不要で、通常は書かなくて構いません。
 
 ### WeakRef に切り替えると
 

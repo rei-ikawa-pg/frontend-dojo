@@ -46,7 +46,7 @@ export const QUIZZES: readonly Quiz[] = [
     ],
     correctId: 'a',
     explanation:
-      'React.memo は前回と今回の props を shallow 比較し、すべて同一参照なら render をスキップします。primitive は値比較で同一、object は参照比較です。',
+      'React.memo は前回と今回の props を shallow 比較（内部的には Object.is）し、すべての props が同一と判定されれば render をスキップします。primitive は値が同じなら一致、object / function は参照が同じときだけ一致と扱われます。',
   },
   {
     stepId: 3,
@@ -69,7 +69,7 @@ export const QUIZZES: readonly Quiz[] = [
     ],
     correctId: 'a',
     explanation:
-      '{ id: 1 } と書くたびに別オブジェクトが生成されます。memo は === で比較するので、毎回「異なる prop」とみなされて再 render されます。',
+      '{ id: 1 } と書くたびに別オブジェクトが生成されます。memo は props を参照（Object.is）で比較するので、中身が同じでも別オブジェクトなら「異なる prop」とみなされ、再 render されます。',
   },
   {
     stepId: 4,

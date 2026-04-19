@@ -15,8 +15,10 @@
 ## 計測の読み方 — 精度の注意
 
 `performance.memory` は Chromium 系（Chrome / Edge 等）だけで使える非標準 API です。
-Site Isolation の条件を満たさないページでは **精度が粗く丸められる** ため、
-短時間の変動はそのまま画面に反映されないことがあります。
+cross-origin isolated な文脈（COOP/COEP が効いている）や
+`--enable-precise-memory-info` フラグが有効な環境でない限り、
+**値はバケット化され、更新頻度も数十秒単位に抑制されます**。
+そのため短時間の変動はそのまま画面に反映されないことがあります。
 傾向（増えているのか、平らなのか）を見る目的には十分ですが、
 厳密な数値が必要な場合は Chrome DevTools の Memory パネル（Heap Snapshot）で
 実測してください。
@@ -36,5 +38,5 @@ Site Isolation の条件を満たさないページでは **精度が粗く丸�
 
 ## 参考
 
-- [web.dev — Fix memory problems](https://developer.chrome.com/docs/devtools/memory-problems)
+- [Chrome for Developers — Fix memory problems](https://developer.chrome.com/docs/devtools/memory-problems)
 - [Chrome for Developers — Record heap snapshots](https://developer.chrome.com/docs/devtools/memory/heap-snapshots)

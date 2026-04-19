@@ -141,7 +141,7 @@ export function HeroScope() {
 
       {/* スコープ下部のキャプション */}
       <p className="mt-3 flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-ink-400">
-        <span>FIG. 01 — Sample readout from Lab 01 (Render)</span>
+        <span>FIG. 01 — Simulated readout (Lab 01 preview)</span>
         <span className="tnum text-ink-300">REF: LoAF · CSS TRIGGERS</span>
       </p>
     </div>

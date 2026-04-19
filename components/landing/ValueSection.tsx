@@ -43,7 +43,7 @@ export function ValueSection() {
             id="outcomes-heading"
             className="max-w-xl font-mincho text-3xl leading-tight tracking-tight text-ink-900 md:text-5xl"
           >
-            30 分で、
+            腰を据えて、
             <br />
             <span className="text-vermilion">「分かった気」</span>
             ではない
@@ -51,8 +51,8 @@ export function ValueSection() {
             理解を。
           </h2>
           <p className="max-w-sm text-sm leading-relaxed text-ink-500">
-            以下は Lab を 1〜2 周して得られるスキル・感覚の目安です。個別の Lab
-            ページに詳しい習得目標があります。
+            以下は 1 つの Lab（目安 60〜120 分）を通したときに得られるスキル・感覚です。
+            個別の Lab ページに詳しい習得目標と所要時間があります。
           </p>
         </div>
 

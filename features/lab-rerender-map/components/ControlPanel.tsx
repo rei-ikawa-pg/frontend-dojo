@@ -146,10 +146,12 @@ function NumberSegmentedRow({
   return (
     <section aria-label={label.replace(/^§\s*\d+\s*—\s*/, '')}>
       <div className="mb-1 flex items-baseline justify-between gap-2">
-        <h3 className="text-[11px] uppercase tracking-[0.24em] text-ink-400">
+        <h3 className="min-w-0 text-[11px] uppercase tracking-[0.24em] text-ink-400">
           {label} <span className="text-ink-500 normal-case tracking-normal">／ {jaLabel}</span>
         </h3>
-        <span className="tnum font-mincho text-2xl leading-none text-ink-900">{value}</span>
+        <span className="shrink-0 whitespace-nowrap tnum font-mincho text-2xl leading-none text-ink-900">
+          {value}
+        </span>
       </div>
       <p className="mb-2 text-[11px] text-ink-500">{description}</p>
       <div className="flex gap-1.5">

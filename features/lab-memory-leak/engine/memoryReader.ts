@@ -4,8 +4,10 @@
  * 仕様:
  *   - Chromium 系でのみ提供される非標準 API
  *   - Firefox / Safari では存在しない。そのときは null を返す
- *   - HTTPS + Same-origin + `--enable-precise-memory-info` の条件がないと
- *     「3 分刻み」に丸められた値が返るが、計測の傾向を見る目的には十分
+ *   - cross-origin isolated (COOP/COEP) か `--enable-precise-memory-info` フラグが
+ *     有効でない環境では、値がバケット化（粗い刻み）され、かつ
+ *     更新頻度も抑制される（Chromium 実装では 30 秒前後の最小更新間隔）。
+ *     それでも傾向（増えているか / 平らか）を見る目的には十分使える
  */
 
 export type PerformanceMemoryLike = {

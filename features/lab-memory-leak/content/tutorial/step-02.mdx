@@ -16,7 +16,7 @@ useEffect(() => {
   const id = setInterval(() => {
     // 何らかの定期処理（ポーリング、アニメーションなど）
   }, 1000)
-  // ❌ この return を書き忘れると、unmount 後も setInterval が動き続ける
+  // ⚠️ 注意: この return を書き忘れると、unmount 後も setInterval が動き続ける
   return () => clearInterval(id)
 }, [])
 ```

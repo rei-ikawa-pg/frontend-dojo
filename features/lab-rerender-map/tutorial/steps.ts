@@ -74,9 +74,9 @@ export const TUTORIAL_STEPS: readonly TutorialStep[] = [
     slug: 'context-spreads',
     title: 'Context の伝播範囲 — Zustand との対比',
     objective:
-      'Context.Provider 配下の全 consumer が再 render されること、Zustand の selector では範囲が狭まることを比較する。',
+      'Context.Provider 配下の全 consumer が再 render されること、Zustand には selector で絞る仕組みがあることを、実演と解説で理解する。',
     observation:
-      'stateSource を context に切り替えると木全体が flash。zustand に切り替えると一部だけが flash する (selector で絞られた範囲)。',
+      'stateSource を context に切り替えると木全体が flash する。zustand については本 Lab では操作差は出ず、概念解説（selector の効用）をサイドパネルで読む。',
     preset: {
       depth: 2,
       fanout: 2,
@@ -91,9 +91,9 @@ export const TUTORIAL_STEPS: readonly TutorialStep[] = [
     slug: 'derived-state-trap',
     title: '派生 state の罠 — 再計算 vs 再保持',
     objective:
-      'state から計算した値をまた state に保持する構造はループや sync issue を生む。useMemo か計算値直接利用で解消できることを示す。',
+      'state から計算した値をまた state に保持する構造がループや sync issue を生む仕組みを、コード例と解説で理解する。',
     observation:
-      '派生 state モードで更新ボタンを押すと複数回の flash が積み重なる。useMemo に切り替えると 1 回の flash に収まる。',
+      '本ステップはラボ上の操作で再現する挙動ではない。サイドパネルの Before/After コードと「state にすべきかの判断基準」に目を通す。',
     preset: {
       depth: 1,
       fanout: 2,

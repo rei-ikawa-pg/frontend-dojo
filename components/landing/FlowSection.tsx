@@ -6,7 +6,7 @@ const STEPS = [
     title: 'Tutorial',
     ja: '型を覚える',
     body: 'ステップを追って操作・計測値の見方を身につける。読みながら触る。',
-    duration: '約 15 分',
+    duration: '60〜120 分',
   },
   {
     id: 'B',

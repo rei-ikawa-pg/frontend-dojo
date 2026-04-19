@@ -53,12 +53,18 @@ export function ControlPanel() {
       className="flex flex-col gap-8 border border-rule-dim bg-card p-5"
     >
       <section aria-labelledby="control-count">
-        <div className="mb-5 flex items-baseline justify-between">
-          <h3 id="control-count" className="text-[11px] uppercase tracking-[0.24em] text-ink-400">
+        {/* SP 狭幅では "2000" のような 4 桁数値が勝手に折り返されるため、
+            数値側は shrink-0 + whitespace-nowrap で折り返しを禁止し、
+            見出し側は min-w-0 で圧縮可能にする */}
+        <div className="mb-5 flex items-baseline justify-between gap-3">
+          <h3
+            id="control-count"
+            className="min-w-0 text-[11px] uppercase tracking-[0.24em] text-ink-400"
+          >
             § 01 — Element Count{' '}
             <span className="text-ink-500 normal-case tracking-normal">／ 要素数</span>
           </h3>
-          <span className="tnum font-mincho text-2xl leading-none text-ink-900">
+          <span className="shrink-0 whitespace-nowrap tnum font-mincho text-2xl leading-none text-ink-900">
             {elementCount}
           </span>
         </div>

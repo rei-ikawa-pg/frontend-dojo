@@ -17,7 +17,7 @@ import { toKanjiNum } from '@/lib/utils/kanjiNum'
 export const metadata: Metadata = {
   title: '稽古場一覧',
   description:
-    'フロントエンド道場で公開中・公開予定の Lab 一覧。レンダリングパイプライン、メモリリーク、スクロールジャンク、React 再レンダー、Canvas/WebGL、イベントループ。',
+    'フロントエンド道場で公開中・公開予定の Lab 一覧。レンダリングパイプライン、メモリリーク、React 再レンダリング、イベントループ、スタッキングコンテキスト、Next.js キャッシュ。',
   alternates: { canonical: '/labs' },
 }
 

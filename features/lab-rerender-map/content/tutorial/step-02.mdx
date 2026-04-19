@@ -15,10 +15,11 @@ const MemoChild = React.memo(Child)
 ```
 
 `React.memo` は **前回と今回の props を浅い比較（shallow equal）** するだけの、
-非常に機械的な仕組みです。
+非常に機械的な仕組みです。比較には `Object.is` が使われます（`===` とほぼ同じで、
+`NaN` と `±0` だけ扱いが違う）。
 
-- primitive: 値比較（`===`）
-- object / array / function: 参照比較（`===`）
+- primitive: 値が同じなら一致（`42 === 42`）
+- object / array / function: **参照が同じなら一致**（中身が同じでも別オブジェクトなら違う扱い）
 
 今回の例は primitive の props（`value={42}` のような値）を渡しているため、
 memo は完璧に効きます。次のステップでは、この前提がどう崩れるかを見ます。
