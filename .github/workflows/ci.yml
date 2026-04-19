@@ -44,9 +44,15 @@ jobs:
       - name: Unit tests
         run: pnpm test:run
 
+      # NEXT_PUBLIC_* はビルド時にクライアントバンドルへインラインされるため、
+      # CI ビルドと本番ビルドで同じ値を焼き込めるようここに列挙する。
+      # lib/site.ts 側にも同値のデフォルトがあるので未指定でも動くが、
+      # 本番 URL の「正」を 1 箇所に集約する意味で明示しておく。
       - name: Next.js build
         env:
           NEXT_PUBLIC_SITE_URL: https://frontend-dojo.rakurai.dev
+          NEXT_PUBLIC_ZENN_URL: https://zenn.dev/rakurai
+          NEXT_PUBLIC_X_URL: https://x.com/rakurai_tech
         run: pnpm build
 
   e2e:
@@ -71,9 +77,15 @@ jobs:
         run: pnpm cf-typegen
 
       # playwright.config.ts の webServer は CI で `pnpm start` を呼ぶため、事前にビルドしておく
+      # NEXT_PUBLIC_* はビルド時にクライアントバンドルへインラインされるため、
+      # CI ビルドと本番ビルドで同じ値を焼き込めるようここに列挙する。
+      # lib/site.ts 側にも同値のデフォルトがあるので未指定でも動くが、
+      # 本番 URL の「正」を 1 箇所に集約する意味で明示しておく。
       - name: Next.js build
         env:
           NEXT_PUBLIC_SITE_URL: https://frontend-dojo.rakurai.dev
+          NEXT_PUBLIC_ZENN_URL: https://zenn.dev/rakurai
+          NEXT_PUBLIC_X_URL: https://x.com/rakurai_tech
         run: pnpm build
 
       - name: Install Playwright browsers

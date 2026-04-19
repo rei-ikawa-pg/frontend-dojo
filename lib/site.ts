@@ -5,8 +5,6 @@ export const SITE = {
   description:
     'フロントエンドの鬼門を、読むのではなく触って理解する。日本語のインタラクティブラボ。レンダリングパイプライン、メモリリーク、React の再レンダリングなどを実際に動かして学べます。',
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://frontend-dojo.rakurai.dev',
-  // 著者 SNS URL。リリース告知や将来の記事公開で参照する。
-  // 環境変数で上書き可にしてあるのは、本番用と検証用で差し替えたい場合に備えて。
   zenn: process.env.NEXT_PUBLIC_ZENN_URL ?? 'https://zenn.dev/rakurai',
   x: process.env.NEXT_PUBLIC_X_URL ?? 'https://x.com/rakurai_tech',
 } as const

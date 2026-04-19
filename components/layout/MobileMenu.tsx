@@ -88,6 +88,15 @@ export function MobileMenu() {
           >
             Zenn ↗
           </a>
+          <a
+            href={SITE.x}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setOpen(false)}
+            className="text-[11px] uppercase tracking-[0.24em] text-ink-400 transition-colors hover:text-ink-900"
+          >
+            X ↗
+          </a>
         </div>
       </nav>
 

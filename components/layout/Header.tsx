@@ -20,6 +20,14 @@ export function Header() {
               >
                 Zenn ↗
               </a>
+              <a
+                href={SITE.x}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[12px] font-medium uppercase tracking-[0.18em] text-ink-500 transition-colors hover:text-vermilion"
+              >
+                X ↗
+              </a>
             </div>
             <MobileMenu />
           </div>
