@@ -32,14 +32,18 @@ export function MetricReadout({
 
   const sizeConfig = {
     sm: { value: 'text-xl', unit: 'text-[11px]', label: 'text-[11px]' },
-    md: { value: 'text-3xl', unit: 'text-xs', label: 'text-[11px]' },
+    // SP では text-2xl に抑え、md 以上で text-3xl に戻す。
+    // globals.css の `overflow-wrap: anywhere` により SP の狭幅で "10.0" 等が
+    // 途中改行して高さが増え、grid-cols-3 の隣接セルごと伸びる（= CLS 原因）。
+    md: { value: 'text-2xl md:text-3xl', unit: 'text-xs', label: 'text-[11px]' },
     lg: { value: 'text-5xl', unit: 'text-sm', label: 'text-xs' },
   }[size]
 
   return (
     <div className={cn('flex flex-col gap-0.5', className)}>
       <div className={cn('uppercase tracking-[0.2em] text-ink-300', sizeConfig.label)}>{label}</div>
-      <div className="flex items-baseline gap-1.5">
+      {/* 数値と単位は必ず 1 行で保つ（途中改行によるカード高さの揺れを防ぐ） */}
+      <div className="flex items-baseline gap-1.5 whitespace-nowrap [overflow-wrap:normal]">
         <span className={cn('tnum font-medium leading-none', sizeConfig.value, signalColor)}>
           {value}
         </span>
