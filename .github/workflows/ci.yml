@@ -46,7 +46,7 @@ jobs:
 
       - name: Next.js build
         env:
-          NEXT_PUBLIC_SITE_URL: https://frontend-dojo.rakurai.workers.dev
+          NEXT_PUBLIC_SITE_URL: https://frontend-dojo.rakurai.dev
         run: pnpm build
 
   e2e:
@@ -73,7 +73,7 @@ jobs:
       # playwright.config.ts の webServer は CI で `pnpm start` を呼ぶため、事前にビルドしておく
       - name: Next.js build
         env:
-          NEXT_PUBLIC_SITE_URL: https://frontend-dojo.rakurai.workers.dev
+          NEXT_PUBLIC_SITE_URL: https://frontend-dojo.rakurai.dev
         run: pnpm build
 
       - name: Install Playwright browsers

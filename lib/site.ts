@@ -4,7 +4,7 @@ export const SITE = {
   tagline: 'フロントエンドの鬼門を、読むのではなく触って理解する。',
   description:
     'フロントエンドの鬼門を、読むのではなく触って理解する。日本語のインタラクティブラボ。レンダリングパイプライン、メモリリーク、スクロールジャンクなどを実際に動かして学べます。',
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://frontend-dojo.rakurai.workers.dev',
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://frontend-dojo.rakurai.dev',
   zenn: process.env.NEXT_PUBLIC_ZENN_URL ?? 'https://zenn.dev',
 } as const
 

@@ -4,7 +4,7 @@
 
 中級フロントエンドエンジニア向けに、ブラウザのレンダリング・再レンダリング・パフォーマンス等の難所を「自分で触れる Lab」を通じて学べる個人プロジェクトです。
 
-- 本番 URL: https://frontend-dojo.rakurai.workers.dev
+- 本番 URL: https://frontend-dojo.rakurai.dev
 
 ---
 
@@ -153,7 +153,7 @@ frontend-dojo/
 2. `pnpm exec opennextjs-cloudflare build`
 3. `pnpm exec opennextjs-cloudflare deploy`
 
-成功すれば https://frontend-dojo.rakurai.workers.dev に反映されます。
+成功すれば https://frontend-dojo.rakurai.dev に反映されます。
 
 非本番ブランチ（feature ブランチ）も自動でプレビュー URL が発行されます。
 

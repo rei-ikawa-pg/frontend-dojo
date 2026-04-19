@@ -35,7 +35,7 @@ jobs:
 
       - name: Build
         env:
-          NEXT_PUBLIC_SITE_URL: https://frontend-dojo.rakurai.workers.dev
+          NEXT_PUBLIC_SITE_URL: https://frontend-dojo.rakurai.dev
         run: pnpm build
 
       - name: Install Lighthouse CI

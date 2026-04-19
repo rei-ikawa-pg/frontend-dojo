@@ -260,7 +260,7 @@ export const rumEventArraySchema = z.array(rumEventSchema).max(50)
 
 ### 3.4 CORS 設定
 
-- 本番: `Access-Control-Allow-Origin: https://frontend-dojo.<your-subdomain>.workers.dev`（または独自ドメイン）
+- 本番: `Access-Control-Allow-Origin: https://frontend-dojo.rakurai.dev`
 - 開発: `Access-Control-Allow-Origin: http://localhost:3000`
 - 環境変数で切り替え
 

@@ -13,7 +13,7 @@
   },
   "vars": {
     "ENVIRONMENT": "production",
-    "ALLOWED_ORIGIN": "https://frontend-dojo.rakurai.workers.dev"
+    "ALLOWED_ORIGIN": "https://frontend-dojo.rakurai.dev"
   },
   "d1_databases": [
     {
