@@ -1,21 +1,20 @@
 /**
  * Lab 2 の操作パネル。
- * - リーク種別 (4 種) / 対策 (4 種) / 保持サイズ (3 段) / サイクル数
- * - 「1 サイクル実行」「自動実行 / 停止」「リセット」
+ * - リーク種別 / 対策 / 保持サイズ / サイクル数の設定
  *
- * onCycle は親から渡される。LeakController の実態は VisualizationView が持つため。
+ * Run トリガ（1 サイクル実行 / 自動実行 / リセット）は VisualizationView 側
+ * （Retained References カード内）に置き、原因と結果を同じ枠で観察できる UX を採る。
+ *
+ * Cycles はスライダーから「1 / 10 / 50 / 100」のプリセット数値ボタンに変更。
+ * 値域 1–100 で細かい刻みが要らないことと、押せる UI を明示するため。
  */
 
 'use client'
 
-import { ArrowCounterClockwise, Pause, Play, Target } from '@phosphor-icons/react'
-import { Button } from '@/components/ui/button'
-import { Slider } from '@/components/ui/slider'
+import { useMemo } from 'react'
 import { cn } from '@/lib/utils'
 import type { HoldSize, LeakType, Mitigation } from '../engine/types'
 import {
-  CYCLE_COUNT_MAX,
-  CYCLE_COUNT_MIN,
   HOLD_SIZE_LABEL,
   HOLD_SIZES,
   LEAK_TYPE_LABEL,
@@ -25,24 +24,17 @@ import {
   useMemoryPlaygroundStore,
 } from '../stores/playgroundStore'
 
-type ControlPanelProps = {
-  onCycle: () => void
-  onRelease: () => void
-}
+const CYCLE_PRESETS = [1, 10, 50, 100] as const
 
-export function ControlPanel({ onCycle, onRelease }: ControlPanelProps) {
+export function ControlPanel() {
   const leakType = useMemoryPlaygroundStore((s) => s.leakType)
   const mitigation = useMemoryPlaygroundStore((s) => s.mitigation)
   const holdSize = useMemoryPlaygroundStore((s) => s.holdSize)
   const cycleCount = useMemoryPlaygroundStore((s) => s.cycleCount)
-  const isRunning = useMemoryPlaygroundStore((s) => s.isRunning)
   const setLeakType = useMemoryPlaygroundStore((s) => s.setLeakType)
   const setMitigation = useMemoryPlaygroundStore((s) => s.setMitigation)
   const setHoldSize = useMemoryPlaygroundStore((s) => s.setHoldSize)
   const setCycleCount = useMemoryPlaygroundStore((s) => s.setCycleCount)
-  const start = useMemoryPlaygroundStore((s) => s.start)
-  const stop = useMemoryPlaygroundStore((s) => s.stop)
-  const reset = useMemoryPlaygroundStore((s) => s.reset)
 
   return (
     <aside
@@ -51,6 +43,7 @@ export function ControlPanel({ onCycle, onRelease }: ControlPanelProps) {
     >
       <Segmented<LeakType>
         label="§ 01 — Leak Type"
+        jaLabel="リーク種別"
         value={leakType}
         options={LEAK_TYPES}
         toLabel={(v) => LEAK_TYPE_LABEL[v]}
@@ -59,6 +52,7 @@ export function ControlPanel({ onCycle, onRelease }: ControlPanelProps) {
 
       <Segmented<Mitigation>
         label="§ 02 — Mitigation"
+        jaLabel="対策"
         value={mitigation}
         options={MITIGATIONS}
         toLabel={(v) => MITIGATION_LABEL[v]}
@@ -67,72 +61,92 @@ export function ControlPanel({ onCycle, onRelease }: ControlPanelProps) {
 
       <Segmented<HoldSize>
         label="§ 03 — Hold Size"
+        jaLabel="保持サイズ"
         value={holdSize}
         options={HOLD_SIZES}
         toLabel={(v) => HOLD_SIZE_LABEL[v]}
         onChange={setHoldSize}
       />
 
-      <section aria-labelledby="control-cycle">
-        <div className="mb-3 flex items-baseline justify-between">
-          <h3 id="control-cycle" className="text-[11px] uppercase tracking-[0.24em] text-ink-400">
-            § 04 — Cycles / tick
-          </h3>
-          <span className="tnum font-mincho text-2xl text-ink-900">{cycleCount}</span>
-        </div>
-        <Slider
-          min={CYCLE_COUNT_MIN}
-          max={CYCLE_COUNT_MAX}
-          step={1}
-          value={[cycleCount]}
-          onValueChange={(value) => {
-            const next = value[0]
-            if (typeof next === 'number') setCycleCount(next)
-          }}
-        />
-        <div className="mt-2 flex justify-between text-[11px] text-ink-400 tnum">
-          <span>{CYCLE_COUNT_MIN}</span>
-          <span>{CYCLE_COUNT_MAX}</span>
-        </div>
-      </section>
-
-      <section aria-labelledby="control-run" className="flex flex-col gap-2">
-        <h3 id="control-run" className="mb-1 text-[11px] uppercase tracking-[0.24em] text-ink-400">
-          § 05 — Run
-        </h3>
-        <Button type="button" variant="outline" onClick={onCycle}>
-          <Target size={14} weight="bold" className="mr-2" />1 サイクル実行
-        </Button>
-        {isRunning ? (
-          <Button type="button" variant="outline" onClick={stop}>
-            <Pause size={14} weight="bold" className="mr-2" />
-            自動停止
-          </Button>
-        ) : (
-          <Button type="button" onClick={start}>
-            <Play size={14} weight="bold" className="mr-2" />
-            自動実行
-          </Button>
-        )}
-        <Button
-          type="button"
-          variant="ghost"
-          onClick={() => {
-            stop()
-            onRelease()
-            reset()
-          }}
-        >
-          <ArrowCounterClockwise size={14} weight="bold" className="mr-2" />
-          リセット
-        </Button>
-      </section>
+      <NumberPresetRow
+        label="§ 04 — Cycles / tick"
+        jaLabel="1 周期あたりの実行回数"
+        description="自動実行 1 周で何サイクル進めるか"
+        value={cycleCount}
+        options={CYCLE_PRESETS}
+        onChange={setCycleCount}
+      />
     </aside>
+  )
+}
+
+type NumberPresetRowProps = {
+  label: string
+  /** ラベル英語の隣に併記する日本語短語 */
+  jaLabel: string
+  /** 選択肢の下に出す 1 行の補足説明 */
+  description: string
+  value: number
+  options: readonly number[]
+  onChange: (v: number) => void
+}
+
+function NumberPresetRow({
+  label,
+  jaLabel,
+  description,
+  value,
+  options,
+  onChange,
+}: NumberPresetRowProps) {
+  // store 側 clamp で範囲外の値も受理されるが、active 表示は最も近いプリセットでハイライト。
+  // ユーザーが preset 経由でしか値を変更できない構造なので通常は厳密一致する。
+  const activeValue = useMemo(() => {
+    if (options.includes(value)) return value
+    return options.reduce((closest, n) =>
+      Math.abs(n - value) < Math.abs(closest - value) ? n : closest,
+    )
+  }, [value, options])
+
+  return (
+    <section aria-label={label.replace(/^§\s*\d+\s*—\s*/, '')}>
+      <div className="mb-1 flex items-baseline justify-between gap-2">
+        <h3 className="text-[11px] uppercase tracking-[0.24em] text-ink-400">
+          {label} <span className="text-ink-500 normal-case tracking-normal">／ {jaLabel}</span>
+        </h3>
+        <span className="tnum font-mincho text-2xl leading-none text-ink-900">{value}</span>
+      </div>
+      <p className="mb-2 text-[11px] text-ink-500">{description}</p>
+      <div className="flex gap-1.5">
+        {options.map((n) => {
+          const active = n === activeValue
+          return (
+            <button
+              key={n}
+              type="button"
+              aria-pressed={active}
+              aria-label={`${jaLabel} ${n}`}
+              onClick={() => onChange(n)}
+              className={cn(
+                'tnum flex-1 cursor-pointer border py-2 text-center text-sm transition-colors',
+                active
+                  ? 'border-ink-500 bg-ink-100 text-ink-900'
+                  : 'border-rule-dim text-ink-400 hover:border-ink-300 hover:bg-ink-100/60 hover:text-ink-900',
+              )}
+            >
+              {n}
+            </button>
+          )
+        })}
+      </div>
+    </section>
   )
 }
 
 type SegmentedProps<T extends string> = {
   label: string
+  /** ラベル英語の隣に併記する日本語短語 */
+  jaLabel?: string
   value: T
   options: readonly T[]
   toLabel: (v: T) => string
@@ -141,6 +155,7 @@ type SegmentedProps<T extends string> = {
 
 function Segmented<T extends string>({
   label,
+  jaLabel,
   value,
   options,
   toLabel,
@@ -148,7 +163,10 @@ function Segmented<T extends string>({
 }: SegmentedProps<T>) {
   return (
     <section aria-label={label.replace(/^§\s*\d+\s*—\s*/, '')}>
-      <h3 className="mb-2 text-[11px] uppercase tracking-[0.24em] text-ink-400">{label}</h3>
+      <h3 className="mb-2 text-[11px] uppercase tracking-[0.24em] text-ink-400">
+        {label}
+        {jaLabel && <span className="text-ink-500 normal-case tracking-normal"> ／ {jaLabel}</span>}
+      </h3>
       <ul className="flex flex-col gap-1.5">
         {options.map((opt) => {
           const active = opt === value

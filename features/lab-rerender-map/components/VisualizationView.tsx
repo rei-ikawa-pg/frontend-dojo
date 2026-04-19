@@ -14,7 +14,10 @@
 
 'use client'
 
+import { ArrowCounterClockwise, Lightning } from '@phosphor-icons/react'
 import { createContext, useEffect, useMemo, useRef, useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { renderTracker } from '../engine/renderTracker'
 import { buildTree } from '../engine/tree'
 import { useRerenderPlaygroundStore } from '../stores/playgroundStore'
 import { TreeNodeView } from './TreeNodeView'
@@ -28,6 +31,8 @@ export function VisualizationView() {
   const propKind = useRerenderPlaygroundStore((s) => s.propKind)
   const stateSource = useRerenderPlaygroundStore((s) => s.stateSource)
   const tick = useRerenderPlaygroundStore((s) => s.tick)
+  const bumpTick = useRerenderPlaygroundStore((s) => s.bumpTick)
+  const reset = useRerenderPlaygroundStore((s) => s.reset)
 
   const tree = useMemo(() => buildTree({ depth, fanout, memoIds }), [depth, fanout, memoIds])
 
@@ -91,6 +96,30 @@ export function VisualizationView() {
         ) : (
           tree_view
         )}
+      </div>
+      {/* 結果（Render Tree のフラッシュ）と原因（state 更新）を同じ枠に置き、
+          視線移動なしに因果関係を観察できるようにする。 */}
+      <div className="flex border-t border-rule-dim">
+        <Button
+          type="button"
+          onClick={bumpTick}
+          className="h-10 flex-1 rounded-none border-0 border-r border-rule-dim"
+        >
+          <Lightning size={14} weight="bold" className="mr-2" />
+          state を更新
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          onClick={() => {
+            reset()
+            renderTracker.reset()
+          }}
+          className="h-10 rounded-none px-4"
+        >
+          <ArrowCounterClockwise size={14} weight="bold" className="mr-2" />
+          リセット
+        </Button>
       </div>
     </div>
   )

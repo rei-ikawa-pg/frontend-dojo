@@ -75,9 +75,17 @@ export function TutorialMode() {
       explanation={<Content />}
       extras={quiz && <StepQuiz quiz={quiz} labId="memory-leak" />}
     >
-      <VisualizationView containerRef={containerRef} counts={counts} />
+      {/* 操作フローに沿って「設定 → 実行+結果 → メトリクス」の順で縦積み。
+          VisualizationView カード内に Run アクションバーを置いているため、
+          ControlPanel を上に持ち上げても原因と結果は連続して観察できる。 */}
+      <ControlPanel />
+      <VisualizationView
+        containerRef={containerRef}
+        counts={counts}
+        onCycle={cycleOnce}
+        onRelease={releaseAll}
+      />
       <MetricsDisplay counts={counts} focus={step.focus} />
-      <ControlPanel onCycle={cycleOnce} onRelease={releaseAll} />
     </TutorialShell>
   )
 }

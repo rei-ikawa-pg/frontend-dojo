@@ -21,10 +21,15 @@ export function PlaygroundMode() {
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
       <div className="flex flex-col gap-6">
-        <VisualizationView containerRef={containerRef} counts={counts} />
+        <VisualizationView
+          containerRef={containerRef}
+          counts={counts}
+          onCycle={cycleOnce}
+          onRelease={releaseAll}
+        />
         <MetricsDisplay counts={counts} />
       </div>
-      <ControlPanel onCycle={cycleOnce} onRelease={releaseAll} />
+      <ControlPanel />
     </div>
   )
 }

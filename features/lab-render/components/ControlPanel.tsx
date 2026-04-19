@@ -53,11 +53,13 @@ export function ControlPanel() {
       className="flex flex-col gap-8 border border-rule-dim bg-card p-5"
     >
       <section aria-labelledby="control-count">
-        <div className="mb-3 flex items-baseline justify-between">
+        <div className="mb-5 flex items-baseline justify-between">
           <h3 id="control-count" className="text-[11px] uppercase tracking-[0.24em] text-ink-400">
             § 01 — Element Count
           </h3>
-          <span className="tnum font-mincho text-2xl text-ink-900">{elementCount}</span>
+          <span className="tnum font-mincho text-2xl leading-none text-ink-900">
+            {elementCount}
+          </span>
         </div>
         <Slider
           min={ELEMENT_COUNT_MIN}

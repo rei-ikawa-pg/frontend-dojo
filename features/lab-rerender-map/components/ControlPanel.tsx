@@ -1,19 +1,22 @@
 /**
  * Lab 3 の操作パネル。
- * - 深さ / fanout スライダー
- * - memo on/off 一括切替
+ * - 深さ (Depth) / 枝分かれ (Fanout) の数値セグメント
  * - prop 種別 / stateSource 選択
- * - 「state を更新」ボタン
+ * - memo on/off 一括切替
+ *
+ * state 更新 / リセットのトリガは VisualizationView 側（Render Tree カード内）に置き、
+ * 「原因（ボタン）と結果（フラッシュ）を同じ枠で観察できる」UX を優先している。
+ *
+ * Depth / Fanout は値域が 1–4 と狭いため、スライダーではなく数値セグメントで
+ * 「押せる UI」を明示し、prop kind / state source と同じ選択言語で揃える。
  */
 
 'use client'
 
-import { ArrowCounterClockwise, Lightning, MagicWand } from '@phosphor-icons/react'
+import { MagicWand } from '@phosphor-icons/react'
 import { useMemo } from 'react'
 import { Button } from '@/components/ui/button'
-import { Slider } from '@/components/ui/slider'
 import { cn } from '@/lib/utils'
-import { renderTracker } from '../engine/renderTracker'
 import { buildTree, collectIds } from '../engine/tree'
 import {
   DEPTH_MAX,
@@ -40,8 +43,6 @@ export function ControlPanel() {
   const setAllMemo = useRerenderPlaygroundStore((s) => s.setAllMemo)
   const setPropKind = useRerenderPlaygroundStore((s) => s.setPropKind)
   const setStateSource = useRerenderPlaygroundStore((s) => s.setStateSource)
-  const bumpTick = useRerenderPlaygroundStore((s) => s.bumpTick)
-  const reset = useRerenderPlaygroundStore((s) => s.reset)
 
   const allIds = useMemo(
     () => collectIds(buildTree({ depth, fanout, memoIds })),
@@ -54,16 +55,20 @@ export function ControlPanel() {
       aria-label="操作パネル"
       className="flex flex-col gap-7 border border-rule-dim bg-card p-5"
     >
-      <SliderRow
+      <NumberSegmentedRow
         label="§ 01 — Depth"
+        jaLabel="深さ"
+        description="Root から葉までの階層数"
         value={depth}
         min={DEPTH_MIN}
         max={DEPTH_MAX}
         onChange={setDepth}
       />
 
-      <SliderRow
+      <NumberSegmentedRow
         label="§ 02 — Fanout"
+        jaLabel="枝分かれ"
+        description="各親ノードが持つ子の数"
         value={fanout}
         min={FANOUT_MIN}
         max={FANOUT_MAX}
@@ -105,59 +110,67 @@ export function ControlPanel() {
           {allMemoOn ? '全て解除' : '全て memo 化'}
         </Button>
       </section>
-
-      <section aria-labelledby="control-run" className="flex flex-col gap-2">
-        <h3 id="control-run" className="mb-1 text-[11px] uppercase tracking-[0.24em] text-ink-400">
-          § 06 — Run
-        </h3>
-        <Button type="button" onClick={bumpTick}>
-          <Lightning size={14} weight="bold" className="mr-2" />
-          state を更新
-        </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          onClick={() => {
-            reset()
-            renderTracker.reset()
-          }}
-        >
-          <ArrowCounterClockwise size={14} weight="bold" className="mr-2" />
-          リセット
-        </Button>
-      </section>
     </aside>
   )
 }
 
-type SliderRowProps = {
+type NumberSegmentedRowProps = {
   label: string
+  /** ラベル英語の隣に併記する日本語短語（例: 深さ） */
+  jaLabel: string
+  /** 選択肢の下に出す 1 行の補足説明 */
+  description: string
   value: number
   min: number
   max: number
   onChange: (v: number) => void
 }
 
-function SliderRow({ label, value, min, max, onChange }: SliderRowProps) {
+function NumberSegmentedRow({
+  label,
+  jaLabel,
+  description,
+  value,
+  min,
+  max,
+  onChange,
+}: NumberSegmentedRowProps) {
+  const options = useMemo(() => {
+    const arr: number[] = []
+    for (let n = min; n <= max; n += 1) arr.push(n)
+    return arr
+  }, [min, max])
+
   return (
     <section aria-label={label.replace(/^§\s*\d+\s*—\s*/, '')}>
-      <div className="mb-3 flex items-baseline justify-between">
-        <h3 className="text-[11px] uppercase tracking-[0.24em] text-ink-400">{label}</h3>
-        <span className="tnum font-mincho text-2xl text-ink-900">{value}</span>
+      <div className="mb-1 flex items-baseline justify-between gap-2">
+        <h3 className="text-[11px] uppercase tracking-[0.24em] text-ink-400">
+          {label} <span className="text-ink-500 normal-case tracking-normal">／ {jaLabel}</span>
+        </h3>
+        <span className="tnum font-mincho text-2xl leading-none text-ink-900">{value}</span>
       </div>
-      <Slider
-        min={min}
-        max={max}
-        step={1}
-        value={[value]}
-        onValueChange={(vals) => {
-          const next = vals[0]
-          if (typeof next === 'number') onChange(next)
-        }}
-      />
-      <div className="mt-2 flex justify-between text-[11px] text-ink-400 tnum">
-        <span>{min}</span>
-        <span>{max}</span>
+      <p className="mb-2 text-[11px] text-ink-500">{description}</p>
+      <div className="flex gap-1.5">
+        {options.map((n) => {
+          const active = n === value
+          return (
+            <button
+              key={n}
+              type="button"
+              aria-pressed={active}
+              aria-label={`${jaLabel} ${n}`}
+              onClick={() => onChange(n)}
+              className={cn(
+                'tnum flex-1 cursor-pointer border py-2 text-center text-sm transition-colors',
+                active
+                  ? 'border-ink-500 bg-ink-100 text-ink-900'
+                  : 'border-rule-dim text-ink-400 hover:border-ink-300 hover:bg-ink-100/60 hover:text-ink-900',
+              )}
+            >
+              {n}
+            </button>
+          )
+        })}
       </div>
     </section>
   )

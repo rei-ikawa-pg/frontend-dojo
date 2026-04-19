@@ -83,9 +83,12 @@ export function TutorialMode() {
       explanation={<Content />}
       extras={quiz && <StepQuiz quiz={quiz} labId="rerender-map" />}
     >
+      {/* 操作フローに沿って「設定 → 実行+結果 → メトリクス」の順で縦積み。
+          VisualizationView カード内に state 更新トリガを置いているため、
+          ControlPanel を上に持ち上げても原因と結果は連続して観察できる。 */}
+      <ControlPanel />
       <VisualizationView />
       <MetricsDisplay focus={step.focus} />
-      <ControlPanel />
     </TutorialShell>
   )
 }
