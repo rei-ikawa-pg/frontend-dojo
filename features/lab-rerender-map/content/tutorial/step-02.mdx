@@ -1,0 +1,22 @@
+次は子 A を `React.memo` で囲んでみます。本 Lab では操作パネルの memo トグルで有効化できます。
+
+### 観察のポイント
+
+- **「state を更新」を押しても A が flash しない** (子 B も流れで止まる)
+- カウンタを見ても A の count が増えない
+- Root だけが自分の render を繰り返す
+
+### memo の正体
+
+```tsx
+const MemoChild = React.memo(Child)
+```
+
+`React.memo` は **前回と今回の props を浅い比較 (shallow equal)** するだけの、
+非常に機械的な仕組みです。
+
+- primitive: 値比較 (`===`)
+- object/array/function: 参照比較 (`===`)
+
+だから今回の例のように primitive の props (`value={42}` など) を渡している限り、
+memo は完璧に効きます。次のステップで、この前提がどう崩れるかを見ます。

@@ -1,0 +1,21 @@
+`addEventListener` は `removeEventListener` を書き忘れやすいだけでなく、
+登録時と解除時で **同じ関数参照** を渡す必要があるため、不注意でリークが入り込みやすい API です。
+
+### 観察のポイント
+
+- **対策なし** で「1 サイクル実行」を押す → Listener カウントが増え続ける
+- 右上の要素ターゲットに対して listener が何重にも付いている状態です
+- **対策: AbortController** に切り替えて同じ操作をすると、unmount 時に 0 に戻る
+
+### AbortController の使い方
+
+```ts
+const ac = new AbortController()
+target.addEventListener('click', onClick, { signal: ac.signal })
+// unmount 時: これだけで登録済みの全 listener が解除される
+ac.abort()
+```
+
+複数の listener を 1 つの controller で束ねられるのが強みで、
+`window.addEventListener(..., { signal })` と組み合わせれば
+「グローバル listener の掃除忘れ」も構造的に防げます。

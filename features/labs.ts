@@ -1,4 +1,6 @@
+import { LAB_MEMORY_LEAK_META } from './lab-memory-leak'
 import { LAB_RENDER_META } from './lab-render'
+import { LAB_RERENDER_MAP_META } from './lab-rerender-map'
 
 export type LabStatus = 'published' | 'phase-2' | 'phase-3' | 'formal'
 
@@ -24,61 +26,41 @@ export type LabMeta = {
 
 export const LABS: readonly LabMeta[] = [
   LAB_RENDER_META,
-  {
-    id: 'memory',
-    slug: 'memory',
-    title: 'メモリリーク稽古場',
-    shortTitle: 'Lab 2: メモリリーク',
-    description:
-      'SPA でよくあるメモリリークの原因を、意図的に作って・観測して・直す。heap snapshot の読み方も学ぶ。',
-    status: 'phase-2',
-    difficulty: '二段',
-    order: 2,
-    path: '/lab/memory',
-  },
-  {
-    id: 'jank',
-    slug: 'jank',
-    title: 'スクロールジャンク稽古場',
-    shortTitle: 'Lab 3: スクロールジャンク',
-    description:
-      '「なぜスクロールが引っかかるのか」を passive listener / rAF / will-change の観点で体験する。',
-    status: 'phase-3',
-    difficulty: '二段',
-    order: 3,
-    path: '/lab/jank',
-  },
-  {
-    id: 'react-rerender',
-    slug: 'react-rerender',
-    title: 'React 再レンダー稽古場',
-    shortTitle: 'Lab 4: React再レンダー',
-    description: 'memo / useMemo / Context の再レンダー挙動を、実際のツリーで可視化する。',
-    status: 'formal',
-    difficulty: '二段',
-    order: 4,
-    path: '/lab/react-rerender',
-  },
-  {
-    id: 'canvas',
-    slug: 'canvas',
-    title: 'Canvas / WebGL 稽古場',
-    shortTitle: 'Lab 5: Canvas/WebGL',
-    description: '2D / WebGL の描画パイプラインと DOM との違いを体感する。',
-    status: 'formal',
-    difficulty: '三段',
-    order: 5,
-    path: '/lab/canvas',
-  },
+  LAB_MEMORY_LEAK_META,
+  LAB_RERENDER_MAP_META,
   {
     id: 'event-loop',
     slug: 'event-loop',
-    title: 'イベントループ稽古場',
-    shortTitle: 'Lab 6: イベントループ',
-    description: 'microtask / macrotask / requestIdleCallback の優先順位を可視化する。',
+    title: 'イベントループの内視鏡',
+    shortTitle: 'Lab 4: イベントループ',
+    description: 'microtask / macrotask / rAF / rIC の実行順序を予想 → 実測で検証する稽古場。',
     status: 'formal',
     difficulty: '二段',
-    order: 6,
+    order: 4,
     path: '/lab/event-loop',
+  },
+  {
+    id: 'stacking-context',
+    slug: 'stacking-context',
+    title: 'スタッキングコンテキストの森',
+    shortTitle: 'Lab 5: スタッキング文脈',
+    description:
+      'z-index 9999 が効かない現象を、新スタッキング文脈の生成条件トグルで歩いて掴む稽古場。',
+    status: 'phase-2',
+    difficulty: '初段',
+    order: 5,
+    path: '/lab/stacking-context',
+  },
+  {
+    id: 'nextjs-cache',
+    slug: 'nextjs-cache',
+    title: 'Next.js キャッシュ四重奏',
+    shortTitle: 'Lab 6: Next.js キャッシュ',
+    description:
+      'Request Memo / Data / Full Route / Router の 4 層キャッシュを一気通貫で光らせる稽古場。',
+    status: 'phase-3',
+    difficulty: '三段',
+    order: 6,
+    path: '/lab/nextjs-cache',
   },
 ] as const

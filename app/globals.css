@@ -220,3 +220,53 @@
   flex: 0 0 auto;
   will-change: transform;
 }
+
+/* Lab 2 可視化エリアの個別要素（LeakController が生成）
+   - .lab-memory-item: 生存中のリーク unit を表すタイル
+   - .lab-memory-detached: DOM から外したが JS 参照が残っている unit（淡いグレーで残る）
+   各 unit には種別の頭文字 (T/L/D/C) が描かれる */
+.lab-memory-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background-color: var(--color-vermilion-dim);
+  color: var(--color-ink-900);
+  border: 1px solid var(--color-vermilion);
+  font-size: 10px;
+  font-family: var(--font-mono);
+  flex: 0 0 auto;
+}
+.lab-memory-detached {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background-color: transparent;
+  color: var(--color-ink-300);
+  border: 1px dashed var(--color-rule-normal);
+  font-size: 10px;
+  font-family: var(--font-mono);
+  flex: 0 0 auto;
+  opacity: 0.6;
+}
+
+/* Lab 3 の「再レンダリング発生時の光り」アニメーション。
+   data-flashing=true が付いた瞬間に朱色が一瞬乗り、600ms で戻る。
+   React state ではなく DOM 属性でトリガするため、観測のための
+   再 render を追加で発生させない。 */
+.lab-rerender-node {
+  transition: background-color 400ms ease-out, border-color 400ms ease-out;
+}
+.lab-rerender-node[data-flashing='true'] {
+  background-color: color-mix(in oklch, var(--vermilion) 30%, transparent);
+  border-color: var(--vermilion);
+  transition: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lab-rerender-node[data-flashing='true'] {
+    background-color: color-mix(in oklch, var(--vermilion) 20%, transparent);
+  }
+}

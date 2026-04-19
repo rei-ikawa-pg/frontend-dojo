@@ -1,0 +1,27 @@
+## なぜ「再レンダリング」を触って学ぶのか
+
+React の再 render は抽象概念です。「親が state を変えると子が再 render される」
+というルール自体は覚えやすい一方、**どこまで止まるか・どこが実際に DOM 反映か** は、
+紙面では追い切れません。`memo` を付けたのに止まらない、`Context` で全部再 render されて驚く、
+派生 state でループを作ってしまう — こうした鬼門は、木が光る様子を見るのが最短です。
+
+## 稽古 と 道場 の違い
+
+- **稽古（Tutorial）** — 6 ステップでガイド付き。木の伝播 → memo → object literal → Context → 派生 state → commit の違いを順に体験します。
+- **道場（Playground）** — 深さ・fanout・memo・prop 種別を自由に組み合わせて、自分の実務コードに近い構造を再現できる実験場です。
+
+## 可視化の仕組み
+
+- 各ノードが render されるたびに **一瞬 flash** します
+- カウンタで total renders / last render time を表示します
+- `MutationObserver` で **DOM mutation 件数** も並置し、「render = DOM 変更」ではないことを体感できます
+
+## 前提
+
+- 本 Lab は Lab 1（レンダリングパイプライン）で「1 フレームの中身」を押さえたあとに見ると効きが良くなります
+- ブラウザ依存の API は使っていないため Chromium 以外でも動きます
+
+## 参考
+
+- [React docs — Memoizing calculations with useMemo](https://react.dev/reference/react/useMemo)
+- [React docs — Why doesn't React batch updates](https://github.com/reactwg/react-18/discussions/21)

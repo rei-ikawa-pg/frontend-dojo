@@ -1,0 +1,27 @@
+Context の伝播範囲と Zustand の selector を並べて観察します。
+
+### 観察のポイント (Context)
+
+- stateSource を `Context.Provider` に切り替える
+- 「state を更新」を押すと Provider 配下の **全 consumer が flash する**
+- memo を子に付けても、その子が `useContext` しているなら止まらない
+
+### 観察のポイント (Zustand)
+
+- stateSource を `Zustand` に切り替える
+- 同じ操作をしても、flash するのは **selector が指している値を実際に購読しているノード** だけ
+- 関係ないノードは memo 不要で自然に止まる
+
+### なぜ違うか
+
+`useContext` は value が変わると、購読している全コンポーネントに通知します。
+`React.memo` で囲んでも、`useContext` で取り出した値が変われば再 render は避けられません。
+
+Zustand は購読に selector を挟めるため、比較結果 (デフォルト `Object.is`) が同一なら
+再 render しません。必要な部分だけを再 render する設計と相性が良いのです。
+
+### Context を Global State に使わない
+
+この挙動のため、グローバルな頻繁に変わる state に Context を使うのはアンチパターンです。
+「Theme や Locale のようにあまり変わらないもの」か、「意図的に全体を再 render したいもの」
+に用途を絞るのが現実解です。

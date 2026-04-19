@@ -1,0 +1,40 @@
+## なぜ「メモリリーク」を触って学ぶのか
+
+メモリリークは記事を読むだけでは腑に落ちにくい領域です。
+「setInterval の cleanup を忘れるとリークする」という文字情報は覚えられても、
+**ヒープが階段状に積み上がる様子** は実機で見ないと身体化しません。
+
+この稽古場では、意図的に 4 種類のリーク（Timer / Listener / Detached DOM / Closure）を
+作り出し、それぞれの「直し方」を切り替えながら `performance.memory` の推移を観察します。
+
+## 稽古 と 道場 の違い
+
+- **稽古（Tutorial）** — 5 ステップで 1 種類ずつリークを試します。「対策なし」と「対策あり」の比較が中心。初見ならこちらから。
+- **道場（Playground）** — リーク種別・対策・保持サイズ・サイクル数を自由に組み合わせて自分で壊し・直せる実験場。
+
+## 計測の読み方 — 精度の注意
+
+`performance.memory` は Chromium 系だけで使える非標準 API です。
+Site Isolation の条件を満たさないページでは、値が **3 分刻みで丸められる** ため、
+短時間の変動は画面に反映されないことがあります。
+傾向（増えているのか、平らなのか）を見る目的には十分ですが、
+厳密な数値をお求めの場合は Chrome DevTools の Memory パネル（Heap Snapshot）で
+実測してください。
+
+## 前提
+
+- **Chromium 系ブラウザ推奨**（`performance.memory` は Chromium のみ）
+- Safari / Firefox では Timer / Listener カウンタは動きますが、ヒープ使用量は `—` 表示になります
+- モバイルでは PC 推奨表示になります。計測は PC でお願いします
+
+## 本 Lab で扱うリーク 4 種
+
+- **Timer リーク** — `setInterval` / `setTimeout` を cleanup せずにコンポーネントを unmount する
+- **Listener リーク** — `addEventListener` しか呼ばず `removeEventListener` を忘れる
+- **Detached DOM** — `removeChild` した要素を JS 変数が握り続ける
+- **Closure リーク** — 関数が外側の大きな配列をキャプチャしたまま長生きする
+
+## 参考
+
+- [web.dev — Fix memory problems](https://developer.chrome.com/docs/devtools/memory-problems)
+- [Chrome for Developers — Record heap snapshots](https://developer.chrome.com/docs/devtools/memory/heap-snapshots)
