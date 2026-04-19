@@ -10,6 +10,7 @@
 
 import { z } from 'zod'
 import { BROWSERS, DEVICE_TYPES } from '@/lib/browser/types'
+import { sitePathSchema } from '@/lib/validation/path'
 
 /** 計測時のページモード。`other` は共通基盤メトリクス用 */
 export const METRIC_MODES = ['tutorial', 'playground', 'overview', 'other'] as const
@@ -20,7 +21,7 @@ export const SDK_VERSION = '0.1.0'
 
 export const rumEventSchema = z.object({
   session_id: z.string().uuid(),
-  page_path: z.string().max(200),
+  page_path: sitePathSchema,
   // 共通基盤メトリクス（Web Vitals 等）の時は null
   lab_id: z.string().max(50).nullable().optional(),
   mode: z.enum(METRIC_MODES),
@@ -33,7 +34,8 @@ export const rumEventSchema = z.object({
     .optional(),
   timestamp: z.string().datetime({ offset: true }),
   sdk_version: z.string().max(20),
-  referrer: z.string().max(500).nullable().optional(),
+  // referrer は URL 形式に限定。document.referrer が空文字の場合はクライアント側で null に正規化済み
+  referrer: z.string().url().max(500).nullable().optional(),
 })
 
 export const rumEventArraySchema = z.array(rumEventSchema).min(1).max(50)

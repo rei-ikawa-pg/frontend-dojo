@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { Instrument_Serif, JetBrains_Mono, Shippori_Mincho } from 'next/font/google'
-import Script from 'next/script'
 import './globals.css'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
+import { CfAnalyticsBeacon } from '@/components/analytics/CfAnalyticsBeacon'
 import { Footer } from '@/components/layout/Footer'
 import { Header } from '@/components/layout/Header'
 import { JsonLd } from '@/components/seo/JsonLd'
@@ -92,14 +92,7 @@ export default function RootLayout({
         </NuqsAdapter>
         <Toaster position="bottom-right" />
         <JsonLd data={buildWebSite()} />
-        {CF_ANALYTICS_TOKEN && (
-          <Script
-            defer
-            src="https://static.cloudflareinsights.com/beacon.min.js"
-            data-cf-beacon={JSON.stringify({ token: CF_ANALYTICS_TOKEN })}
-            strategy="afterInteractive"
-          />
-        )}
+        {CF_ANALYTICS_TOKEN && <CfAnalyticsBeacon token={CF_ANALYTICS_TOKEN} />}
       </body>
     </html>
   )

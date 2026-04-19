@@ -33,12 +33,12 @@ export const metadata: Metadata = {
 }
 
 type PageProps = {
-  searchParams: Promise<{ token?: string; range?: string }>
+  searchParams: Promise<{ range?: string }>
 }
 
 export default async function AdminFeedbackPage({ searchParams }: PageProps) {
-  const { token, range: rangeParam } = await searchParams
-  const { env } = await requireAdminContext(token)
+  const { range: rangeParam } = await searchParams
+  const { env } = await requireAdminContext()
   const range = parseRange(rangeParam)
   const days = rangeToDays(range)
   const periodLabel = rangeLabel(range)
@@ -120,8 +120,8 @@ export default async function AdminFeedbackPage({ searchParams }: PageProps) {
         </h2>
         <MetricGuide>
           <p>
-            コメント付きフィードバックを新しい順に最大 100 件。user_agent
-            列は個体特定性があるため画面には出さず、DB のみに保持しています。
+            コメント付きフィードバックを新しい順に最大 100 件。UA
+            は生文字列では保存せず、ブラウザ / OS / デバイス種別のラベルのみ記録しています。
           </p>
         </MetricGuide>
         <CommentList rows={comments} />

@@ -4,6 +4,7 @@
  */
 
 import { z } from 'zod'
+import { sitePathSchema } from '@/lib/validation/path'
 
 export const CONTACT_CATEGORIES = ['suggestion', 'bug', 'content', 'other'] as const
 
@@ -25,7 +26,7 @@ export const contactSchema = z.object({
   body: z.string().trim().min(1).max(CONTACT_BODY_MAX),
   /** 任意。空文字も許容（未入力扱い） */
   email: z.union([z.string().trim().email().max(CONTACT_EMAIL_MAX), z.literal('')]).optional(),
-  page_path: z.string().max(200).optional(),
+  page_path: sitePathSchema.optional(),
   session_id: z.string().uuid().nullable().optional(),
   /**
    * honeypot。通常ユーザには非表示のフィールド。値が入っていたら bot と判断するが、

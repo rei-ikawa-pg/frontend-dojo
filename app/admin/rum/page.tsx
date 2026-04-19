@@ -2,7 +2,8 @@
  * /admin/rum — RUM 管理ダッシュボード。
  *
  * 認可:
- *   - `requireAdminContext` で `?token=XXX` を ADMIN_TOKEN と照合（不一致は 404 相当）
+ *   - 一次ゲートは middleware.ts（Cookie `fd_admin` の HMAC 検証）
+ *   - page 側は `requireAdminContext()` で二重防御。404 相当で弾く
  *   - 将来は Cloudflare Access に移行予定（docs/05 §5.1）
  *
  * 集計期間:
@@ -51,7 +52,7 @@ export const metadata: Metadata = {
 }
 
 type PageProps = {
-  searchParams: Promise<{ token?: string; range?: string }>
+  searchParams: Promise<{ range?: string }>
 }
 
 // FPS の良し悪しは CWV と異なる閾値なので独自のパレットを用意
@@ -63,8 +64,8 @@ const FPS_COLORS: Record<string, string> = {
 }
 
 export default async function AdminRumPage({ searchParams }: PageProps) {
-  const { token, range: rangeParam } = await searchParams
-  const { env } = await requireAdminContext(token)
+  const { range: rangeParam } = await searchParams
+  const { env } = await requireAdminContext()
   const range = parseRange(rangeParam)
   const days = rangeToDays(range)
   const periodLabel = rangeLabel(range)

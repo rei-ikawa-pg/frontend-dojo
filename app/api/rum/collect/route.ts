@@ -15,17 +15,19 @@
 import { getCloudflareContext } from '@opennextjs/cloudflare'
 import type { NextRequest } from 'next/server'
 import { rumEventArraySchema } from '@/features/rum/shared/schema'
-import { corsHeaders, preflightResponse } from '@/lib/api/cors'
+import { corsHeaders, isDevEnvironment, preflightResponse } from '@/lib/api/cors'
 
 export async function OPTIONS(request: NextRequest) {
   const { env } = await getCloudflareContext({ async: true })
-  return preflightResponse(request.headers.get('origin'), env.ALLOWED_ORIGIN)
+  return preflightResponse(request.headers.get('origin'), env.ALLOWED_ORIGIN, {
+    allowLocal: isDevEnvironment(),
+  })
 }
 
 export async function POST(request: NextRequest) {
   const { env } = await getCloudflareContext({ async: true })
   const origin = request.headers.get('origin')
-  const cors = corsHeaders(origin, env.ALLOWED_ORIGIN)
+  const cors = corsHeaders(origin, env.ALLOWED_ORIGIN, { allowLocal: isDevEnvironment() })
 
   if (!request.headers.get('content-type')?.includes('application/json')) {
     return new Response('Bad Request', { status: 400, headers: cors })

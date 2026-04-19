@@ -9,17 +9,20 @@
 import { getCloudflareContext } from '@opennextjs/cloudflare'
 import type { NextRequest } from 'next/server'
 import { contactSchema } from '@/features/contact/schema'
-import { corsHeaders, preflightResponse } from '@/lib/api/cors'
+import { corsHeaders, isDevEnvironment, preflightResponse } from '@/lib/api/cors'
+import { classifyUserAgent } from '@/lib/browser/detect'
 
 export async function OPTIONS(request: NextRequest) {
   const { env } = await getCloudflareContext({ async: true })
-  return preflightResponse(request.headers.get('origin'), env.ALLOWED_ORIGIN)
+  return preflightResponse(request.headers.get('origin'), env.ALLOWED_ORIGIN, {
+    allowLocal: isDevEnvironment(),
+  })
 }
 
 export async function POST(request: NextRequest) {
   const { env } = await getCloudflareContext({ async: true })
   const origin = request.headers.get('origin')
-  const cors = corsHeaders(origin, env.ALLOWED_ORIGIN)
+  const cors = corsHeaders(origin, env.ALLOWED_ORIGIN, { allowLocal: isDevEnvironment() })
 
   if (!request.headers.get('content-type')?.includes('application/json')) {
     return new Response('Bad Request', { status: 400, headers: cors })
@@ -44,9 +47,10 @@ export async function POST(request: NextRequest) {
 
   try {
     const { category, body: message, email, page_path, session_id } = parsed.data
-    const userAgent = request.headers.get('user-agent')?.slice(0, 200) ?? null
+    // UA は分類ラベルのみ保存（生文字列は破棄）
+    const { browser, os, device_type } = classifyUserAgent(request.headers.get('user-agent'))
     await env.DB.prepare(
-      'INSERT INTO contact_messages (category, body, email, page_path, session_id, user_agent) VALUES (?, ?, ?, ?, ?, ?)',
+      'INSERT INTO contact_messages (category, body, email, page_path, session_id, browser, os, device_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
     )
       .bind(
         category,
@@ -54,7 +58,9 @@ export async function POST(request: NextRequest) {
         email && email.length > 0 ? email : null,
         page_path ?? null,
         session_id ?? null,
-        userAgent,
+        browser,
+        os,
+        device_type,
       )
       .run()
   } catch (err) {

@@ -47,6 +47,23 @@ describe('rumEventSchema', () => {
   it('rejects timestamps without offset', () => {
     expect(() => rumEventSchema.parse({ ...baseEvent, timestamp: '2026-04-18T12:00:00' })).toThrow()
   })
+
+  it('rejects page_path not starting with /', () => {
+    expect(() => rumEventSchema.parse({ ...baseEvent, page_path: 'lab/render' })).toThrow()
+  })
+
+  it('rejects page_path containing query or fragment', () => {
+    expect(() => rumEventSchema.parse({ ...baseEvent, page_path: '/labs?x=1' })).toThrow()
+    expect(() => rumEventSchema.parse({ ...baseEvent, page_path: '/labs#top' })).toThrow()
+  })
+
+  it('rejects non-URL referrer', () => {
+    expect(() => rumEventSchema.parse({ ...baseEvent, referrer: 'not-a-url' })).toThrow()
+  })
+
+  it('accepts null referrer', () => {
+    expect(() => rumEventSchema.parse({ ...baseEvent, referrer: null })).not.toThrow()
+  })
 })
 
 describe('rumEventArraySchema', () => {

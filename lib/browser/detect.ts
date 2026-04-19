@@ -1,5 +1,5 @@
 /**
- * User-Agent からブラウザ・デバイス種別を判定するユーティリティ。
+ * User-Agent からブラウザ・デバイス種別・OS を判定するユーティリティ。
  *
  * 方針:
  * - UA は生のまま保存せず、限られたラベル (chromium/safari/firefox/other) に落とす
@@ -7,7 +7,7 @@
  *   （navigator 未定義環境では空文字として扱う）
  */
 
-import type { Browser, DeviceType } from './types'
+import type { Browser, DeviceType, OsType } from './types'
 
 export function detectBrowser(userAgent?: string): Browser {
   const ua = (
@@ -43,4 +43,35 @@ export function detectDeviceType(userAgent?: string): DeviceType {
 /** Lab の互換性警告バナーで用いる: Chromium 系のみ「フル機能動作」と見做す */
 export function isChromium(userAgent?: string): boolean {
   return detectBrowser(userAgent) === 'chromium'
+}
+
+export function detectOs(userAgent?: string): OsType {
+  const ua = (
+    userAgent ?? (typeof navigator !== 'undefined' ? navigator.userAgent : '')
+  ).toLowerCase()
+  if (!ua) return 'other'
+  // iOS / iPadOS は macOS より先に判定する（iPadOS の UA には "mac os x" が含まれることがある）
+  if (/iphone|ipad|ipod|ios/.test(ua)) return 'ios'
+  if (/android/.test(ua)) return 'android'
+  if (/windows/.test(ua)) return 'windows'
+  if (/mac os x|macintosh/.test(ua)) return 'macos'
+  if (/linux|x11|cros|ubuntu|fedora|debian/.test(ua)) return 'linux'
+  return 'other'
+}
+
+/**
+ * フィードバック / お問い合わせの保存用。UA 生文字列を破棄し、
+ * 限定ラベル (browser, os, device_type) のみを返す。
+ */
+export function classifyUserAgent(userAgent: string | null | undefined): {
+  browser: Browser
+  os: OsType
+  device_type: DeviceType
+} {
+  const ua = userAgent ?? ''
+  return {
+    browser: detectBrowser(ua),
+    os: detectOs(ua),
+    device_type: detectDeviceType(ua),
+  }
 }

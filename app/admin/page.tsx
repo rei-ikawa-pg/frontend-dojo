@@ -2,7 +2,8 @@
  * /admin — 管理画面 TOP。
  *
  * 各機能（RUM / フィードバック）への導線だけを並べるシンプルなページ。
- * 各リンクには現在の `?token=XXX` を伝搬させる。
+ * 認可は middleware.ts で済ませる前提で、ここでは二重防御のために
+ * `requireAdminContext()` を呼ぶだけ。
  */
 
 import type { Metadata } from 'next'
@@ -13,10 +14,6 @@ export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'TOP',
-}
-
-type PageProps = {
-  searchParams: Promise<{ token?: string }>
 }
 
 const FEATURES: { href: string; label: string; description: string }[] = [
@@ -32,11 +29,8 @@ const FEATURES: { href: string; label: string; description: string }[] = [
   },
 ]
 
-export default async function AdminTopPage({ searchParams }: PageProps) {
-  const { token } = await searchParams
-  await requireAdminContext(token)
-
-  const tokenQs = `?token=${encodeURIComponent(token ?? '')}`
+export default async function AdminTopPage() {
+  await requireAdminContext()
 
   return (
     <>
@@ -51,7 +45,7 @@ export default async function AdminTopPage({ searchParams }: PageProps) {
           {FEATURES.map((item, idx) => (
             <li key={item.href}>
               <Link
-                href={`${item.href}${tokenQs}`}
+                href={item.href}
                 className="group block h-full border border-rule-dim bg-card p-5 transition-colors hover:border-ink-900"
               >
                 <div className="text-[11px] uppercase tracking-[0.24em] text-ink-400 group-hover:text-ink-700">

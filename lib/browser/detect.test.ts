@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { detectBrowser, detectDeviceType, isChromium } from './detect'
+import { classifyUserAgent, detectBrowser, detectDeviceType, detectOs, isChromium } from './detect'
 
 describe('detectBrowser', () => {
   it.each([
@@ -35,5 +35,37 @@ describe('isChromium', () => {
   })
   it('returns false for Safari', () => {
     expect(isChromium('Version/17.0 Safari/605.1.15')).toBe(false)
+  })
+})
+
+describe('detectOs', () => {
+  it.each([
+    ['Mozilla/5.0 (Windows NT 10.0) Chrome/120.0.0.0', 'windows'],
+    ['Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) Safari/605.1.15', 'macos'],
+    ['Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) Mobile Safari/605.1.15', 'ios'],
+    ['Mozilla/5.0 (iPad; CPU OS 17_0) Safari/605.1.15', 'ios'],
+    ['Mozilla/5.0 (Linux; Android 14; Pixel 8) Mobile Chrome/120.0.0.0', 'android'],
+    ['Mozilla/5.0 (X11; Linux x86_64) Chrome/120.0.0.0', 'linux'],
+    ['SomeBot/1.0', 'other'],
+    ['', 'other'],
+  ])('detects %s as %s', (ua, expected) => {
+    expect(detectOs(ua)).toBe(expected)
+  })
+})
+
+describe('classifyUserAgent', () => {
+  it('returns all three labels from a Chrome on macOS UA', () => {
+    expect(classifyUserAgent('Mozilla/5.0 (Macintosh) Chrome/120.0.0.0 Safari/537.36')).toEqual({
+      browser: 'chromium',
+      os: 'macos',
+      device_type: 'desktop',
+    })
+  })
+  it('falls back to other / desktop on null input', () => {
+    expect(classifyUserAgent(null)).toEqual({
+      browser: 'other',
+      os: 'other',
+      device_type: 'desktop',
+    })
   })
 })

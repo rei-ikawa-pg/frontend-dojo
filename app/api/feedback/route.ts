@@ -8,17 +8,20 @@
 import { getCloudflareContext } from '@opennextjs/cloudflare'
 import type { NextRequest } from 'next/server'
 import { feedbackSchema } from '@/features/feedback/schema'
-import { corsHeaders, preflightResponse } from '@/lib/api/cors'
+import { corsHeaders, isDevEnvironment, preflightResponse } from '@/lib/api/cors'
+import { classifyUserAgent } from '@/lib/browser/detect'
 
 export async function OPTIONS(request: NextRequest) {
   const { env } = await getCloudflareContext({ async: true })
-  return preflightResponse(request.headers.get('origin'), env.ALLOWED_ORIGIN)
+  return preflightResponse(request.headers.get('origin'), env.ALLOWED_ORIGIN, {
+    allowLocal: isDevEnvironment(),
+  })
 }
 
 export async function POST(request: NextRequest) {
   const { env } = await getCloudflareContext({ async: true })
   const origin = request.headers.get('origin')
-  const cors = corsHeaders(origin, env.ALLOWED_ORIGIN)
+  const cors = corsHeaders(origin, env.ALLOWED_ORIGIN, { allowLocal: isDevEnvironment() })
 
   if (!request.headers.get('content-type')?.includes('application/json')) {
     return new Response('Bad Request', { status: 400, headers: cors })
@@ -38,12 +41,22 @@ export async function POST(request: NextRequest) {
 
   try {
     const { rating, comment, page_path, lab_id, session_id } = parsed.data
-    // UA はサーバ受信時に抽出する（生のヘッダはログ保存しない方針）
-    const userAgent = request.headers.get('user-agent')?.slice(0, 200) ?? null
+    // UA は生文字列を保存せず、分類ラベル (browser/os/device_type) に落としてから保存する。
+    // fingerprint 性の低減（docs/05 §2.6 RUM 方針と同じ扱い）。
+    const { browser, os, device_type } = classifyUserAgent(request.headers.get('user-agent'))
     await env.DB.prepare(
-      'INSERT INTO feedback (page_path, lab_id, rating, comment, session_id, user_agent) VALUES (?, ?, ?, ?, ?, ?)',
+      'INSERT INTO feedback (page_path, lab_id, rating, comment, session_id, browser, os, device_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
     )
-      .bind(page_path, lab_id ?? null, rating, comment ?? null, session_id ?? null, userAgent)
+      .bind(
+        page_path,
+        lab_id ?? null,
+        rating,
+        comment ?? null,
+        session_id ?? null,
+        browser,
+        os,
+        device_type,
+      )
       .run()
   } catch (err) {
     console.error('feedback insert failed', err)

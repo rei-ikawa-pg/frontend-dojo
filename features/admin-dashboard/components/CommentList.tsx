@@ -2,7 +2,8 @@
  * フィードバックのコメント一覧（テーブル表示）。
  *
  * - comment が空でないレコードのみを受け取る前提
- * - user_agent 列は個体特定性があるため DB には保存するが画面には出さない方針
+ * - UA は生文字列では保存せず、別列 (browser / os / device_type) に分類済みラベルとして保持。
+ *   それらはデバッグ用で画面には表示しない。
  */
 
 import type { FeedbackComment } from '../queries/feedbackQueries'
