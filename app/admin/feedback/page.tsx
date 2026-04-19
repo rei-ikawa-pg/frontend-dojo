@@ -120,8 +120,8 @@ export default async function AdminFeedbackPage({ searchParams }: PageProps) {
         </h2>
         <MetricGuide>
           <p>
-            コメント付きフィードバックを新しい順に最大 100 件。UA
-            は生文字列では保存せず、ブラウザ / OS / デバイス種別のラベルのみ記録しています。
+            コメント付きフィードバックを新しい順に最大 100 件。UA は生文字列では保存せず、ブラウザ /
+            OS / デバイス種別のラベルのみ記録しています。
           </p>
         </MetricGuide>
         <CommentList rows={comments} />

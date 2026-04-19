@@ -66,11 +66,14 @@ export async function fetchTotalUniqueUsers(db: D1Database, days: number): Promi
   return res?.count ?? 0
 }
 
-/** デイリー PV（UTC 日付で集計） */
+/** デイリー PV（JST 日付で集計）
+ * created_at は UTC 保存のため +9h シフトして日付を切ると、深夜帯のイベントも
+ * JST 基準の日付に正しく属する。`datetime(col, '+9 hours')` は SQLite の日時関数。
+ */
 export async function fetchDailyPageviews(db: D1Database, days: number): Promise<DailyCount[]> {
   const res = await db
     .prepare(
-      `SELECT substr(created_at, 1, 10) AS day, COUNT(*) AS count
+      `SELECT substr(datetime(created_at, '+9 hours'), 1, 10) AS day, COUNT(*) AS count
        FROM rum_events
        WHERE metric_name = 'web.lcp' AND created_at >= ?
        GROUP BY day
@@ -81,11 +84,11 @@ export async function fetchDailyPageviews(db: D1Database, days: number): Promise
   return res.results ?? []
 }
 
-/** デイリー UU（session_id の distinct） */
+/** デイリー UU（session_id の distinct, JST 日付で集計） */
 export async function fetchDailyUniqueUsers(db: D1Database, days: number): Promise<DailyCount[]> {
   const res = await db
     .prepare(
-      `SELECT substr(created_at, 1, 10) AS day, COUNT(DISTINCT session_id) AS count
+      `SELECT substr(datetime(created_at, '+9 hours'), 1, 10) AS day, COUNT(DISTINCT session_id) AS count
        FROM rum_events
        WHERE created_at >= ?
        GROUP BY day

@@ -6,6 +6,7 @@
  *   それらはデバッグ用で画面には表示しない。
  */
 
+import { formatJst } from '@/lib/utils/datetime'
 import type { FeedbackComment } from '../queries/feedbackQueries'
 
 type CommentListProps = {
@@ -26,7 +27,7 @@ export function CommentList({ rows }: CommentListProps) {
       <table className="w-full text-xs">
         <thead>
           <tr className="border-b border-rule-dim text-[11px] uppercase tracking-[0.18em] text-ink-400">
-            <th className="px-3 py-2 text-left">created_at</th>
+            <th className="px-3 py-2 text-left">created_at (JST)</th>
             <th className="px-3 py-2 text-left">rating</th>
             <th className="px-3 py-2 text-left">path</th>
             <th className="px-3 py-2 text-left">lab</th>
@@ -39,7 +40,7 @@ export function CommentList({ rows }: CommentListProps) {
               key={row.id}
               className="border-b border-rule-dim last:border-b-0 align-top text-ink-500"
             >
-              <td className="whitespace-nowrap px-3 py-2 font-mono">{row.created_at}</td>
+              <td className="whitespace-nowrap px-3 py-2 font-mono">{formatJst(row.created_at)}</td>
               <td className="px-3 py-2">
                 <span
                   className={`tnum rounded px-1.5 py-0.5 text-[10px] uppercase tracking-[0.18em] ${

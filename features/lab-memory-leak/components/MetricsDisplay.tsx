@@ -101,10 +101,7 @@ export function MetricsDisplay({ counts, focus }: MetricsDisplayProps) {
       {/* 高さを常に予約することで、マウント後に available が true に切り替わる Chromium 系で
           下のコンテンツがシフトしないようにする (CLS 対策)。 */}
       <p
-        className={cn(
-          'text-[11px] leading-relaxed text-ink-400',
-          available && 'invisible',
-        )}
+        className={cn('text-[11px] leading-relaxed text-ink-400', available && 'invisible')}
         aria-hidden={available}
       >
         このブラウザでは <code className="font-mono text-ink-500">performance.memory</code> が

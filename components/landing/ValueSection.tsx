@@ -51,8 +51,8 @@ export function ValueSection() {
             理解を。
           </h2>
           <p className="max-w-sm text-sm leading-relaxed text-ink-500">
-            以下は 1 つの Lab（目安 60〜120 分）を通したときに得られるスキル・感覚です。
-            個別の Lab ページに詳しい習得目標と所要時間があります。
+            以下は 1 つの Lab（目安 60〜120 分）を通したときに得られるスキル・感覚です。 個別の Lab
+            ページに詳しい習得目標と所要時間があります。
           </p>
         </div>
 

@@ -27,9 +27,7 @@ export default async function AdminLoginPage({ searchParams }: PageProps) {
   return (
     <div className="mx-auto flex w-full max-w-md flex-col gap-6 py-12">
       <header className="mb-2">
-        <p className="mb-2 text-[11px] uppercase tracking-[0.28em] text-ink-400">
-          § Admin / Login
-        </p>
+        <p className="mb-2 text-[11px] uppercase tracking-[0.28em] text-ink-400">§ Admin / Login</p>
         <h1 className="font-mincho text-3xl tracking-tight text-ink-900 md:text-4xl">
           管理画面ログイン
         </h1>

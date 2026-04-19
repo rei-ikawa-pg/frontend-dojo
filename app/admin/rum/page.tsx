@@ -44,6 +44,7 @@ import {
   StatCard,
 } from '@/features/admin-dashboard'
 import { requireAdminContext } from '@/lib/admin/auth'
+import { formatJst } from '@/lib/utils/datetime'
 
 export const dynamic = 'force-dynamic'
 
@@ -319,7 +320,7 @@ export default async function AdminRumPage({ searchParams }: PageProps) {
           <table className="w-full text-xs">
             <thead>
               <tr className="border-b border-rule-dim text-[11px] uppercase tracking-[0.18em] text-ink-400">
-                <th className="px-3 py-2 text-left">created_at</th>
+                <th className="px-3 py-2 text-left">created_at (JST)</th>
                 <th className="px-3 py-2 text-left">path</th>
                 <th className="px-3 py-2 text-left">lab</th>
                 <th className="px-3 py-2 text-left">mode</th>
@@ -334,7 +335,9 @@ export default async function AdminRumPage({ searchParams }: PageProps) {
                   key={`${row.created_at}-${row.metric_name}-${row.page_path}`}
                   className="border-b border-rule-dim last:border-b-0 text-ink-500"
                 >
-                  <td className="px-3 py-2 font-mono">{row.created_at}</td>
+                  <td className="whitespace-nowrap px-3 py-2 font-mono">
+                    {formatJst(row.created_at)}
+                  </td>
                   <td className="px-3 py-2 font-mono">{row.page_path}</td>
                   <td className="px-3 py-2">{row.lab_id ?? '—'}</td>
                   <td className="px-3 py-2">{row.mode}</td>
