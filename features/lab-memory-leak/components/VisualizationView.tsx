@@ -47,7 +47,7 @@ export function VisualizationView({
         ref={containerRef}
         role="presentation"
         aria-live="polite"
-        className="flex min-h-[220px] flex-wrap content-start gap-1 p-4 pt-10 md:min-h-[260px]"
+        className="flex h-[220px] flex-wrap content-start gap-1 overflow-y-auto p-4 pt-10 [contain:layout] md:h-[260px]"
       />
       {isRunning && (
         <div className="absolute right-4 top-9 flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-vermilion">

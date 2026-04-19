@@ -61,7 +61,7 @@ export function MetricCard({
       <div className="text-[11px] uppercase tracking-[0.24em] text-ink-400">{label}</div>
       <div
         className={cn(
-          'tnum font-mincho leading-none',
+          'tnum truncate font-mincho leading-none',
           size === 'md' ? 'mt-2 text-2xl' : 'mt-1.5 text-xl',
           warn || focus ? 'text-vermilion' : 'text-ink-900',
         )}

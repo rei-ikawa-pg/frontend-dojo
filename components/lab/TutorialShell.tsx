@@ -106,7 +106,10 @@ export function TutorialShell({
         ユーザーがどちらを読んでいても、短い側が画面に残る自然な挙動になる。
       */}
       <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
-        <aside className="flex flex-col gap-6 border border-rule-dim bg-card p-5 lg:sticky lg:top-20 lg:self-start">
+        {/* min-w-0: grid セルが子の intrinsic 幅で押し広げられないようにする。
+            これがないと Prose 内の <pre> や長いコードトークンが viewport を超え、
+            ページ全体が横スクロールしてしまう（特に SP サイズ）。 */}
+        <aside className="flex min-w-0 flex-col gap-6 border border-rule-dim bg-card p-5 lg:sticky lg:top-20 lg:self-start">
           <section>
             <h2 className="text-[11px] uppercase tracking-[0.24em] text-ink-400">
               § 目的 / Objective
@@ -129,7 +132,7 @@ export function TutorialShell({
           {extras}
         </aside>
 
-        <div className="flex flex-col gap-6 lg:sticky lg:top-20">{children}</div>
+        <div className="flex min-w-0 flex-col gap-6 lg:sticky lg:top-20">{children}</div>
       </div>
 
       {/*

@@ -71,7 +71,7 @@ export function MetricsDisplay({ counts, focus }: MetricsDisplayProps) {
           size="sm"
           label="Heap"
           value={usedMb ? `${usedMb} MB` : '—'}
-          note={available ? undefined : '非対応'}
+          note={<span className={cn(available && 'invisible')}>非対応</span>}
           focus={focused.has('heap')}
         />
         <MetricCard
@@ -98,13 +98,19 @@ export function MetricsDisplay({ counts, focus }: MetricsDisplayProps) {
         <MemoryChart samples={samples} enabled={isRunning} />
       </div>
 
-      {!available && (
-        <p className="text-[11px] leading-relaxed text-ink-400">
-          このブラウザでは <code className="font-mono text-ink-500">performance.memory</code> が
-          未対応のため、ヒープ使用量は計測されません (Chromium 系のみ対応)。 Timer / Listener /
-          Detached / Closure のカウントは動作します。
-        </p>
-      )}
+      {/* 高さを常に予約することで、マウント後に available が true に切り替わる Chromium 系で
+          下のコンテンツがシフトしないようにする (CLS 対策)。 */}
+      <p
+        className={cn(
+          'text-[11px] leading-relaxed text-ink-400',
+          available && 'invisible',
+        )}
+        aria-hidden={available}
+      >
+        このブラウザでは <code className="font-mono text-ink-500">performance.memory</code> が
+        未対応のため、ヒープ使用量は計測されません (Chromium 系のみ対応)。 Timer / Listener /
+        Detached / Closure のカウントは動作します。
+      </p>
     </section>
   )
 }

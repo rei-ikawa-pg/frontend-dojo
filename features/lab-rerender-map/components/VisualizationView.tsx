@@ -92,7 +92,10 @@ export function VisualizationView() {
         </span>
         <span className="tnum text-ink-300">mutations: {mutations}</span>
       </div>
-      <div ref={containerRef} className="flex min-h-[280px] items-start justify-center p-4 pt-10">
+      <div
+        ref={containerRef}
+        className="flex h-[320px] items-start justify-center overflow-auto p-4 pt-10 [contain:layout] md:h-[420px]"
+      >
         {stateSource === 'context' ? (
           <TickContext.Provider value={tick}>{tree_view}</TickContext.Provider>
         ) : (

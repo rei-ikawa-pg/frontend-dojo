@@ -24,7 +24,7 @@ export function VisualizationView() {
       <div
         ref={ref}
         role="presentation"
-        className="flex min-h-[360px] flex-wrap content-start gap-1 p-4 pt-10 md:min-h-[480px]"
+        className="flex h-[360px] flex-wrap content-start gap-1 overflow-y-auto p-4 pt-10 [contain:layout] md:h-[480px]"
       />
     </div>
   )
