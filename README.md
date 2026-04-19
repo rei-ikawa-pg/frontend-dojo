@@ -139,7 +139,7 @@ frontend-dojo/
 └── CLAUDE.md             # Claude Code 向けガイド
 ```
 
-ルール詳細は [`CLAUDE.md`](CLAUDE.md) および [`docs/03-architecture-directory.md`](docs/03-architecture-directory.md) を参照。
+ルール詳細は [`CLAUDE.md`](CLAUDE.md) および [`docs/architecture/directory.md`](docs/architecture/directory.md) を参照。
 
 ---
 
@@ -179,7 +179,7 @@ pnpm exec wrangler d1 execute frontend-dojo-rum --local --file=migrations/000X_x
 pnpm exec wrangler d1 execute frontend-dojo-rum --remote --file=migrations/000X_xxx.sql
 ```
 
-スキーマ設計は [`docs/05-architecture-rum.md`](docs/05-architecture-rum.md) を参照。
+スキーマ設計は [`docs/architecture/rum.md`](docs/architecture/rum.md) を参照。
 
 ---
 

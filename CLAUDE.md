@@ -9,7 +9,7 @@
 **サイト名**: フロントエンド道場 / Frontend Dojo
 **URL (予定)**: https://frontend-dojo.pages.dev
 **一文コンセプト**: 「フロントエンドの鬼門を、読むのではなく触って理解する。日本語のインタラクティブラボ」
-**現在**: Phase 1 MVP（詳細は `docs/01-requirements.md` §0.1）
+**現在**: Phase 1 MVP（詳細は `docs/requirements/phase1-mvp.md` §0.1）
 
 ### ターゲット読者
 
@@ -264,21 +264,31 @@ frontend-dojo/
 
 ## 受け入れ条件（Phase 1 リリース判定）
 
-Phase 1 リリース判定のチェックリストは `docs/01-requirements.md` §6 に集約。更新時はそちらを編集する。
+Phase 1 リリース判定のチェックリストは `docs/requirements/phase1-mvp.md` §6 に集約。更新時はそちらを編集する。
 
 ---
 
 ## 参考ドキュメント
 
-この `docs/` 配下に以下の詳細設計書があります。作業時に該当するものを参照してください。
+`docs/` 配下は以下の 3 カテゴリで整理。作業時に該当するものを参照すること。
 
-- `01-requirements.md`: Phase 1 MVP 要件定義
-- `02-information-architecture.md`: 情報設計（URL構造、ページ役割）
-- `03-architecture-directory.md`: ディレクトリ構造詳細
-- `04-architecture-state-management.md`: 状態管理方針
-- `05-architecture-rum.md`: RUM基盤アーキテクチャ
-- `06-architecture-visualization-engine.md`: Lab 1 可視化エンジン設計
-- `07-task-list.md`: Phase 1 MVP タスクリスト（実装計画・着手順）
+### 要件定義 (`docs/requirements/`)
+
+- `phase1-mvp.md`: Phase 1 MVP 要件定義
+- `phase2-lab-roadmap.md`: Phase 2+ Lab ロードマップ & 難易度タグ設計
+
+### 設計 (`docs/architecture/`)
+
+- `information.md`: 情報設計（URL構造、ページ役割）
+- `directory.md`: ディレクトリ構造詳細
+- `state-management.md`: 状態管理方針
+- `rum.md`: RUM基盤アーキテクチャ
+- `visualization-lab1.md`: Lab 1 可視化エンジン設計
+- `rate-limiting.md`: レート制限 / ボット対策（Cloudflare 側設定）
+
+### Lab 追加時の検証ルール
+
+- `lab-review-rules.md`: Lab 追加後に MDX コンテンツを検証する共通ルール（レビュー観点・ワークフロー・出力フォーマット）
 
 ---
 

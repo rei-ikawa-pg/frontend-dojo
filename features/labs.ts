@@ -5,7 +5,7 @@ import { LAB_RERENDER_MAP_META } from './lab-rerender-map'
 export type LabStatus = 'published' | 'phase-2' | 'phase-3' | 'formal'
 
 /**
- * 難易度タグ。docs/08-lab-roadmap-phase2.md §2.2 と整合:
+ * 難易度タグ。docs/requirements/phase2-lab-roadmap.md §2.2 と整合:
  * - 初段: 前提 Lab なし、60-90 分、基礎概念
  * - 二段: 前提 Lab 1 つ程度、90-120 分、実務頻出
  * - 三段: 前提 Lab 2 つ以上 or 高抽象度、120 分〜、多層問題

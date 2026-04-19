@@ -1,6 +1,6 @@
 /**
  * Lab 2 チュートリアルのステップ定義。
- * docs/08-lab-roadmap-phase2.md §8.1 の 5 ステップ構成に準拠。
+ * docs/requirements/phase2-lab-roadmap.md §8.1 の 5 ステップ構成に準拠。
  * 各 preset で playgroundStore の初期値を強制し「比較の前提」を揃える。
  */
 

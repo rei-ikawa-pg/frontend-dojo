@@ -1,4 +1,6 @@
-# 10. レート制限 / ボット対策（Cloudflare 側設定）
+# レート制限 / ボット対策（Cloudflare 側設定）
+
+最終更新: 2026-04-19
 
 Workers コード側には意図的にレート制限を実装せず、Cloudflare WAF の **Rate Limiting Rules** と **Super Bot Fight Mode** で境界層に寄せる。理由は以下。
 

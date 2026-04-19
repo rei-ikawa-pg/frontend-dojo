@@ -2,7 +2,7 @@
  * 検討中の鬼門一覧。Lab 化の構想段階にあるトピック。
  * - 用途: /roadmap ページで「検討中」セクションに分野別表示する
  * - 各候補は 1 行説明まで。Lab 昇格が決まったら `features/labs.ts` に移す
- * - 分野タグ(domain)は docs/08-lab-roadmap-phase2.md §2.1 副軸と整合
+ * - 分野タグ(domain)は docs/requirements/phase2-lab-roadmap.md §2.1 副軸と整合
  * - 難易度タグ(difficulty)は候補段階では暫定値。Lab 化時に実装を経て再確定する
  */
 
