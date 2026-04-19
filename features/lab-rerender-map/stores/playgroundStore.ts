@@ -12,6 +12,7 @@
 'use client'
 
 import { create } from 'zustand'
+import { clampInt } from '@/lib/utils/clamp'
 
 export const PROP_KINDS = ['primitive', 'object-literal', 'stable-ref', 'function'] as const
 export type PropKind = (typeof PROP_KINDS)[number]
@@ -60,11 +61,6 @@ type RerenderPlaygroundState = {
 
 const INITIAL_MEMO_IDS: ReadonlySet<string> = new Set()
 
-function clamp(n: number, min: number, max: number): number {
-  if (Number.isNaN(n)) return min
-  return Math.min(max, Math.max(min, Math.round(n)))
-}
-
 export const useRerenderPlaygroundStore = create<RerenderPlaygroundState>((set) => ({
   depth: DEPTH_DEFAULT,
   fanout: FANOUT_DEFAULT,
@@ -73,8 +69,8 @@ export const useRerenderPlaygroundStore = create<RerenderPlaygroundState>((set) 
   stateSource: 'local',
   tick: 0,
 
-  setDepth: (n) => set({ depth: clamp(n, DEPTH_MIN, DEPTH_MAX) }),
-  setFanout: (n) => set({ fanout: clamp(n, FANOUT_MIN, FANOUT_MAX) }),
+  setDepth: (n) => set({ depth: clampInt(n, DEPTH_MIN, DEPTH_MAX) }),
+  setFanout: (n) => set({ fanout: clampInt(n, FANOUT_MIN, FANOUT_MAX) }),
 
   toggleMemo: (id) =>
     set((state) => {

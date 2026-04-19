@@ -5,22 +5,18 @@
 
 'use client'
 
-import { useEffect, useRef } from 'react'
-import { useRumSetContext } from '@/features/rum'
+import { useRef } from 'react'
+import { useLabRumContext } from '@/features/rum'
 import { useLeakController } from '../hooks/useLeakController'
 import { ControlPanel } from './ControlPanel'
 import { MetricsDisplay } from './MetricsDisplay'
 import { VisualizationView } from './VisualizationView'
 
 export function PlaygroundMode() {
-  const setContext = useRumSetContext()
   const containerRef = useRef<HTMLDivElement | null>(null)
   const { counts, cycleOnce, releaseAll } = useLeakController(containerRef)
 
-  useEffect(() => {
-    setContext({ lab_id: 'memory-leak', mode: 'playground' })
-    return () => setContext({ lab_id: null, mode: 'other' })
-  }, [setContext])
+  useLabRumContext('memory-leak', 'playground')
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_320px]">

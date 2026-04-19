@@ -7,6 +7,7 @@
 'use client'
 
 import { useEffect, useMemo } from 'react'
+import { MetricCard } from '@/components/lab/MetricCard'
 import { useRumCustomMetric } from '@/features/rum'
 import { cn } from '@/lib/utils'
 import { buildTree, collectIds } from '../engine/tree'
@@ -57,14 +58,15 @@ export function MetricsDisplay({ focus }: MetricsDisplayProps = {}) {
   return (
     <section aria-label="メトリクス" className="flex flex-col gap-4">
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <Metric label="Clicks" value={String(tick)} />
-        <Metric
+        <MetricCard size="sm" label="Clicks" value={String(tick)} />
+        <MetricCard
+          size="sm"
           label="Total renders"
           value={String(totalRenders)}
           focus={focused.has('total_renders')}
         />
-        <Metric label="Memo nodes" value={`${memoCount} / ${ids.length}`} />
-        <Metric label="State src" value={stateSource} />
+        <MetricCard size="sm" label="Memo nodes" value={`${memoCount} / ${ids.length}`} />
+        <MetricCard size="sm" label="State src" value={stateSource} />
       </div>
 
       <div
@@ -102,36 +104,5 @@ export function MetricsDisplay({ focus }: MetricsDisplayProps = {}) {
         </table>
       </div>
     </section>
-  )
-}
-
-type MetricProps = { label: string; value: string; focus?: boolean }
-
-function Metric({ label, value, focus }: MetricProps) {
-  return (
-    <div
-      className={cn(
-        'relative border bg-card p-3 transition-colors',
-        focus ? 'border-vermilion/70 bg-vermilion/5' : 'border-rule-dim',
-      )}
-    >
-      {focus && (
-        <span
-          aria-hidden
-          className="absolute -top-2 left-3 bg-background px-1 text-[11px] uppercase tracking-[0.2em] text-vermilion"
-        >
-          FOCUS
-        </span>
-      )}
-      <div className="text-[11px] uppercase tracking-[0.24em] text-ink-400">{label}</div>
-      <div
-        className={cn(
-          'mt-1.5 tnum font-mincho text-xl leading-none',
-          focus ? 'text-vermilion' : 'text-ink-900',
-        )}
-      >
-        {value}
-      </div>
-    </div>
   )
 }

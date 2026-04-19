@@ -1,9 +1,14 @@
 /**
  * ダッシュボードの指標カード。
- * Recharts の周辺で使う、数値と簡単な文脈（期間・説明）を表示するだけの小さなコンポーネント。
+ *
+ * Lab の MetricCard と完全に同じ責務（label + value + 補足）なので
+ * `MetricCard` への薄いラッパとして実装している。
+ *
+ * 後方互換のため `sub` プロップ名を維持している。
  */
 
 import type { ReactNode } from 'react'
+import { MetricCard } from '@/components/lab/MetricCard'
 
 type StatCardProps = {
   label: string
@@ -12,11 +17,5 @@ type StatCardProps = {
 }
 
 export function StatCard({ label, value, sub }: StatCardProps) {
-  return (
-    <div className="border border-rule-dim bg-card p-4">
-      <div className="text-[11px] uppercase tracking-[0.24em] text-ink-400">{label}</div>
-      <div className="mt-2 tnum font-mincho text-2xl leading-none text-ink-900">{value}</div>
-      {sub && <div className="mt-2 text-xs text-ink-500">{sub}</div>}
-    </div>
-  )
+  return <MetricCard label={label} value={value} note={sub} />
 }

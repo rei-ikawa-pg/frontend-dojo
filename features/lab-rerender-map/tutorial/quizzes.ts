@@ -1,20 +1,11 @@
 /**
  * Lab 3 各ステップのクイズ。
+ * 型は components/lab/quiz.ts に集約。
  */
 
-export type QuizOption = {
-  id: string
-  text: string
-  hint?: string
-}
+import type { Quiz } from '@/components/lab/quiz'
 
-export type Quiz = {
-  stepId: number
-  question: string
-  options: readonly QuizOption[]
-  correctId: string
-  explanation: string
-}
+export type { Quiz, QuizOption } from '@/components/lab/quiz'
 
 export const QUIZZES: readonly Quiz[] = [
   {

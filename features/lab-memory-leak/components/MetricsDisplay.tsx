@@ -10,6 +10,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { MetricCard } from '@/components/lab/MetricCard'
 import { useRumCustomMetric } from '@/features/rum'
 import { cn } from '@/lib/utils'
 import type { LeakCounts } from '../engine/leakController'
@@ -66,19 +67,27 @@ export function MetricsDisplay({ counts, focus }: MetricsDisplayProps) {
   return (
     <section aria-label="メトリクス" className="flex flex-col gap-4">
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <Metric
+        <MetricCard
+          size="sm"
           label="Heap"
           value={usedMb ? `${usedMb} MB` : '—'}
           note={available ? undefined : '非対応'}
           focus={focused.has('heap')}
         />
-        <Metric
+        <MetricCard
+          size="sm"
           label="DOM Nodes"
           value={latest?.domNodes != null ? String(latest.domNodes) : '—'}
           focus={focused.has('dom_nodes')}
         />
-        <Metric label="Retained" value={String(retained)} focus={focused.has('retained')} />
-        <Metric
+        <MetricCard
+          size="sm"
+          label="Retained"
+          value={String(retained)}
+          focus={focused.has('retained')}
+        />
+        <MetricCard
+          size="sm"
           label="Timers / Listeners"
           value={`${counts.timers} / ${counts.listeners}`}
           focus={focused.has('retained')}
@@ -97,42 +106,5 @@ export function MetricsDisplay({ counts, focus }: MetricsDisplayProps) {
         </p>
       )}
     </section>
-  )
-}
-
-type MetricProps = {
-  label: string
-  value: string
-  note?: string
-  focus?: boolean
-}
-
-function Metric({ label, value, note, focus }: MetricProps) {
-  return (
-    <div
-      className={cn(
-        'relative border bg-card p-3 transition-colors',
-        focus ? 'border-vermilion/70 bg-vermilion/5' : 'border-rule-dim',
-      )}
-    >
-      {focus && (
-        <span
-          aria-hidden
-          className="absolute -top-2 left-3 bg-background px-1 text-[11px] uppercase tracking-[0.2em] text-vermilion"
-        >
-          FOCUS
-        </span>
-      )}
-      <div className="text-[11px] uppercase tracking-[0.24em] text-ink-400">{label}</div>
-      <div
-        className={cn(
-          'mt-1.5 tnum font-mincho text-xl leading-none',
-          focus ? 'text-vermilion' : 'text-ink-900',
-        )}
-      >
-        {value}
-      </div>
-      {note && <div className="mt-1 text-[10px] text-ink-300">{note}</div>}
-    </div>
   )
 }

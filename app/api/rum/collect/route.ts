@@ -1,5 +1,5 @@
 /**
- * RUM 収集エンドポイント（Cloudflare Workers / Edge Runtime）。
+ * RUM 収集エンドポイント（Cloudflare Workers / OpenNext）。
  *
  * 処理:
  *   1. Origin を ALLOWED_ORIGIN または localhost に制限
@@ -15,33 +15,11 @@
 import { getCloudflareContext } from '@opennextjs/cloudflare'
 import type { NextRequest } from 'next/server'
 import { rumEventArraySchema } from '@/features/rum/shared/schema'
-
-function corsHeaders(origin: string | null, allowed: string): Record<string, string> {
-  const allowOrigin = origin && isOriginAllowed(origin, allowed) ? origin : allowed
-  return {
-    'Access-Control-Allow-Origin': allowOrigin,
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Max-Age': '86400',
-    Vary: 'Origin',
-  }
-}
-
-function isOriginAllowed(origin: string, allowed: string): boolean {
-  if (origin === allowed) return true
-  // 開発時: pnpm dev / pnpm preview を許可
-  if (/^https?:\/\/localhost(?::\d+)?$/.test(origin)) return true
-  if (/^https?:\/\/127\.0\.0\.1(?::\d+)?$/.test(origin)) return true
-  return false
-}
+import { corsHeaders, preflightResponse } from '@/lib/api/cors'
 
 export async function OPTIONS(request: NextRequest) {
   const { env } = await getCloudflareContext({ async: true })
-  const origin = request.headers.get('origin')
-  return new Response(null, {
-    status: 204,
-    headers: corsHeaders(origin, env.ALLOWED_ORIGIN),
-  })
+  return preflightResponse(request.headers.get('origin'), env.ALLOWED_ORIGIN)
 }
 
 export async function POST(request: NextRequest) {

@@ -1,6 +1,8 @@
 export { RumProvider } from './client/provider'
 export { getOrCreateSessionId } from './client/session'
+export { type LabRumMode, useLabRumContext } from './client/useLabRumContext'
 export { useRumCustomMetric, useRumSetContext } from './client/useRumCustomMetric'
+export { useStepDuration } from './client/useStepDuration'
 export type { MetricMode } from './shared/schema'
 export { SDK_VERSION } from './shared/schema'
 export type { RumEvent, RumEventInput, RumMetadata } from './shared/types'

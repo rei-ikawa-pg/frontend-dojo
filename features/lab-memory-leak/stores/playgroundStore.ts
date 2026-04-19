@@ -10,6 +10,7 @@
 'use client'
 
 import { create } from 'zustand'
+import { clampInt } from '@/lib/utils/clamp'
 import type { HoldSize, LeakType, Mitigation } from '../engine/types'
 
 export const LEAK_TYPES: readonly LeakType[] = ['timer', 'listener', 'detached-dom', 'closure']
@@ -71,18 +72,14 @@ const INITIAL: Pick<
   isRunning: false,
 }
 
-function clampCount(n: number): number {
-  if (Number.isNaN(n)) return CYCLE_COUNT_DEFAULT
-  return Math.min(CYCLE_COUNT_MAX, Math.max(CYCLE_COUNT_MIN, Math.round(n)))
-}
-
 export const useMemoryPlaygroundStore = create<MemoryPlaygroundState>((set) => ({
   ...INITIAL,
 
   setLeakType: (leakType) => set({ leakType }),
   setMitigation: (mitigation) => set({ mitigation }),
   setHoldSize: (holdSize) => set({ holdSize }),
-  setCycleCount: (n) => set({ cycleCount: clampCount(n) }),
+  setCycleCount: (n) =>
+    set({ cycleCount: clampInt(n, CYCLE_COUNT_MIN, CYCLE_COUNT_MAX, CYCLE_COUNT_DEFAULT) }),
 
   start: () => set({ isRunning: true }),
   stop: () => set({ isRunning: false }),

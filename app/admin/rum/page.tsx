@@ -19,6 +19,7 @@
  */
 
 import type { Metadata } from 'next'
+import { MetricCard } from '@/components/lab/MetricCard'
 import {
   DailyLineChart,
   fetchBrowserShare,
@@ -260,8 +261,8 @@ export default async function AdminRumPage({ searchParams }: PageProps) {
               <>
                 <MetricBucketBar data={fpsDist} colorMap={FPS_COLORS} />
                 <div className="mt-3 grid grid-cols-2 gap-3 text-xs text-ink-500">
-                  <Stat label="平均 FPS" value={formatNumber(fpsSummary.avg, 1)} />
-                  <Stat label="最低 FPS" value={formatNumber(fpsSummary.min, 0)} />
+                  <MetricCard size="sm" label="平均 FPS" value={formatNumber(fpsSummary.avg, 1)} />
+                  <MetricCard size="sm" label="最低 FPS" value={formatNumber(fpsSummary.min, 0)} />
                 </div>
               </>
             ) : (
@@ -280,10 +281,18 @@ export default async function AdminRumPage({ searchParams }: PageProps) {
             </div>
             {loafSummary.count > 0 ? (
               <div className="grid grid-cols-2 gap-3 text-xs text-ink-500">
-                <Stat label="発生回数" value={loafSummary.count.toLocaleString()} />
-                <Stat label="平均 duration" value={`${formatNumber(loafSummary.avg, 1)} ms`} />
-                <Stat label="最長 duration" value={`${formatNumber(loafSummary.max, 1)} ms`} />
-                <Stat label="対応ブラウザ" value="Chromium のみ" />
+                <MetricCard size="sm" label="発生回数" value={loafSummary.count.toLocaleString()} />
+                <MetricCard
+                  size="sm"
+                  label="平均 duration"
+                  value={`${formatNumber(loafSummary.avg, 1)} ms`}
+                />
+                <MetricCard
+                  size="sm"
+                  label="最長 duration"
+                  value={`${formatNumber(loafSummary.max, 1)} ms`}
+                />
+                <MetricCard size="sm" label="対応ブラウザ" value="Chromium のみ" />
               </div>
             ) : (
               <EmptyHint>
@@ -357,15 +366,6 @@ function CwvCard({ title, data }: { title: string; data: { bucket: string; count
         <span className="tnum text-[11px] text-ink-400">{total.toLocaleString()} 件</span>
       </div>
       <MetricBucketBar data={data} />
-    </div>
-  )
-}
-
-function Stat({ label, value }: { label: string; value: string | number }) {
-  return (
-    <div className="border border-rule-dim bg-card/60 p-3">
-      <div className="text-[10px] uppercase tracking-[0.2em] text-ink-400">{label}</div>
-      <div className="mt-1 tnum font-mincho text-lg text-ink-900">{value}</div>
     </div>
   )
 }

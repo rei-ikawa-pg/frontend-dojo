@@ -6,23 +6,18 @@
 
 'use client'
 
-import { useEffect } from 'react'
 import { usePlaygroundStore } from '@/features/lab-render'
-import { useRumSetContext } from '@/features/rum'
+import { useLabRumContext } from '@/features/rum'
 import { ControlPanel } from './ControlPanel'
 import { MetricsDisplay } from './MetricsDisplay'
 import { PipelineDiagram } from './PipelineDiagram'
 import { VisualizationView } from './VisualizationView'
 
 export function PlaygroundMode() {
-  const setContext = useRumSetContext()
   // ControlPanel の toggle 操作を PipelineDiagram に即時反映させる
   const enabledProps = usePlaygroundStore((s) => s.enabledProps)
 
-  useEffect(() => {
-    setContext({ lab_id: 'render', mode: 'playground' })
-    return () => setContext({ lab_id: null, mode: 'other' })
-  }, [setContext])
+  useLabRumContext('render', 'playground')
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_320px]">

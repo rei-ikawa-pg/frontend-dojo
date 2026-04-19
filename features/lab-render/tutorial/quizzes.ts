@@ -7,24 +7,14 @@
  *   - 不正解時はヒント（正解へ辿る手がかり）を表示
  *   - 正解時は補足で「なぜそうなのか」を 1-2 行追加
  *   - 結果は RUM へ `lab.tutorial.quiz_result` で送信し、後で管理画面で集計する
+ *
+ * 型 (Quiz / QuizOption) は components/lab/quiz.ts に集約。
+ * 既存 import を壊さないよう型を再 export している。
  */
 
-export type QuizOption = {
-  id: string
-  text: string
-  /** この選択肢を選んだ時のヒント（正解の選択肢は省略） */
-  hint?: string
-}
+import type { Quiz } from '@/components/lab/quiz'
 
-export type Quiz = {
-  stepId: number
-  question: string
-  options: readonly QuizOption[]
-  /** 正解の選択肢 id */
-  correctId: string
-  /** 正解後の補足（「なぜそうなるか」を 1-2 行） */
-  explanation: string
-}
+export type { Quiz, QuizOption } from '@/components/lab/quiz'
 
 export const QUIZZES: readonly Quiz[] = [
   {

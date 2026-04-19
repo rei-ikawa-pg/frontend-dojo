@@ -1,6 +1,6 @@
 /**
  * お問い合わせ受信エンドポイント。
- * - Edge Runtime
+ * - Cloudflare Workers / OpenNext（Node.js ランタイム）
  * - Origin 制限は RUM / feedback と同じ方針（ALLOWED_ORIGIN + localhost）
  * - honeypot フィールド (`website`) に値が入っていれば bot とみなして 204 を返す（黙って破棄）
  * - 成功時 204
@@ -9,29 +9,11 @@
 import { getCloudflareContext } from '@opennextjs/cloudflare'
 import type { NextRequest } from 'next/server'
 import { contactSchema } from '@/features/contact/schema'
-
-function corsHeaders(origin: string | null, allowed: string): Record<string, string> {
-  const allowOrigin = origin && isOriginAllowed(origin, allowed) ? origin : allowed
-  return {
-    'Access-Control-Allow-Origin': allowOrigin,
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Max-Age': '86400',
-    Vary: 'Origin',
-  }
-}
-
-function isOriginAllowed(origin: string, allowed: string): boolean {
-  if (origin === allowed) return true
-  if (/^https?:\/\/localhost(?::\d+)?$/.test(origin)) return true
-  if (/^https?:\/\/127\.0\.0\.1(?::\d+)?$/.test(origin)) return true
-  return false
-}
+import { corsHeaders, preflightResponse } from '@/lib/api/cors'
 
 export async function OPTIONS(request: NextRequest) {
   const { env } = await getCloudflareContext({ async: true })
-  const origin = request.headers.get('origin')
-  return new Response(null, { status: 204, headers: corsHeaders(origin, env.ALLOWED_ORIGIN) })
+  return preflightResponse(request.headers.get('origin'), env.ALLOWED_ORIGIN)
 }
 
 export async function POST(request: NextRequest) {

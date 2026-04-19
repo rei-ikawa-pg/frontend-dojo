@@ -1,5 +1,5 @@
 /**
- * ステップの理解度を確認する 1 問クイズ。
+ * ステップの理解度を確認する 1 問クイズ（全 Lab 共通）。
  *
  * 方針:
  *   - スキップ可能（UI 上「あとで」ボタンを出す）
@@ -7,6 +7,8 @@
  *   - 回答結果は RUM に `lab.tutorial.quiz_result` として送信
  *     (metadata: step_id, option_id, correct, attempts)
  *   - ステップを跨ぐと状態はリセット（URL で制御しないシンプルな実装）
+ *
+ * 各 Lab に重複していた StepQuiz をここに集約し、`labId` を prop で受ける形にした。
  */
 
 'use client'
@@ -14,15 +16,17 @@
 import { ArrowClockwise, CheckCircle, XCircle } from '@phosphor-icons/react'
 import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
-import type { Quiz } from '@/features/lab-render/tutorial/quizzes'
 import { useRumCustomMetric } from '@/features/rum'
 import { cn } from '@/lib/utils'
+import type { Quiz } from './quiz'
 
-type StepQuizProps = {
+export type StepQuizProps = {
   quiz: Quiz
+  /** RUM 送信時の lab_id（'render' / 'memory-leak' / 'rerender-map' 等） */
+  labId: string
 }
 
-export function StepQuiz({ quiz }: StepQuizProps) {
+export function StepQuiz({ quiz, labId }: StepQuizProps) {
   const { stepId } = quiz
   // 選択した選択肢 id。null の間は未回答
   const [selectedId, setSelectedId] = useState<string | null>(null)
@@ -67,7 +71,7 @@ export function StepQuiz({ quiz }: StepQuizProps) {
     emit({
       metric_name: 'lab.tutorial.quiz_result',
       metric_value: id === quiz.correctId ? 1 : 0,
-      lab_id: 'render',
+      lab_id: labId,
       metadata: {
         step_id: quiz.stepId,
         option_id: id,

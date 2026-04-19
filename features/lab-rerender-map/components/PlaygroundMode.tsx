@@ -4,19 +4,13 @@
 
 'use client'
 
-import { useEffect } from 'react'
-import { useRumSetContext } from '@/features/rum'
+import { useLabRumContext } from '@/features/rum'
 import { ControlPanel } from './ControlPanel'
 import { MetricsDisplay } from './MetricsDisplay'
 import { VisualizationView } from './VisualizationView'
 
 export function PlaygroundMode() {
-  const setContext = useRumSetContext()
-
-  useEffect(() => {
-    setContext({ lab_id: 'rerender-map', mode: 'playground' })
-    return () => setContext({ lab_id: null, mode: 'other' })
-  }, [setContext])
+  useLabRumContext('rerender-map', 'playground')
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_320px]">

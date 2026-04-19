@@ -10,6 +10,7 @@
 'use client'
 
 import { create } from 'zustand'
+import { clampInt } from '@/lib/utils/clamp'
 
 /** UI のトグルに並べる順序がそのまま配列の順序になる */
 export const PLAYGROUND_PROPS = [
@@ -53,17 +54,13 @@ type PlaygroundState = {
 /** 初期状態は「transform のみ有効」— Composite だけで済む軽い例から始める */
 const INITIAL_PROPS: ReadonlySet<PlaygroundProp> = new Set(['transform'])
 
-function clampCount(n: number): number {
-  if (Number.isNaN(n)) return ELEMENT_COUNT_DEFAULT
-  return Math.min(ELEMENT_COUNT_MAX, Math.max(ELEMENT_COUNT_MIN, Math.round(n)))
-}
-
 export const usePlaygroundStore = create<PlaygroundState>((set) => ({
   elementCount: ELEMENT_COUNT_DEFAULT,
   enabledProps: INITIAL_PROPS,
   isRunning: false,
 
-  setElementCount: (n) => set({ elementCount: clampCount(n) }),
+  setElementCount: (n) =>
+    set({ elementCount: clampInt(n, ELEMENT_COUNT_MIN, ELEMENT_COUNT_MAX, ELEMENT_COUNT_DEFAULT) }),
 
   toggleProp: (prop) =>
     set((state) => {

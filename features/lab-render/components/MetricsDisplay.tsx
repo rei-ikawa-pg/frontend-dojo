@@ -12,6 +12,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { MetricCard } from '@/components/lab/MetricCard'
 import { usePlaygroundStore } from '@/features/lab-render'
 import { aggregateImpact } from '@/features/lab-render/engine/cssTriggersData'
 import { useFrameMetrics } from '@/features/lab-render/hooks/useFrameMetrics'
@@ -57,8 +58,8 @@ export function MetricsDisplay({ focus }: MetricsDisplayProps = {}) {
   return (
     <section aria-label="メトリクス" className="flex flex-col gap-6">
       <div className="grid grid-cols-2 gap-4">
-        <Metric label="FPS" value={isRunning ? String(fps) : '—'} focus={focused.has('fps')} />
-        <Metric
+        <MetricCard label="FPS" value={isRunning ? String(fps) : '—'} focus={focused.has('fps')} />
+        <MetricCard
           label="Frame Budget"
           value={
             lastFrame
@@ -68,12 +69,12 @@ export function MetricsDisplay({ focus }: MetricsDisplayProps = {}) {
           warn={Boolean(lastFrame && lastFrame.totalDuration > FRAME_BUDGET_MS)}
           focus={focused.has('frame_budget')}
         />
-        <Metric
+        <MetricCard
           label="Style+Layout"
           value={lastFrame ? `${lastFrame.styleLayoutDuration.toFixed(1)}ms` : '—'}
           focus={focused.has('style_layout')}
         />
-        <Metric
+        <MetricCard
           label="Rendering"
           value={lastFrame ? `${lastFrame.renderingDuration.toFixed(1)}ms` : '—'}
           focus={focused.has('rendering')}
@@ -89,36 +90,5 @@ export function MetricsDisplay({ focus }: MetricsDisplayProps = {}) {
         <TheoryVsActual theoretical={theoretical} lastFrame={lastFrame} />
       </div>
     </section>
-  )
-}
-
-type MetricProps = { label: string; value: string; warn?: boolean; focus?: boolean }
-
-function Metric({ label, value, warn, focus }: MetricProps) {
-  return (
-    <div
-      className={cn(
-        'relative border bg-card p-4 transition-colors',
-        focus ? 'border-vermilion/70 bg-vermilion/5' : 'border-rule-dim',
-      )}
-    >
-      {focus && (
-        <span
-          aria-hidden
-          className="absolute -top-2 left-3 bg-background px-1 text-[11px] uppercase tracking-[0.2em] text-vermilion"
-        >
-          FOCUS
-        </span>
-      )}
-      <div className="text-[11px] uppercase tracking-[0.24em] text-ink-400">{label}</div>
-      <div
-        className={cn(
-          'mt-2 tnum font-mincho text-2xl leading-none',
-          warn ? 'text-vermilion' : focus ? 'text-vermilion' : 'text-ink-900',
-        )}
-      >
-        {value}
-      </div>
-    </div>
   )
 }
