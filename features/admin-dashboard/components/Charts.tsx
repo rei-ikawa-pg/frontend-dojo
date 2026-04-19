@@ -47,9 +47,19 @@ export function DailyLineChart({ data }: { data: DailySeries }) {
 
 type BucketBarProps = {
   data: { bucket: string; count: number }[]
+  /** バケット名ごとの色指定。未指定なら Core Web Vitals の good/needs-improvement/poor にフォールバック */
+  colorMap?: Record<string, string>
 }
 
-export function MetricBucketBar({ data }: BucketBarProps) {
+const CWV_COLORS: Record<string, string> = {
+  good: '#4f9d69',
+  'needs-improvement': '#e8b34c',
+  poor: '#dd4b39',
+}
+const FALLBACK_COLOR = '#4a6fa5'
+
+export function MetricBucketBar({ data, colorMap }: BucketBarProps) {
+  const palette = colorMap ?? CWV_COLORS
   return (
     <ResponsiveContainer width="100%" height={180}>
       <BarChart data={data} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
@@ -65,16 +75,7 @@ export function MetricBucketBar({ data }: BucketBarProps) {
         />
         <Bar dataKey="count">
           {data.map((entry) => (
-            <Cell
-              key={entry.bucket}
-              fill={
-                entry.bucket === 'good'
-                  ? '#4f9d69'
-                  : entry.bucket === 'needs-improvement'
-                    ? '#e8b34c'
-                    : '#dd4b39'
-              }
-            />
+            <Cell key={entry.bucket} fill={palette[entry.bucket] ?? FALLBACK_COLOR} />
           ))}
         </Bar>
       </BarChart>
