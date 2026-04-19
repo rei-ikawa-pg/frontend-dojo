@@ -7,21 +7,22 @@ React の再 render は抽象概念です。「親が state を変えると子�
 
 ## 稽古 と 道場 の違い
 
-- **稽古（Tutorial）** — 6 ステップでガイド付き。木の伝播 → memo → object literal → Context → 派生 state → commit の違いを順に体験します。
-- **道場（Playground）** — 深さ・fanout・memo・prop 種別を自由に組み合わせて、自分の実務コードに近い構造を再現できる実験場です。
+- **稽古（Tutorial）** — 全 6 ステップ。木の伝播 → memo → object literal → Context → 派生 state → commit の違いを順に体験します。初見ならこちらから。
+- **道場（Playground）** — 深さ・枝分かれ（fanout）・memo・prop 種別を自由に組み合わせて、自分の実務コードに近い構造を再現できる実験場です。
 
 ## 可視化の仕組み
 
 - 各ノードが render されるたびに **一瞬 flash** します
-- カウンタで total renders / last render time を表示します
+- カウンタで **総 render 回数** と **ノード別の render 回数** を表示します
 - `MutationObserver` で **DOM mutation 件数** も並置し、「render = DOM 変更」ではないことを体感できます
 
 ## 前提
 
-- 本 Lab は Lab 1（レンダリングパイプライン）で「1 フレームの中身」を押さえたあとに見ると効きが良くなります
-- ブラウザ依存の API は使っていないため Chromium 以外でも動きます
+- 本 Lab は Chromium 依存 API を使わないため、**主要ブラウザ（Chrome / Firefox / Safari / Edge）で動作します**
+- 実務コードで同じ挙動を再現したいときは、ブラウザ拡張の **React DevTools の Profiler** が最短の確認手段です。本 Lab と併用すると理解が深まります
+- Lab 1（レンダリングパイプライン）で「1 フレームの中身」を押さえたあとに見ると効きが良くなります
 
 ## 参考
 
-- [React docs — Memoizing calculations with useMemo](https://react.dev/reference/react/useMemo)
-- [React docs — Why doesn't React batch updates](https://github.com/reactwg/react-18/discussions/21)
+- [React docs — memo](https://react.dev/reference/react/memo)
+- [React docs — You Might Not Need an Effect](https://react.dev/learn/you-might-not-need-an-effect)

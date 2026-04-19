@@ -76,7 +76,8 @@ export function MetricsDisplay({ focus }: MetricsDisplayProps = {}) {
         )}
       >
         <h3 className="mb-3 text-[11px] uppercase tracking-[0.24em] text-ink-400">
-          § Per-node render count
+          § Per-node render count{' '}
+          <span className="text-ink-500 normal-case tracking-normal">／ ノード別 render 回数</span>
         </h3>
         <table className="w-full text-xs">
           <thead>

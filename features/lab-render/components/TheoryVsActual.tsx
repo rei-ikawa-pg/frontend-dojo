@@ -29,7 +29,8 @@ export function TheoryVsActual({ theoretical, lastFrame }: Props) {
       <div className="flex flex-col gap-3 border-b border-rule-dim px-4 py-4">
         <div>
           <h3 className="text-[11px] uppercase tracking-[0.24em] text-ink-400">
-            § Theory vs Actual — 理論と実測
+            § Theory vs Actual{' '}
+            <span className="text-ink-500 normal-case tracking-normal">／ 理論と実測</span>
           </h3>
           <p className="mt-2 text-xs leading-relaxed text-ink-500">
             CSS プロパティから予測される「走るべきフェーズ」（

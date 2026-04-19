@@ -55,7 +55,8 @@ export function ControlPanel() {
       <section aria-labelledby="control-count">
         <div className="mb-5 flex items-baseline justify-between">
           <h3 id="control-count" className="text-[11px] uppercase tracking-[0.24em] text-ink-400">
-            § 01 — Element Count
+            § 01 — Element Count{' '}
+            <span className="text-ink-500 normal-case tracking-normal">／ 要素数</span>
           </h3>
           <span className="tnum font-mincho text-2xl leading-none text-ink-900">
             {elementCount}
@@ -82,7 +83,8 @@ export function ControlPanel() {
           id="control-props"
           className="mb-3 text-[11px] uppercase tracking-[0.24em] text-ink-400"
         >
-          § 02 — CSS Properties
+          § 02 — CSS Properties{' '}
+          <span className="text-ink-500 normal-case tracking-normal">／ CSS プロパティ</span>
         </h3>
         <ul className="flex flex-col gap-1.5">
           {PLAYGROUND_PROPS.map((prop) => {
@@ -119,7 +121,7 @@ export function ControlPanel() {
 
       <section aria-labelledby="control-run" className="flex flex-col gap-2">
         <h3 id="control-run" className="mb-1 text-[11px] uppercase tracking-[0.24em] text-ink-400">
-          § 03 — Run
+          § 03 — Run <span className="text-ink-500 normal-case tracking-normal">／ 実行制御</span>
         </h3>
         {isRunning ? (
           <Button type="button" variant="outline" onClick={stop}>

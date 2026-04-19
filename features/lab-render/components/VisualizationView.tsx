@@ -16,7 +16,9 @@ export function VisualizationView() {
   return (
     <div className="relative overflow-hidden border border-rule-dim bg-ink-050/50">
       <div className="absolute inset-x-4 top-3 flex items-center justify-between text-[11px] uppercase tracking-[0.24em] text-ink-400">
-        <span>§ Canvas</span>
+        <span>
+          § Canvas <span className="text-ink-500 normal-case tracking-normal">／ 描画エリア</span>
+        </span>
         <span className="text-ink-300">DOM Elements</span>
       </div>
       <div

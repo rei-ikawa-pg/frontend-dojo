@@ -1,10 +1,12 @@
-次は子 A を `React.memo` で囲んでみます。本 Lab では操作パネルの memo トグルで有効化できます。
+次は子 A を `React.memo` で包んでみます。
+本ステップでは preset で A に memo が適用済みです（道場モードでは操作パネルの「§ 05 — Memo ／ memo 化」にある
+**「全て memo 化」「全て解除」** で木全体を一括切り替えできます）。
 
 ### 観察のポイント
 
-- **「state を更新」を押しても A が flash しない** (子 B も流れで止まる)
-- カウンタを見ても A の count が増えない
-- Root だけが自分の render を繰り返す
+- 「state を更新」を押しても **A が flash しない**
+- カウンタを見ても A の render 回数が増えない
+- Root だけが自分の render を繰り返し、木の下流には伝わらない
 
 ### memo の正体
 
@@ -12,11 +14,11 @@
 const MemoChild = React.memo(Child)
 ```
 
-`React.memo` は **前回と今回の props を浅い比較 (shallow equal)** するだけの、
+`React.memo` は **前回と今回の props を浅い比較（shallow equal）** するだけの、
 非常に機械的な仕組みです。
 
-- primitive: 値比較 (`===`)
-- object/array/function: 参照比較 (`===`)
+- primitive: 値比較（`===`）
+- object / array / function: 参照比較（`===`）
 
-だから今回の例のように primitive の props (`value={42}` など) を渡している限り、
-memo は完璧に効きます。次のステップで、この前提がどう崩れるかを見ます。
+今回の例は primitive の props（`value={42}` のような値）を渡しているため、
+memo は完璧に効きます。次のステップでは、この前提がどう崩れるかを見ます。

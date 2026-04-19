@@ -87,7 +87,9 @@ export function VisualizationView() {
   return (
     <div className="relative overflow-hidden border border-rule-dim bg-ink-050/50">
       <div className="absolute inset-x-4 top-3 flex items-center justify-between text-[11px] uppercase tracking-[0.24em] text-ink-400">
-        <span>§ Render Tree</span>
+        <span>
+          § Render Tree <span className="text-ink-500 normal-case tracking-normal">／ 依存木</span>
+        </span>
         <span className="tnum text-ink-300">mutations: {mutations}</span>
       </div>
       <div ref={containerRef} className="flex min-h-[280px] items-start justify-center p-4 pt-10">

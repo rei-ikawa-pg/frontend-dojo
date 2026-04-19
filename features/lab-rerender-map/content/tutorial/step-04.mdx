@@ -1,27 +1,31 @@
-Context の伝播範囲と Zustand の selector を並べて観察します。
+Context の伝播範囲を観察し、Zustand（selector を使った購読）との違いを理解します。
 
-### 観察のポイント (Context)
+### 観察のポイント（Context）
 
-- stateSource を `Context.Provider` に切り替える
-- 「state を更新」を押すと Provider 配下の **全 consumer が flash する**
-- memo を子に付けても、その子が `useContext` しているなら止まらない
+- 操作パネルの「§ 04 — State source ／ state の供給源」を **`Context.Provider`** に切り替える
+- 「state を更新」を押すと、Provider 配下の **全 consumer が flash する**
+- 子に memo を付けても、その子が `useContext` で value を読むなら止まらない
 
-### 観察のポイント (Zustand)
+### Zustand との違い（本 Lab では概念解説のみ）
 
-- stateSource を `Zustand` に切り替える
-- 同じ操作をしても、flash するのは **selector が指している値を実際に購読しているノード** だけ
-- 関係ないノードは memo 不要で自然に止まる
+操作パネルで State source を `Zustand` に切り替えた場合、本 Lab では簡略化のため
+**全ノードに同じ値が渡っている** ため、挙動は `useState (local)` と見た目が変わりません。
+実務での Zustand の強みは、コンポーネントごとに selector を書けることです。
 
-### なぜ違うか
+```tsx
+// Zustand なら、購読するコンポーネント側で「見たい値」だけを取り出せる
+const userName = useStore((s) => s.user.name)
+```
 
-`useContext` は value が変わると、購読している全コンポーネントに通知します。
-`React.memo` で囲んでも、`useContext` で取り出した値が変われば再 render は避けられません。
+Zustand のデフォルト比較関数は `Object.is` です。selector が返す値が前回と同一と判定されれば
+そのコンポーネントは再 render されません。`useContext` はこの「ユーザー側で購読範囲を絞る」仕組みを持たず、
+Provider の `value` が変わった時点で配下の `useContext` 呼び出しがすべて再評価されます。
 
-Zustand は購読に selector を挟めるため、比較結果 (デフォルト `Object.is`) が同一なら
-再 render しません。必要な部分だけを再 render する設計と相性が良いのです。
+実コードでこの差を確認したいときは、ブラウザ拡張の React DevTools Profiler で
+コンポーネント単位の render 回数を比較してください。
 
-### Context を Global State に使わない
+### Context をグローバル state に使わない
 
-この挙動のため、グローバルな頻繁に変わる state に Context を使うのはアンチパターンです。
+この挙動のため、**頻繁に変わるグローバル state に Context を使うのはアンチパターン寄り** です。
 「Theme や Locale のようにあまり変わらないもの」か、「意図的に全体を再 render したいもの」
 に用途を絞るのが現実解です。

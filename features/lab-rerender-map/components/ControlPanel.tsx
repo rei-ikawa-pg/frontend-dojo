@@ -77,6 +77,7 @@ export function ControlPanel() {
 
       <Segmented<PropKind>
         label="§ 03 — Prop kind"
+        jaLabel="prop 種別"
         value={propKind}
         options={PROP_KINDS}
         toLabel={(v) => PROP_KIND_LABEL[v]}
@@ -85,6 +86,7 @@ export function ControlPanel() {
 
       <Segmented<StateSource>
         label="§ 04 — State source"
+        jaLabel="state の供給源"
         value={stateSource}
         options={STATE_SOURCES}
         toLabel={(v) => STATE_SOURCE_LABEL[v]}
@@ -94,7 +96,7 @@ export function ControlPanel() {
       <section aria-labelledby="control-memo" className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
           <h3 id="control-memo" className="text-[11px] uppercase tracking-[0.24em] text-ink-400">
-            § 05 — Memo
+            § 05 — Memo <span className="text-ink-500 normal-case tracking-normal">／ memo 化</span>
           </h3>
           <span className="tnum text-xs text-ink-500">
             {memoIds.size} / {allIds.length}
@@ -178,6 +180,8 @@ function NumberSegmentedRow({
 
 type SegmentedProps<T extends string> = {
   label: string
+  /** ラベル英語の隣に併記する日本語短語 */
+  jaLabel?: string
   value: T
   options: readonly T[]
   toLabel: (v: T) => string
@@ -186,6 +190,7 @@ type SegmentedProps<T extends string> = {
 
 function Segmented<T extends string>({
   label,
+  jaLabel,
   value,
   options,
   toLabel,
@@ -193,7 +198,10 @@ function Segmented<T extends string>({
 }: SegmentedProps<T>) {
   return (
     <section aria-label={label.replace(/^§\s*\d+\s*—\s*/, '')}>
-      <h3 className="mb-2 text-[11px] uppercase tracking-[0.24em] text-ink-400">{label}</h3>
+      <h3 className="mb-2 text-[11px] uppercase tracking-[0.24em] text-ink-400">
+        {label}
+        {jaLabel && <span className="text-ink-500 normal-case tracking-normal"> ／ {jaLabel}</span>}
+      </h3>
       <ul className="flex flex-col gap-1.5">
         {options.map((opt) => {
           const active = opt === value
