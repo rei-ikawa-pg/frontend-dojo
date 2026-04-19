@@ -1,11 +1,11 @@
-`addEventListener` は `removeEventListener` を書き忘れやすいだけでなく、
-登録時と解除時で **同じ関数参照** を渡す必要があるため、不注意でリークが入り込みやすい API です。
+`addEventListener` は `removeEventListener` を呼ばないまま要素や listener の参照を抱え続けると、
+そのままリーク源になります。本 Lab はその状態をサイクルごとに積み上げて可視化します。
 
 ### 観察のポイント
 
-- **対策なし** で「1 サイクル実行」を押す → Listener カウントが増え続ける
-- 右上の要素ターゲットに対して listener が何重にも付いている状態です
-- **対策: AbortController** に切り替えて同じ操作をすると、unmount 時に 0 に戻る
+- **対策なし** で「1 サイクル実行」を押す → **Timers / Listeners** カード右側の `listeners` 値が増え続ける
+- 各サイクルで生成される要素ごとに listener が 1 つずつ残り、要素もろとも GC されないまま積み上がる
+- **対策: AbortController** に切り替えて同じ操作をすると、unmount 時に `listeners` 値が 0 に戻る
 
 ### AbortController の使い方
 
@@ -19,3 +19,9 @@ ac.abort()
 複数の listener を 1 つの controller で束ねられるのが強みで、
 `window.addEventListener(..., { signal })` と組み合わせれば
 「グローバル listener の掃除忘れ」も構造的に防げます。
+
+### 付随する罠: 関数参照のズレ
+
+`removeEventListener` を呼んでいても、登録時と解除時で **同じ関数参照** を渡さないと解除されません。
+`element.addEventListener('click', () => handle())` のように毎回インラインで関数を作ると、
+保持していない別の関数を解除しようとして、結果的にリークになります。

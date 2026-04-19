@@ -4,27 +4,37 @@
 ### 観察のポイント
 
 - 保持サイズを **大 (500K)** に、対策を **対策なし** にする
-- 「1 サイクル実行」を数回押す → ヒープが数十 MB 単位で増える
-- 対策を **cleanup あり** にして同じ操作をすると、一切増えない
+- 「1 サイクル実行」ボタンを数回押す → **Heap** が数十 MB 単位で階段状に増える
+- 対策を **cleanup あり** にして同じ操作をすると、増加が続かず横ばいになる（GC が走れば配下の配列も解放可能）
 
 ### 実務コードで当てはめると
 
 ```tsx
 function Chart({ data }: { data: number[] }) {
-  // ❌ data をキャプチャしたコールバックを外に渡すと、
-  //    data が外の寿命に引きずられてしまう
   useEffect(() => {
-    eventBus.on('tick', () => analyze(data))
-    // cleanup を忘れると：eventBus が data を抱えたまま
+    const handler = () => analyze(data)
+    eventBus.on('tick', handler)
+    // ❌ cleanup を書かないと、eventBus が handler 経由で data を抱え続ける
+  }, [data])
+}
+```
+
+```tsx
+function Chart({ data }: { data: number[] }) {
+  useEffect(() => {
+    const handler = () => analyze(data)
+    eventBus.on('tick', handler)
+    return () => eventBus.off('tick', handler) // ✅ handler ごと解放
   }, [data])
 }
 ```
 
 ### 「Closure を切る」発想
 
-cleanup する、が最短の解決策です。加えて設計レベルでは、
-- 大きな配列を参照する関数を外側に渡さない
-- どうしても渡すなら `useCallback` + 弱い参照 / ID 経由
+cleanup するのが最短の解決策です。加えて設計レベルでは、次のような「関数と巨大データを切り離す」発想が効きます。
 
-といった「関数と巨大データを切り離す」発想が効きます。
-次は道場モードで、任意の組み合わせで実験してみてください。
+- **大きなデータをキャプチャしない**: 関数の引数に `data` そのものではなく `id` を渡し、使う瞬間に外側のストアからルックアップする
+- **弱参照で保持する**: どうしても関数内で抱えるなら `WeakMap` / `WeakRef` を使って、GC を妨げない形に切り替える
+- **関数の参照を安定させる**: `useCallback` で関数の同一性を保つのは再購読防止目的で有効。ただしこれ自体は GC を助けないので、上の 2 つと組み合わせる
+
+4 種類のリーク体験はここで一区切り。次は任意の組み合わせで壊して/直せる **道場（Playground）モード** で実験してみてください。

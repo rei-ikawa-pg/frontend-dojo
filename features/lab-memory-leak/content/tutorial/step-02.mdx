@@ -4,16 +4,19 @@
 
 ### 観察のポイント
 
-- **Timer カウント** が毎サイクル 10 ずつ積み上がる（1 サイクル = 1 マウント/アンマウントの往復 × `cycleCount`）
-- **ヒープ** もゆっくりと右肩上がりになる
-- 「対策: cleanup あり」に切り替えてさらに数回押すと、Timer カウントは増えない
+- **Timers / Listeners** カード左側の `timers` 値がボタン 1 回押下ごとに `+10` ずつ積み上がる
+  （「1 サイクル実行」ボタンはプリセットで設定された `cycleCount`（このステップでは `10`）回のマウント/アンマウント往復を連続で回します）
+- **Heap** カードもゆっくりと右肩上がりになる
+- 「対策: cleanup あり」に切り替えてさらに数回押すと、`timers` 値は増えない
 
 ### 実務コードで当てはめると
 
 ```tsx
 useEffect(() => {
-  const id = setInterval(() => pollStatus(), 1000)
-  // ❌ return 文を書き忘れるとリーク
+  const id = setInterval(() => {
+    // 何らかの定期処理（ポーリング、アニメーションなど）
+  }, 1000)
+  // ❌ この return を書き忘れると、unmount 後も setInterval が動き続ける
   return () => clearInterval(id)
 }, [])
 ```
