@@ -2,6 +2,8 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "frontend-dojo",
   "main": ".open-next/worker.js",
+  // *.workers.dev サブドメインを無効化（カスタムドメイン frontend-dojo.rakurai.dev のみ公開）
+  "workers_dev": false,
   "compatibility_date": "2026-04-17",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
