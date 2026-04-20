@@ -88,215 +88,210 @@ export async function generateOgImage({ section, title, description }: OgConfig)
   const titleSize = title.length <= 10 ? 72 : title.length <= 20 ? 60 : 48
 
   return new ImageResponse(
-    (
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: COLORS.bg,
+        fontFamily: 'Mincho',
+        color: COLORS.ink900,
+        position: 'relative',
+      }}
+    >
+      {/* 背景の dotted grid (globals.css の body 後ろのと同じパターン) */}
       <div
         style={{
-          width: '100%',
-          height: '100%',
           display: 'flex',
-          flexDirection: 'column',
-          backgroundColor: COLORS.bg,
-          fontFamily: 'Mincho',
-          color: COLORS.ink900,
-          position: 'relative',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          opacity: 0.04,
+          backgroundImage: `radial-gradient(circle at 1px 1px, ${COLORS.ink900} 1px, transparent 0)`,
+          backgroundSize: '24px 24px',
+        }}
+      />
+
+      {/* 朱色アクセント帯 (Header の h-[2px] bg-ink-050 + w-1/12 vermilion を再現) */}
+      <div
+        style={{
+          display: 'flex',
+          height: '6px',
+          backgroundColor: COLORS.panel,
+          flexShrink: 0,
         }}
       >
-        {/* 背景の dotted grid (globals.css の body 後ろのと同じパターン) */}
         <div
           style={{
             display: 'flex',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            opacity: 0.04,
-            backgroundImage: `radial-gradient(circle at 1px 1px, ${COLORS.ink900} 1px, transparent 0)`,
-            backgroundSize: '24px 24px',
+            width: '100px',
+            height: '6px',
+            backgroundColor: COLORS.vermilion,
           }}
         />
+      </div>
 
-        {/* 朱色アクセント帯 (Header の h-[2px] bg-ink-050 + w-1/12 vermilion を再現) */}
+      {/* ヘッダー行 (道マーク + サイト名) */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '28px',
+          padding: '40px 72px',
+          borderBottom: `1px solid ${COLORS.rule}`,
+          flexShrink: 0,
+        }}
+      >
+        {/* 道マーク (BrandMark の 44px 四角を 96px に拡大) */}
         <div
           style={{
             display: 'flex',
-            height: '6px',
-            backgroundColor: COLORS.panel,
+            width: '96px',
+            height: '96px',
+            border: `1px solid ${COLORS.vermilion}`,
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: COLORS.vermilion,
+            fontSize: '60px',
+            fontFamily: 'Mincho',
+            fontWeight: 700,
+            position: 'relative',
             flexShrink: 0,
+            lineHeight: 1,
           }}
         >
+          道{/* コーナーマーカー (右上 + 左下) */}
           <div
             style={{
               display: 'flex',
-              width: '100px',
-              height: '6px',
-              backgroundColor: COLORS.vermilion,
+              position: 'absolute',
+              top: '-1px',
+              right: '-1px',
+              width: '14px',
+              height: '14px',
+              borderTop: `1px solid ${COLORS.vermilion}`,
+              borderRight: `1px solid ${COLORS.vermilion}`,
+            }}
+          />
+          <div
+            style={{
+              display: 'flex',
+              position: 'absolute',
+              bottom: '-1px',
+              left: '-1px',
+              width: '14px',
+              height: '14px',
+              borderBottom: `1px solid ${COLORS.vermilion}`,
+              borderLeft: `1px solid ${COLORS.vermilion}`,
             }}
           />
         </div>
 
-        {/* ヘッダー行 (道マーク + サイト名) */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '28px',
-            padding: '40px 72px',
-            borderBottom: `1px solid ${COLORS.rule}`,
-            flexShrink: 0,
-          }}
-        >
-          {/* 道マーク (BrandMark の 44px 四角を 96px に拡大) */}
+        {/* サイト名ブロック (英字セリフ体 + 和文明朝体) */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <div
             style={{
               display: 'flex',
-              width: '96px',
-              height: '96px',
-              border: `1px solid ${COLORS.vermilion}`,
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: COLORS.vermilion,
-              fontSize: '60px',
-              fontFamily: 'Mincho',
-              fontWeight: 700,
-              position: 'relative',
-              flexShrink: 0,
+              fontFamily: 'Serif',
+              fontStyle: 'italic',
+              fontSize: '52px',
+              color: COLORS.ink900,
               lineHeight: 1,
             }}
           >
-            道
-            {/* コーナーマーカー (右上 + 左下) */}
-            <div
-              style={{
-                display: 'flex',
-                position: 'absolute',
-                top: '-1px',
-                right: '-1px',
-                width: '14px',
-                height: '14px',
-                borderTop: `1px solid ${COLORS.vermilion}`,
-                borderRight: `1px solid ${COLORS.vermilion}`,
-              }}
-            />
-            <div
-              style={{
-                display: 'flex',
-                position: 'absolute',
-                bottom: '-1px',
-                left: '-1px',
-                width: '14px',
-                height: '14px',
-                borderBottom: `1px solid ${COLORS.vermilion}`,
-                borderLeft: `1px solid ${COLORS.vermilion}`,
-              }}
-            />
+            {SITE.nameEn}
           </div>
-
-          {/* サイト名ブロック (英字セリフ体 + 和文明朝体) */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <div
-              style={{
-                display: 'flex',
-                fontFamily: 'Serif',
-                fontStyle: 'italic',
-                fontSize: '52px',
-                color: COLORS.ink900,
-                lineHeight: 1,
-              }}
-            >
-              {SITE.nameEn}
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                fontFamily: 'Mincho',
-                fontSize: '24px',
-                color: COLORS.ink400,
-                lineHeight: 1,
-              }}
-            >
-              {SITE.name}
-            </div>
-          </div>
-        </div>
-
-        {/* メインコンテンツ */}
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            flex: 1,
-            padding: '64px 72px 56px',
-            gap: '28px',
-            justifyContent: 'center',
-          }}
-        >
-          {section && (
-            <div
-              style={{
-                display: 'flex',
-                fontSize: '20px',
-                color: COLORS.ink400,
-                textTransform: 'uppercase',
-                letterSpacing: '8px',
-                fontFamily: 'Mincho',
-              }}
-            >
-              {section}
-            </div>
-          )}
           <div
             style={{
               display: 'flex',
               fontFamily: 'Mincho',
-              fontWeight: 700,
-              fontSize: `${titleSize}px`,
-              lineHeight: 1.25,
-              color: COLORS.ink900,
-              letterSpacing: '-0.01em',
-              maxWidth: '1056px',
+              fontSize: '24px',
+              color: COLORS.ink400,
+              lineHeight: 1,
             }}
           >
-            {title}
-          </div>
-          {description && (
-            <div
-              style={{
-                display: 'flex',
-                fontSize: '26px',
-                lineHeight: 1.55,
-                color: COLORS.ink500,
-                fontFamily: 'Mincho',
-                maxWidth: '1056px',
-              }}
-            >
-              {description}
-            </div>
-          )}
-        </div>
-
-        {/* フッター (ブランド + URL) */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '24px 72px',
-            borderTop: `1px solid ${COLORS.rule}`,
-            fontSize: '18px',
-            color: COLORS.ink400,
-            flexShrink: 0,
-            letterSpacing: '4px',
-            textTransform: 'uppercase',
-          }}
-        >
-          <div style={{ display: 'flex' }}>Frontend / Dojo</div>
-          <div style={{ display: 'flex', color: COLORS.vermilion, letterSpacing: '2px' }}>
-            {host}
+            {SITE.name}
           </div>
         </div>
       </div>
-    ),
+
+      {/* メインコンテンツ */}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          flex: 1,
+          padding: '64px 72px 56px',
+          gap: '28px',
+          justifyContent: 'center',
+        }}
+      >
+        {section && (
+          <div
+            style={{
+              display: 'flex',
+              fontSize: '20px',
+              color: COLORS.ink400,
+              textTransform: 'uppercase',
+              letterSpacing: '8px',
+              fontFamily: 'Mincho',
+            }}
+          >
+            {section}
+          </div>
+        )}
+        <div
+          style={{
+            display: 'flex',
+            fontFamily: 'Mincho',
+            fontWeight: 700,
+            fontSize: `${titleSize}px`,
+            lineHeight: 1.25,
+            color: COLORS.ink900,
+            letterSpacing: '-0.01em',
+            maxWidth: '1056px',
+          }}
+        >
+          {title}
+        </div>
+        {description && (
+          <div
+            style={{
+              display: 'flex',
+              fontSize: '26px',
+              lineHeight: 1.55,
+              color: COLORS.ink500,
+              fontFamily: 'Mincho',
+              maxWidth: '1056px',
+            }}
+          >
+            {description}
+          </div>
+        )}
+      </div>
+
+      {/* フッター (ブランド + URL) */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '24px 72px',
+          borderTop: `1px solid ${COLORS.rule}`,
+          fontSize: '18px',
+          color: COLORS.ink400,
+          flexShrink: 0,
+          letterSpacing: '4px',
+          textTransform: 'uppercase',
+        }}
+      >
+        <div style={{ display: 'flex' }}>Frontend / Dojo</div>
+        <div style={{ display: 'flex', color: COLORS.vermilion, letterSpacing: '2px' }}>{host}</div>
+      </div>
+    </div>,
     {
       ...ogSize,
       fonts: [
